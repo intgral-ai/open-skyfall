@@ -1,0 +1,32 @@
+name: checks
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7.0.1
+      - uses: actions/setup-node@v7.1.0
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: web/package-lock.json
+      - uses: astral-sh/setup-uv@v10.3.3
+        with:
+          enable-cache: true
+      - run: npm --prefix web ci
+      - run: npm --prefix web run build
+      - run: node --test web/tests/*.test.mjs
+      - run: uv sync --frozen --python 3.14
+      - run: uv venv --python 3.12 .venv-smlib
+      - run: uv pip install --python .venv-smlib/bin/python -r requirements-native.txt
+      - run: uv run --frozen ruff check runtime tests scripts cases
+      - run: uv run --frozen pytest -q
+        env:
+          OPEN_ASSEMBLY_SMLIB_PYTHON: ${{ github.workspace }}/.venv-smlib/bin/python

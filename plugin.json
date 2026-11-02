@@ -1,0 +1,6 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "open-skyfall",
+  "version": "0.1.0",
+  "description": "Skill-first native CAD reconstruction and a lightweight STEP viewer"
+}

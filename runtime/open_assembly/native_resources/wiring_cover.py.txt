@@ -1,0 +1,381 @@
+"""Wiring cover (接线盖板): editable smlibpy reconstruction from a measured 3D scan.
+
+Kernel: smlibpy 0.3.4 (SMLib / USD BRep). Every solid, Boolean, fillet, split and
+the STEP export below run in smlibpy. No OCCT/build123d geometry is created here.
+
+Coordinates are the scan's *body frame*: the raw STL rotated (no translation) so the walls
+lie on X/Y and the floor is horizontal; the rim plane is z = 0 and the open side faces +Z.
+`BODY_TO_RAW` places the result back on the raw scan coordinates. Units: the STL carries
+none; millimetres are a working assumption (see case README).
+
+Every constant cites its measurement in evidence/wiring-cover/measurements.json:
+  [plane:<key>]   area-weighted plane fit with trimming (rms 0.004-0.04)
+  [radius:<key>]  circle fit on a scan section
+  [rim]           98th-percentile rim height profile
+  [read:<key>]    read from a zoomed section plot, about 0.1-0.2 resolution
+  [chosen]        a modelling choice that the scan does not determine
+
+Run:  .venv-smlib/bin/python -I cases/wiring-cover/model/wiring_cover.py OUT_DIR
+"""
+
+from __future__ import annotations
+
+import json
+import math
+import sys
+import time
+from pathlib import Path
+
+import numpy as np
+from smlibpy import (
+    Axis,
+    Box,
+    Circle,
+    Cylinder,
+    Plane,
+    Polygon,
+    RoundedRectangle,
+    Vector,
+    X,
+    __version__ as SMLIBPY_VERSION,
+    export_step,
+    export_stl,
+    import_step,
+)
+
+# --- Tub (measured) -----------------------------------------------------------------------
+RIM_Z = 0.0                      # [rim] main rim plateau
+X_MIN, X_MAX = -27.120, 14.388   # [plane:wall_-x_outer, wall_+x_outer] outer faces at z = 0
+Y_MIN, Y_MAX = -18.927, 14.812   # [plane:wall_-y_outer, wall_+y_outer]
+DRAFT_DEG = 0.86                 # [plane:wall_*] mean of 8 wall faces (0.65-1.11); walls widen upward
+PLAN_RADIUS = 3.10               # [radius:z*_plan_outer] median 3.06 over 12 fits
+FLOOR_Z = -24.132                # [plane:floor_outer]
+SLOPE_N = (-0.45677, -0.00555, -0.88957)  # [plane:slope_outer] outward normal, 27.2 deg slope
+SLOPE_D = 23.0834
+CORNER_N = (0.57902, 0.57391, -0.57911)   # [plane:corner_cut_outer] ~ (1, 1, -1)/sqrt(3)
+CORNER_D = 24.4014
+R_FLOOR_EDGE = 3.10              # [radius:*_+x_floor_outer, *_-y_floor_outer] 3.01-3.13
+R_WALL_SLOPE = 2.60              # [radius:*_-x_slope_outer] 2.54-2.64
+R_SLOPE_FLOOR = 1.50             # [radius:y-4_slope_floor_outer] single weak fit
+R_SLOPE_SIDE = 3.10              # [chosen] slope/±Y edges were not fitted; equal to the floor
+                                 # edges because 3.0 next to 3.1 failed in the SMLib fillet
+
+# --- Inner cavity (measured inner faces; the wall is not a uniform offset) -----------------
+# smlibpy shell() did not finish within 5 min on the rounded, corner-cut tub, and the scan's
+# inner rounds are not outer radius minus wall, so the cavity is modelled from its own faces.
+IN_X_MIN, IN_X_MAX = -25.436, 12.807  # [plane:wall_-x_inner, wall_+x_inner] at z = 0
+IN_Y_MIN, IN_Y_MAX = -17.289, 13.193  # [plane:wall_-y_inner, wall_+y_inner]
+IN_DRAFT_DEG = 0.79              # [plane:wall_*_inner] mean of 4 (0.65-0.98)
+IN_PLAN_RADIUS = 1.30            # [radius: inner plan] 0.92-1.68 over 8 fits, median ~1.3
+IN_FLOOR_Z = -22.393             # [plane:floor_inner]
+IN_SLOPE_N = (-0.45715, -0.00109, -0.88939)  # [plane:slope_inner], cavity-outward
+IN_SLOPE_D = 21.376
+IN_CORNER_N = (0.58763, 0.56811, -0.57614)   # [plane:corner_cut_inner], cavity-outward
+IN_CORNER_D = 22.7775
+# Measured inner rounds: floor edges 1.78-1.97 (noisy), -X wall/slope 0.95-1.21 (rms 0.003),
+# slope/floor 4.18-4.24 (rms 0.02). SMLib rejected every mixed-radius set on this cavity, and
+# single edges fail because the floor rounds form one tangent chain. One radius is used:
+IN_R_BOTTOM = 1.60               # [chosen] largest uniform radius that SMLib accepted (1.6-1.8 failed
+                                 # above 1.6); worst geometric effect ~0.3 at the floor corners
+
+# --- Rim steps (measured) -----------------------------------------------------------------
+STEP_LOW = dict(x_max=-24.3, y_max=-6.5, z=-1.0)    # [rim] -X wall y<-6.5 and -Y wall x<-24.3
+STEP_HIGH = dict(x_min=-7.75, y_min=8.75, z=-1.6)   # [rim] +Y wall x>-7.75 and +X wall y>8.75
+
+# --- Cable channel on -Y (read) -----------------------------------------------------------
+CH_CX, CH_CZ = 1.30, -5.50       # [read:channel] arc centre in XZ
+CH_R_IN, CH_R_OUT = 4.00, 5.60   # [read:channel]
+CH_END_Y = -25.90                # [read:channel] open outer end
+
+# --- Latch hook on -Y (read) --------------------------------------------------------------
+HOOK_X = (-24.10, -16.80)        # [read:hook]
+HOOK_Y = (-18.95, -17.30)
+HOOK_TOP = 5.55
+LIP_Y = (-20.60, -18.90)
+LIP_Z = (3.95, 5.55)
+
+# --- Flex tongue and tie loop on +Y (read) ------------------------------------------------
+TONGUE_CUT = dict(x=(-12.60, 5.30), y=(11.60, 15.60), z_top=-10.40)  # [read:tongue, overlay] slots + floor gap
+TONGUE_X = (-10.90, 3.40)         # [overlay y=13.9] the first reading (-11.4) was 0.5 wide
+TONGUE_Y = (13.20, 14.80)
+TONGUE_ARC = (-3.75, -16.95, 7.15)   # centre x, centre z, radius; bottom at z = -24.1
+LOOP_ARC = (-3.50, -17.80, 4.50, 6.30)  # centre x, centre z, inner r, outer r
+LOOP_Y = (14.00, 17.90)
+LOOP_TOP_Z = -19.70
+LOOP_SLOT = dict(x=(-7.50, -0.90), y=(15.00, 16.50))
+
+# --- Underside cable clip (read) ----------------------------------------------------------
+CLIP_Y = (-18.55, -7.40)         # [read:clip] legs, from the drafted -Y face at clip height
+LEFT_LEG = [(-15.6, -17.0), (-13.6, -28.9), (-13.2, -29.3), (-9.6, -29.3), (-9.2, -28.6),
+            (-9.6, -28.0), (-12.3, -27.9), (-13.3, -17.0)]
+RIGHT_LEG = [(-1.5, -23.4), (-4.2, -28.6), (-5.5, -29.0), (-7.6, -28.8), (-8.1, -28.2),
+             (-7.5, -27.4), (-4.6, -26.4), (-3.9, -22.6)]
+BORE = (-8.70, -20.95, 4.60)     # centre x, centre z, radius ([read] -8.6, -20.9; moved 0.1/0.05 so the
+                                 # bore axis does not lie in the ring's base plane, a degenerate SMLib cut)
+RING_BASE_Z = -20.90             # [read:clip] the ring band is the bore's upper half
+
+# --- Underside pocket beside the clip (read: x=-9/-6/-11 YZ, z=-21 XY, y=-4 XZ) ------------
+POCKET_X = (-13.00, -4.60)
+POCKET_Y = (-8.20, -1.00)         # starts inside the clip window so no face is coplanar
+POCKET_DEPTH = 0.72               # along the slope normal; 0.65-0.8 vertical in sections
+RING_R = 6.60
+RING_Y = (-18.55, -13.60)
+BORE_Y = (-19.80, -7.90)         # [read:clip] through the -Y wall; window ends ~-8.3 to -7.4
+
+# --- Placement back onto the raw scan (measured, frame.json body_to_raw) --------------------
+BODY_TO_RAW = [
+    [0.291445521, -0.956583077, -0.002885209, 0.0],
+    [0.956568094, 0.291457481, -0.005478943, 0.0],
+    [0.00608198, -0.001163085, 0.999980828, 0.0],
+    [0.0, 0.0, 0.0, 1.0],
+]
+
+
+def _check(part, label):
+    if not part.is_valid():
+        raise RuntimeError(f"{label}: invalid solid")
+    if len(part.solids()) != 1:
+        raise RuntimeError(f"{label}: expected one solid, got {len(part.solids())}")
+    return part
+
+
+def _xz_prism(sketch, y0, y1):
+    """Extrude an XZ-plane sketch (x, z coordinates) between y0 < y1."""
+    return sketch.on(Plane.XZ).extrude(-(y1 - y0)).translate(0, y0, 0)
+
+
+def _keep_inside(part, normal, offset):
+    """Keep the side of the plane n.p = d opposite to the outward normal n."""
+    n = Vector(*normal)
+    origin = n * (offset / n.length**2)
+    return part.split(Plane(origin=origin, z_dir=-n), keep="above")
+
+
+def outer_envelope():
+    cx, cy = (X_MIN + X_MAX) / 2, (Y_MIN + Y_MAX) / 2
+    plan = RoundedRectangle(X_MAX - X_MIN, Y_MAX - Y_MIN, PLAN_RADIUS)
+    prism = plan.on(Plane.XY.offset(RIM_Z)).extrude(-(RIM_Z - FLOOR_Z + 2), taper=DRAFT_DEG).translate(cx, cy, 0)
+    body = prism.split(Plane.XY.offset(FLOOR_Z), keep="above")
+    return _check(_keep_inside(body, SLOPE_N, SLOPE_D), "outer envelope")
+
+
+def bottom_rounds(body):
+    """Round every edge lying on the floor plane or the slope plane, radius by location."""
+    sn = np.array(SLOPE_N)
+
+    def on_floor(c):
+        return abs(c.z - FLOOR_Z) < 0.02
+
+    def on_slope(c):
+        return abs(np.dot(sn, c.to_tuple()) - SLOPE_D) < 0.02
+
+    edges = body.edges().filter(lambda e: on_floor(e.center()) or on_slope(e.center()))
+    radii = []
+    for e in edges:
+        c = e.center()
+        if on_floor(c) and on_slope(c):
+            radii.append(R_SLOPE_FLOOR)
+        elif on_slope(c) and c.x < X_MIN + 2.5:  # line and both elliptical corner edges
+            radii.append(R_WALL_SLOPE)
+        elif on_floor(c):
+            radii.append(R_FLOOR_EDGE)
+        else:
+            radii.append(R_SLOPE_SIDE)
+    return _check(body.fillet(edges, radii), "bottom rounds"), len(edges)
+
+
+def corner_cut_tool(body):
+    """The material beyond the corner plane (n.p > d), clipped to a box around the part."""
+    c = body.bbox().center
+    return _keep_inside(Box(80, 80, 80).translate(c.x, c.y, c.z), [-v for v in CORNER_N], -CORNER_D)
+
+
+def cavity():
+    """Inner cavity solid, open above the rim, with its own drafted walls, planes and rounds."""
+    lift = 1.0
+    grow = 2 * math.tan(math.radians(IN_DRAFT_DEG)) * lift
+    cx, cy = (IN_X_MIN + IN_X_MAX) / 2, (IN_Y_MIN + IN_Y_MAX) / 2
+    plan = RoundedRectangle(IN_X_MAX - IN_X_MIN + grow, IN_Y_MAX - IN_Y_MIN + grow, IN_PLAN_RADIUS)
+    prism = plan.on(Plane.XY.offset(RIM_Z + lift)).extrude(-(RIM_Z + lift - IN_FLOOR_Z + 2), taper=IN_DRAFT_DEG)
+    body = prism.translate(cx, cy, 0).split(Plane.XY.offset(IN_FLOOR_Z), keep="above")
+    body = _keep_inside(body, IN_SLOPE_N, IN_SLOPE_D)
+    sn = np.array(IN_SLOPE_N)
+    edges = body.edges().filter(
+        lambda e: abs(e.center().z - IN_FLOOR_Z) < 0.02 or abs(np.dot(sn, e.center().to_tuple()) - IN_SLOPE_D) < 0.02)
+    body = body.fillet(edges, IN_R_BOTTOM)
+    # The corner cut comes after the rounds: rounding after it failed in the kernel.
+    return _check(_keep_inside(body, IN_CORNER_N, IN_CORNER_D), "cavity")
+
+
+def rim_step_tools():
+    low = Box(STEP_LOW["x_max"] + 30.0, STEP_LOW["y_max"] + 30.0, 3.0).translate(
+        (STEP_LOW["x_max"] - 30.0) / 2, (STEP_LOW["y_max"] - 30.0) / 2, STEP_LOW["z"] + 1.5)
+    high = Box(30.0 - STEP_HIGH["x_min"], 30.0 - STEP_HIGH["y_min"], 3.0).translate(
+        (STEP_HIGH["x_min"] + 30.0) / 2, (STEP_HIGH["y_min"] + 30.0) / 2, STEP_HIGH["z"] + 1.5)
+    return low, high
+
+
+def _u_profile(half_width, radius, top=1.0):
+    """U outline in XZ: straight sides from z = top down to the arc centre, semicircle below."""
+    rect = Polygon((CH_CX - half_width, top), (CH_CX + half_width, top),
+                   (CH_CX + half_width, CH_CZ), (CH_CX - half_width, CH_CZ))
+    return rect + Circle(radius).translate(CH_CX, CH_CZ, 0)
+
+
+def channel_tools():
+    outer = _xz_prism(_u_profile(CH_R_OUT, CH_R_OUT, top=RIM_Z), CH_END_Y, Y_MIN + 1.0)
+    inner = _xz_prism(_u_profile(CH_R_IN, CH_R_IN, top=RIM_Z + 2.0), CH_END_Y - 1.0, Y_MIN + 2.2)
+    return outer, inner
+
+
+def hook_tool():
+    plate = Box(HOOK_X[1] - HOOK_X[0], HOOK_Y[1] - HOOK_Y[0], HOOK_TOP + 0.5).translate(
+        sum(HOOK_X) / 2, sum(HOOK_Y) / 2, (HOOK_TOP - 0.5) / 2)
+    lip = Box(HOOK_X[1] - HOOK_X[0], LIP_Y[1] - LIP_Y[0], LIP_Z[1] - LIP_Z[0]).translate(
+        sum(HOOK_X) / 2, sum(LIP_Y) / 2, sum(LIP_Z) / 2)
+    return plate + lip
+
+
+def tongue_tools():
+    c = TONGUE_CUT
+    cut = Box(c["x"][1] - c["x"][0], c["y"][1] - c["y"][0], c["z_top"] + 27.0).translate(
+        sum(c["x"]) / 2, sum(c["y"]) / 2, (c["z_top"] - 27.0) / 2)
+    cx, cz, r = TONGUE_ARC
+    outline = Polygon((TONGUE_X[0], -10.0), (TONGUE_X[1], -10.0), (TONGUE_X[1], cz), (TONGUE_X[0], cz))
+    outline = outline + Circle(r).translate(cx, cz, 0)
+    tongue = _xz_prism(outline, *TONGUE_Y)
+    lx, lz, ri, ro = LOOP_ARC
+    band = Circle(ro).translate(lx, lz, 0) - Circle(ri).translate(lx, lz, 0)
+    below = Polygon((lx - ro - 1, LOOP_TOP_Z), (lx + ro + 1, LOOP_TOP_Z), (lx + ro + 1, lz - ro - 1), (lx - ro - 1, lz - ro - 1))
+    loop = _xz_prism(band & below, *LOOP_Y)
+    s = LOOP_SLOT
+    slot = Box(s["x"][1] - s["x"][0], s["y"][1] - s["y"][0], 8.0).translate(sum(s["x"]) / 2, sum(s["y"]) / 2, lz - ro)
+    return cut, tongue, loop - slot, slot
+
+
+def pocket_tool():
+    """Shallow recess in the slope underside: a plan rectangle cut 0.72 deep along the slope normal."""
+    box = Box(POCKET_X[1] - POCKET_X[0], POCKET_Y[1] - POCKET_Y[0], 20.0).translate(sum(POCKET_X) / 2, sum(POCKET_Y) / 2, -20.0)
+    box = _keep_inside(box, SLOPE_N, SLOPE_D + 3.0)
+    return _keep_inside(box, [-v for v in SLOPE_N], -(SLOPE_D - POCKET_DEPTH))
+
+
+def clip_tools():
+    legs = _xz_prism(Polygon(LEFT_LEG), *CLIP_Y) + _xz_prism(Polygon(RIGHT_LEG), *CLIP_Y)
+    bx, bz, br = BORE
+    upper = Polygon((bx - RING_R - 1, RING_BASE_Z), (bx + RING_R + 1, RING_BASE_Z), (bx + RING_R + 1, bz + RING_R + 1), (bx - RING_R - 1, bz + RING_R + 1))
+    ring = _xz_prism((Circle(RING_R).translate(bx, bz, 0)) & upper, *RING_Y)
+    bore = Cylinder(br, BORE_Y[1] - BORE_Y[0]).rotate(X, 90).translate(bx, sum(BORE_Y) / 2, bz)
+    return legs, ring, bore
+
+
+STAGES = [
+    ("tub", "外壳主体", "Drafted rounded tub with sloped side", "base"),
+    ("bottom-rounds", "底部圆角", "Bottom edge rounds", "finish"),
+    ("corner-cut", "底角斜切", "+X+Y bottom corner cut", "subtractive"),
+    ("cavity", "内腔 · 顶部开口", "Measured inner cavity, open top", "subtractive"),
+    ("rim-steps", "口沿台阶", "Two lowered rim steps", "subtractive"),
+    ("channel", "出线槽", "-Y cable channel and wall notch", "mixed"),
+    ("hook", "卡钩", "-Y latch hook", "additive"),
+    ("tongue", "弹性舌片与扎带环", "+Y flex tongue and tie loop", "mixed"),
+    ("clip", "底部线夹", "Underside cable clip", "mixed"),
+    ("pocket", "底面浅凹槽", "Slope underside recess", "subtractive"),
+]
+
+
+def build():
+    """Return the ordered feature stages: (id, result, additive tools, subtractive tools)."""
+    out = []
+    body = outer_envelope()
+    out.append(("tub", body, [body], []))
+    before = body
+    body, n_round = bottom_rounds(body)
+    out.append(("bottom-rounds", body, [], [before - body]))
+    tool = corner_cut_tool(body)
+    body = _check(body - tool, "corner cut")
+    out.append(("corner-cut", body, [], [tool & before]))
+    solid = body
+    inner = cavity()
+    body = _check(body - inner, "cavity cut")
+    out.append(("cavity", body, [], [inner & solid]))
+    low, high = rim_step_tools()
+    cut = body & (low + high)
+    body = _check(body - low - high, "rim steps")
+    out.append(("rim-steps", body, [], [cut]))
+    ch_out, ch_in = channel_tools()
+    body = _check(body + ch_out - ch_in, "channel")
+    out.append(("channel", body, [ch_out - ch_in], [ch_in & solid]))
+    hook = hook_tool()
+    body = _check(body + hook, "hook")
+    out.append(("hook", body, [hook], []))
+    t_cut, tongue, loop, slot = tongue_tools()
+    removed = body & t_cut
+    body = _check(body - t_cut + tongue + loop, "tongue")
+    out.append(("tongue", body, [tongue + loop], [removed]))
+    legs, ring, bore = clip_tools()
+    body = _check(body + legs + ring - bore, "clip")
+    out.append(("clip", body, [(legs + ring) - bore], [bore]))
+    pocket = pocket_tool()
+    removed = body & pocket
+    body = _check(body - pocket, "pocket")
+    out.append(("pocket", body, [], [removed]))
+    return out, n_round
+
+
+def place_raw(part):
+    """Rotate about the body-to-raw axis (axis-angle; a 4x4 Location gave an unexportable face)."""
+    r = np.array(BODY_TO_RAW)[:3, :3]
+    angle = math.degrees(math.acos(max(-1.0, min(1.0, (np.trace(r) - 1) / 2))))
+    axis = np.array([r[2, 1] - r[1, 2], r[0, 2] - r[2, 0], r[1, 0] - r[0, 1]])
+    return part.rotate(Axis((0, 0, 0), tuple(axis / np.linalg.norm(axis))), angle)
+
+
+def main(out_dir: Path) -> dict:
+    out_dir.mkdir(parents=True, exist_ok=True)
+    t0 = time.perf_counter()
+    stages, n_round = build()
+    final = stages[-1][1].named("wiring_cover")
+    build_s = time.perf_counter() - t0
+    body_step = out_dir / "wiring-cover.body.step"
+    raw_step = out_dir / "wiring-cover.raw.step"
+    export_step(final, body_step, name="wiring cover (body frame)")
+    raw = place_raw(final).named("wiring_cover")
+    export_step(raw, raw_step, name="wiring cover (scan raw frame)")
+    export_stl(final, out_dir / "wiring-cover.body.stl", tolerance=0.01, angle=5)
+    readback = {}
+    for label, path, ref in (("body", body_step, final), ("raw", raw_step, raw)):
+        back = import_step(path, heal=False)
+        parts = list(back) if not hasattr(back, "is_valid") else [back]
+        bb = parts[0].bbox()
+        readback[label] = {
+            "solids": sum(len(p.solids()) for p in parts),
+            "valid": all(p.is_valid() for p in parts),
+            "volume": round(sum(p.volume for p in parts), 4),
+            "volume_rel_delta": abs(sum(p.volume for p in parts) - ref.volume) / ref.volume,
+            "bbox_min": [round(v, 4) for v in bb.min.to_tuple()],
+            "bbox_max": [round(v, 4) for v in bb.max.to_tuple()],
+            "faces": sum(len(p.faces()) for p in parts),
+        }
+    report = {
+        "kernel": f"smlibpy {SMLIBPY_VERSION}",
+        "frame": "body (rotation of raw STL, shared origin)",
+        "units": "mm (working assumption)",
+        "build_seconds": round(build_s, 3),
+        "bottom_round_edges": n_round,
+        "stages": [
+            {"id": sid, "valid": part.is_valid(), "solids": len(part.solids()), "volume": round(part.volume, 4),
+             "faces": len(part.faces()), "bbox": [list(part.bbox().min.to_tuple()), list(part.bbox().max.to_tuple())]}
+            for sid, part, _, _ in stages
+        ],
+        "final": {"volume": round(final.volume, 4), "area": round(final.area, 4), "faces": len(final.faces()),
+                  "edges": len(final.edges()), "valid": final.is_valid()},
+        "readback_same_kernel": readback,
+        "outputs": {"body_step": str(body_step), "raw_step": str(raw_step), "body_stl": str(out_dir / "wiring-cover.body.stl")},
+    }
+    (out_dir / "build-report.json").write_text(json.dumps(report, indent=1))
+    return {"report": report, "stages": stages}
+
+
+if __name__ == "__main__":
+    result = main(Path(sys.argv[1]))
+    print(json.dumps({k: result["report"][k] for k in ("kernel", "build_seconds", "final", "readback_same_kernel")}, indent=1))

@@ -1,0 +1,3 @@
+# Preserve byte-identical upstream reference and license files.
+references/upstream/** -whitespace
+web/public/licenses/* -whitespace

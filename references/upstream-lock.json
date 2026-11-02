@@ -1,0 +1,134 @@
+{
+  "repository": "https://github.com/earthtojake/text-to-cad",
+  "revision": "5efa85a911d9d0d3802fe516fe3c8cc387c47ea8",
+  "retrieved_on": "2026-11-02",
+  "purpose": "Unmodified reference snapshots; not installed or registered as active skills",
+  "files": [
+    {
+      "path": "LICENSE",
+      "bytes": 1074,
+      "git_blob": "30be518b2415d9a7514d4bfb879c157d18673b6b",
+      "sha256": "c11168234f932c4a39bb640571079e73b178b4459682a5507e5944ad723058b3",
+      "url": "https://raw.githubusercontent.com/earthtojake/text-to-cad/5efa85a911d9d0d3802fe516fe3c8cc387c47ea8/LICENSE"
+    },
+    {
+      "path": "skills/cad/LICENSE",
+      "bytes": 1074,
+      "git_blob": "30be518b2415d9a7514d4bfb879c157d18673b6b",
+      "sha256": "c11168234f932c4a39bb640571079e73b178b4459682a5507e5944ad723058b3",
+      "url": "https://raw.githubusercontent.com/earthtojake/text-to-cad/5efa85a911d9d0d3802fe516fe3c8cc387c47ea8/skills/cad/LICENSE"
+    },
+    {
+      "path": "skills/cad/SKILL.md",
+      "bytes": 20683,
+      "git_blob": "47299c588cc8fd0e3714441746892ef623ae2926",
+      "sha256": "2c822d8ec8b46e770720fe6db4ca1d90ccda838719f88fb2ba3224eb35ed07b1",
+      "url": "https://raw.githubusercontent.com/earthtojake/text-to-cad/5efa85a911d9d0d3802fe516fe3c8cc387c47ea8/skills/cad/SKILL.md"
+    },
+    {
+      "path": "skills/cad/agents/openai.yaml",
+      "bytes": 191,
+      "git_blob": "e3943ee3e9f81b7d27b024e80a6f9b9a1c2c9769",
+      "sha256": "2250f0db89ddfc238baccd2c81a27628505a21e7916db74e006b1b3b973a6697",
+      "url": "https://raw.githubusercontent.com/earthtojake/text-to-cad/5efa85a911d9d0d3802fe516fe3c8cc387c47ea8/skills/cad/agents/openai.yaml"
+    },
+    {
+      "path": "skills/cad/references/animation.md",
+      "bytes": 6793,
+      "git_blob": "9d8d9116dc60e11c9cfc0c10305a219bfcdd44aa",
+      "sha256": "3334ed78249332b575b9f2bd33fac70698edeab17af65c7f39604b7252b85169",
+      "url": "https://raw.githubusercontent.com/earthtojake/text-to-cad/5efa85a911d9d0d3802fe516fe3c8cc387c47ea8/skills/cad/references/animation.md"
+    },
+    {
+      "path": "skills/cad/references/build123d-modeling.md",
+      "bytes": 8632,
+      "git_blob": "5b78c4de513f5909ed290b62130d4d254828444a",
+      "sha256": "7561c30be25975ccf913fb31f983eb6538bdb741914c3a92934f71bfd3a809ac",
+      "url": "https://raw.githubusercontent.com/earthtojake/text-to-cad/5efa85a911d9d0d3802fe516fe3c8cc387c47ea8/skills/cad/references/build123d-modeling.md"
+    },
+    {
+      "path": "skills/cad/references/exports.md",
+      "bytes": 8723,
+      "git_blob": "d63a83e753048035b1a4fc6fd6f0ee1d48ac9554",
+      "sha256": "0e7bd2b1d10313a2139463b0d2d8dab10e6905545439bf4d18455cf6a31b3109",
+      "url": "https://raw.githubusercontent.com/earthtojake/text-to-cad/5efa85a911d9d0d3802fe516fe3c8cc387c47ea8/skills/cad/references/exports.md"
+    },
+    {
+      "path": "skills/cad/references/inspection-and-validation.md",
+      "bytes": 15279,
+      "git_blob": "19566937c2238382d0bbb168ad955c0f5d58be19",
+      "sha256": "07a9794a447e2ac4653a858d599d1e7a3856254c6cbeec91fef1a5a53f1be8f2",
+      "url": "https://raw.githubusercontent.com/earthtojake/text-to-cad/5efa85a911d9d0d3802fe516fe3c8cc387c47ea8/skills/cad/references/inspection-and-validation.md"
+    },
+    {
+      "path": "skills/cad/references/kinematics.md",
+      "bytes": 15987,
+      "git_blob": "3752c41838b4f1ce936a6cb8712fd8b750ee56df",
+      "sha256": "239b130182f523f9ff38d0ec50967351f174e0eecf4beb23c60d76688091f35a",
+      "url": "https://raw.githubusercontent.com/earthtojake/text-to-cad/5efa85a911d9d0d3802fe516fe3c8cc387c47ea8/skills/cad/references/kinematics.md"
+    },
+    {
+      "path": "skills/cad/references/model-contract.md",
+      "bytes": 19179,
+      "git_blob": "1137dd176128f2ae4b02ba7e2c938a92d244d934",
+      "sha256": "1e207b12fe9be80ec0178b18fe744a4d9fcdfb785d86374fdacf91836193a625",
+      "url": "https://raw.githubusercontent.com/earthtojake/text-to-cad/5efa85a911d9d0d3802fe516fe3c8cc387c47ea8/skills/cad/references/model-contract.md"
+    },
+    {
+      "path": "skills/cad/references/positioning.md",
+      "bytes": 4934,
+      "git_blob": "c604c608342808a92f6019682822c6bc471675b3",
+      "sha256": "9c5db9d87db6da6c2ad28b06b657ca78a5b7b140c7bf5a81eab9588379515893",
+      "url": "https://raw.githubusercontent.com/earthtojake/text-to-cad/5efa85a911d9d0d3802fe516fe3c8cc387c47ea8/skills/cad/references/positioning.md"
+    },
+    {
+      "path": "skills/cad/references/project-layout.md",
+      "bytes": 7114,
+      "git_blob": "0c95902b02fe9ea5e43a5e053628b223e9a4fce6",
+      "sha256": "1ea9ba0780cef05d47bb3c4189103c19cb5e43418575ce2f4f41204a22b58ff8",
+      "url": "https://raw.githubusercontent.com/earthtojake/text-to-cad/5efa85a911d9d0d3802fe516fe3c8cc387c47ea8/skills/cad/references/project-layout.md"
+    },
+    {
+      "path": "skills/cad/references/snapshot-review.md",
+      "bytes": 13213,
+      "git_blob": "996dac31770dedff9a8e84b7b68d83f7d999c56f",
+      "sha256": "d33ab9944c55f7e3b802309fc2f3bb287828644d0ed36a644f18ff4cc8384e51",
+      "url": "https://raw.githubusercontent.com/earthtojake/text-to-cad/5efa85a911d9d0d3802fe516fe3c8cc387c47ea8/skills/cad/references/snapshot-review.md"
+    },
+    {
+      "path": "skills/step-parts/LICENSE",
+      "bytes": 1074,
+      "git_blob": "30be518b2415d9a7514d4bfb879c157d18673b6b",
+      "sha256": "c11168234f932c4a39bb640571079e73b178b4459682a5507e5944ad723058b3",
+      "url": "https://raw.githubusercontent.com/earthtojake/text-to-cad/5efa85a911d9d0d3802fe516fe3c8cc387c47ea8/skills/step-parts/LICENSE"
+    },
+    {
+      "path": "skills/step-parts/SKILL.md",
+      "bytes": 6004,
+      "git_blob": "c7d72505c12fbed39e1f6814b77fdd78215a4543",
+      "sha256": "28d62cda5dcc5302484c4b985d53e0fc0737edc0938bc5883b6faff76ea9eabc",
+      "url": "https://raw.githubusercontent.com/earthtojake/text-to-cad/5efa85a911d9d0d3802fe516fe3c8cc387c47ea8/skills/step-parts/SKILL.md"
+    },
+    {
+      "path": "skills/step-parts/agents/openai.yaml",
+      "bytes": 194,
+      "git_blob": "8e2aeb4b018f640973083586acfab2c0238f8bdf",
+      "sha256": "c33a3e43c22b51d81b511131c14eb5e7e0947aab8add455658aa5fac8c17431b",
+      "url": "https://raw.githubusercontent.com/earthtojake/text-to-cad/5efa85a911d9d0d3802fe516fe3c8cc387c47ea8/skills/step-parts/agents/openai.yaml"
+    },
+    {
+      "path": "skills/step-parts/references/step-parts-api.md",
+      "bytes": 3615,
+      "git_blob": "3f7fab4ce4dbdc05cb460c7bff79928ec3cad609",
+      "sha256": "dc5beb2326f9b1ceb331412da5adf38f22e485cf4f5d47f6419ef1254c4cf461",
+      "url": "https://raw.githubusercontent.com/earthtojake/text-to-cad/5efa85a911d9d0d3802fe516fe3c8cc387c47ea8/skills/step-parts/references/step-parts-api.md"
+    },
+    {
+      "path": "skills/step-parts/scripts/download_step_part.py",
+      "bytes": 9403,
+      "git_blob": "e2a738cbb07e4d1cbcf3b57bd00841594e40e8f7",
+      "sha256": "7ef16a571d0cf3b8100d2eb854bbaf18bec17a9192f9097080073f409931e3b4",
+      "url": "https://raw.githubusercontent.com/earthtojake/text-to-cad/5efa85a911d9d0d3802fe516fe3c8cc387c47ea8/skills/step-parts/scripts/download_step_part.py"
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "open-skyfall": {
+      "type": "stdio",
+      "command": "open-skyfall",
+      "args": [
+        "mcp"
+      ]
+    }
+  }
+}

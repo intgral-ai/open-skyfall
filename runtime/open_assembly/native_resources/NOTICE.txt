@@ -1,0 +1,16 @@
+Registered wiring-cover model
+
+Project-authored source included under the root MIT license.
+Original authoring revision: 6dc1ef6. Source SHA-256:
+7bc71c24414c9c8da0059c7381cbae4e9884d76cd97d0c47986cd373024d621a
+
+This is a bounded edit of an existing reconstruction, not a new reconstruction
+or source-accuracy acceptance. The original user-supplied scan is not bundled.
+Millimetres were assumed for the unitless scan. The tongue, tie loop and clip
+are approximate. Small rounds, the clip nub, leg draft, ejector dimples, rim
+blends and channel fillets are omitted. No manufacturing, tolerance or factory
+acceptance is asserted.
+
+This notice does not grant rights to third-party inputs or dependencies.
+smlibpy 0.3.4 and its bundled components retain their own MIT, Apache-2.0
+and OFL-1.1 terms. No native dependency binary is distributed by this project.

@@ -1,0 +1,2 @@
+# Native authoring and STEP export run separately from the main service.
+smlibpy==0.3.4
