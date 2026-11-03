@@ -73,6 +73,10 @@ def main():
     replay = sub.add_parser("replay", help="Validate and reproduce an exported concept program")
     replay.add_argument("bundle", type=Path)
     replay.add_argument("--out", type=Path, required=True)
+    check = sub.add_parser("check-parts", help="Run saved scoped part checks for CI")
+    check.add_argument("project_id")
+    check.add_argument("--node", required=True)
+    check.add_argument("--out", type=Path)
     args = parser.parse_args()
     try:
         if args.command == "serve":
@@ -100,6 +104,35 @@ def main():
             print(json.dumps(report, indent=2))
             if report["outcome"] != "pass":
                 raise SystemExit(2)
+            return
+        if args.command == "check-parts":
+            from .decomposition import DecompositionStore
+            from .decomposition_checks import check_action
+
+            store = DecompositionStore(args.workspace)
+            project = store.get(args.project_id)
+            scope = project.get("workflow", {}).get("scopes", {}).get(args.node)
+            if not scope:
+                raise ValueError("Select a part or assembly with accepted geometry")
+            project = check_action(
+                store,
+                args.project_id,
+                "check",
+                {
+                    "revision": project["revision"],
+                    "workflow_revision": project["workflow_revision"],
+                    "node_id": args.node,
+                    "review_digest": scope["review_digest"],
+                },
+            )
+            report = project["workflow"]["checks"][args.node]["report"]
+            raw = json.dumps(report, indent=2) + "\n"
+            if args.out:
+                args.out.parent.mkdir(parents=True, exist_ok=True)
+                args.out.write_text(raw)
+            print(raw, end="")
+            if report["ci_exit_code"]:
+                raise SystemExit(report["ci_exit_code"])
             return
         if args.command == "mcp":
             from .mcp import create_mcp

@@ -237,6 +237,9 @@ def reconcile(project, *, previous=None, request_id=None):
         if flow["error"]
         else "ready"
     )
+    from .decomposition_checks import reconcile_checks
+
+    reconcile_checks(project)
     if previous is not None:
         project["workflow_revision"] = previous.get("workflow_revision", 0) + 1
 
@@ -518,6 +521,10 @@ class DecompositionWorkflow:
         match = re.fullmatch(r"/api/decompositions/([0-9a-f]{32})/workflow/([a-z-]+)", path)
         if method == "POST" and match:
             project_id, action = match.groups()
+            if action in {"check-context", "check"}:
+                from .decomposition_checks import check_action
+
+                return check_action(self.store, project_id, action, payload)
             if action == "decompose-example":
                 return self.decompose_example(project_id, payload)
             return (

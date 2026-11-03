@@ -202,6 +202,46 @@ test("standalone handoff falls back honestly and embedded handoff uses the insta
   );
 });
 
+test("part check commands reach both standalone fallback and embedded tool transport", async () => {
+  const payload = {
+    revision: 3,
+    workflow_revision: 8,
+    node_id: "coupon",
+    review_digest: "scope",
+  };
+  const standalone = setup({ embedded: false });
+  assert.equal(
+    await standalone.ctx.hostWorkflowAction(
+      "/api/decompositions/project1/workflow/check",
+      payload,
+    ),
+    null,
+  );
+  const host = setup({
+    outcome: { structuredContent: { id: "project1", workflow_revision: 9 } },
+  });
+  for (const action of ["check", "check-context"]) {
+    await host.ctx.hostWorkflowAction(
+      `/api/decompositions/project1/workflow/${action}`,
+      payload,
+    );
+  }
+  assert.equal(host.calls.length, 2);
+  assert.ok(
+    host.calls.every(
+      (call) =>
+        call.arguments.method === "POST" && call.arguments.payload === payload,
+    ),
+  );
+  await assert.rejects(
+    host.ctx.hostWorkflowAction(
+      "/api/decompositions/project1/workflow/check-code",
+      payload,
+    ),
+    /Unsupported/,
+  );
+});
+
 test("only relative final STEP download URLs are intercepted", async () => {
   const h = setup();
   h.ctx.installHostDownloads();

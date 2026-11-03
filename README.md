@@ -62,7 +62,7 @@ locking and requires macOS or Linux. Availability of a suitable native wheel
 depends on the platform. The public
 release check is described in [verification](docs/verification.md).
 
-The home screen opens the anatomy-style workbench. Import an authorized image
+The home screen opens the Decompose workbench. Import an authorized image
 and/or description, review the host-authored proposal, inspect exploded parts,
 iterate through the host conversation, then explicitly confirm parts for native
 conversion. **Explore the inspection rig** opens a labeled designed example with
@@ -142,6 +142,15 @@ The tools include `workspace_request`, `show_decomposition`,
 Keep project context and editing in the chat. The viewer is for model inspection
 and download. MCP packaging alone does not connect a real ChatGPT account;
 that requires a compatible host and its deployment configuration.
+
+Use [open-skyfall-check](skills/open-skyfall-check/SKILL.md) to save the user's
+literal, quoted criteria for a selected part or group and run checks bound to
+that current scope. Repeat them in CI with `open-skyfall --workspace jobs
+check-parts PROJECT_ID --node NODE_ID --out evidence/part-check.json`: exit `0`
+means the required checks passed, `1` means failure, and `2` means blocked or an
+invalid command. Structural checks alone do not establish design intent, source
+fidelity or manufacturing acceptance. The [workbench design](DESIGN.md) records
+the app's Silence adoption and visible workflow states.
 
 Manual-driven authoring is demonstrated in [the relay/socket case](cases/omron-g2r/README.md).
 The original datasheet and user-supplied CAD files are not distributed. Supply

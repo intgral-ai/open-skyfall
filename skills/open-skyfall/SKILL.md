@@ -24,6 +24,8 @@ source first. Bind every dimension, local pose component, shape choice, part,
 placement and scale to a basis. Concept meshes and replay remain separate from
 native solid validity, source fidelity and manufacturing acceptance.
 
+For per-part reference review and repeatable checks against the user's context, use [open-skyfall-check](../open-skyfall-check/SKILL.md).
+
 For saved context or a later change to an existing CAD job, read [the project workflow](references/project-workflow.md). It documents that job API's create, save, capture and retrieval operations. Read the saved job and exact captured request before planning an edit. A copied note is a locator and handoff, not authority over newer project state.
 
 For the registered wiring-cover example, read [the native edit workflow](references/native-edit.md). Keep its bounded parameter proposal, immutable capture, execution status, construction checkpoints, and current STEP bindings together. This existing CAD example does not reconstruct a new input or restrict the broader authoring goal.

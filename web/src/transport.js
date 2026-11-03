@@ -43,7 +43,7 @@ export async function hostRequest(path, options = {}) {
 
 export async function hostWorkflowAction(path, payload) {
   if (
-    !/^\/api\/decompositions(?:\/[a-zA-Z0-9_-]+\/workflow\/(?:proposal|approve-proposal|decompose-example|request|approve|build))?$/.test(
+    !/^\/api\/decompositions(?:\/[a-zA-Z0-9_-]+\/workflow\/(?:proposal|approve-proposal|decompose-example|request|approve|build|check-context|check))?$/.test(
       path,
     )
   )
