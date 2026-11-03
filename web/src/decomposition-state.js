@@ -1,10 +1,10 @@
 export const palette = [
-  "#a4a49b",
-  "#b7b6ab",
-  "#c6c4b8",
-  "#94978e",
-  "#d1cec2",
-  "#adafa4",
+  "#9fb5c7",
+  "#9bb2c5",
+  "#acc0d0",
+  "#92abbe",
+  "#a6bdce",
+  "#9eb5c8",
 ];
 export function nodeColor(id) {
   let hash = 2166136261;

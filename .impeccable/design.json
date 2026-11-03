@@ -1,232 +1,72 @@
 {
   "schemaVersion": 2,
   "generatedAt": "2026-11-03T17:37:46+00:00",
-  "title": "Design System: OpenSkyfall workbench",
+  "title": "Design System: CAD workbench",
   "extensions": {
     "colorMeta": {
       "primary": {
         "role": "primary",
-        "displayName": "Graphite",
-        "tonalRamp": [
-          "oklch(15.0% 0.00000 0.00)",
-          "oklch(26.4% 0.00000 0.00)",
-          "oklch(37.9% 0.00000 0.00)",
-          "oklch(49.3% 0.00000 0.00)",
-          "oklch(60.7% 0.00000 0.00)",
-          "oklch(72.1% 0.00000 0.00)",
-          "oklch(83.6% 0.00000 0.00)",
-          "oklch(95.0% 0.00000 0.00)"
-        ]
+        "displayName": "Primary action"
       },
       "background": {
         "role": "neutral",
-        "displayName": "Paper",
-        "tonalRamp": [
-          "oklch(15.0% 0.00000 0.00)",
-          "oklch(26.4% 0.00000 0.00)",
-          "oklch(37.9% 0.00000 0.00)",
-          "oklch(49.3% 0.00000 0.00)",
-          "oklch(60.7% 0.00000 0.00)",
-          "oklch(72.1% 0.00000 0.00)",
-          "oklch(83.6% 0.00000 0.00)",
-          "oklch(95.0% 0.00000 0.00)"
-        ]
+        "displayName": "Charcoal"
       },
       "surface": {
         "role": "neutral",
-        "displayName": "Quiet surface",
-        "tonalRamp": [
-          "oklch(15.0% 0.00000 0.00)",
-          "oklch(26.4% 0.00000 0.00)",
-          "oklch(37.9% 0.00000 0.00)",
-          "oklch(49.3% 0.00000 0.00)",
-          "oklch(60.7% 0.00000 0.00)",
-          "oklch(72.1% 0.00000 0.00)",
-          "oklch(83.6% 0.00000 0.00)",
-          "oklch(95.0% 0.00000 0.00)"
-        ]
+        "displayName": "Canvas"
       },
       "surface-raised": {
         "role": "neutral",
-        "displayName": "Raised white",
-        "tonalRamp": [
-          "oklch(15.0% 0.00000 0.00)",
-          "oklch(26.4% 0.00000 0.00)",
-          "oklch(37.9% 0.00000 0.00)",
-          "oklch(49.3% 0.00000 0.00)",
-          "oklch(60.7% 0.00000 0.00)",
-          "oklch(72.1% 0.00000 0.00)",
-          "oklch(83.6% 0.00000 0.00)",
-          "oklch(95.0% 0.00000 0.00)"
-        ]
+        "displayName": "Raised surface"
       },
       "foreground-strong": {
         "role": "neutral",
-        "displayName": "Strong ink",
-        "tonalRamp": [
-          "oklch(15.0% 0.00000 0.00)",
-          "oklch(26.4% 0.00000 0.00)",
-          "oklch(37.9% 0.00000 0.00)",
-          "oklch(49.3% 0.00000 0.00)",
-          "oklch(60.7% 0.00000 0.00)",
-          "oklch(72.1% 0.00000 0.00)",
-          "oklch(83.6% 0.00000 0.00)",
-          "oklch(95.0% 0.00000 0.00)"
-        ]
+        "displayName": "Foreground"
       },
       "foreground-secondary": {
         "role": "neutral",
-        "displayName": "Secondary graphite",
-        "tonalRamp": [
-          "oklch(15.0% 0.00000 0.00)",
-          "oklch(26.4% 0.00000 0.00)",
-          "oklch(37.9% 0.00000 0.00)",
-          "oklch(49.3% 0.00000 0.00)",
-          "oklch(60.7% 0.00000 0.00)",
-          "oklch(72.1% 0.00000 0.00)",
-          "oklch(83.6% 0.00000 0.00)",
-          "oklch(95.0% 0.00000 0.00)"
-        ]
+        "displayName": "Secondary foreground"
       },
       "foreground-muted": {
         "role": "neutral",
-        "displayName": "Muted ink",
-        "tonalRamp": [
-          "oklch(15.0% 0.00000 0.00)",
-          "oklch(26.4% 0.00000 0.00)",
-          "oklch(37.9% 0.00000 0.00)",
-          "oklch(49.3% 0.00000 0.00)",
-          "oklch(60.7% 0.00000 0.00)",
-          "oklch(72.1% 0.00000 0.00)",
-          "oklch(83.6% 0.00000 0.00)",
-          "oklch(95.0% 0.00000 0.00)"
-        ]
+        "displayName": "Muted foreground"
       },
       "border": {
         "role": "neutral",
-        "displayName": "Divider",
-        "tonalRamp": [
-          "oklch(15.0% 0.00000 0.00)",
-          "oklch(26.4% 0.00000 0.00)",
-          "oklch(37.9% 0.00000 0.00)",
-          "oklch(49.3% 0.00000 0.00)",
-          "oklch(60.7% 0.00000 0.00)",
-          "oklch(72.1% 0.00000 0.00)",
-          "oklch(83.6% 0.00000 0.00)",
-          "oklch(95.0% 0.00000 0.00)"
-        ]
+        "displayName": "Divider"
       },
       "control-border": {
         "role": "neutral",
-        "displayName": "Control border",
-        "tonalRamp": [
-          "oklch(15.0% 0.00000 0.00)",
-          "oklch(26.4% 0.00000 0.00)",
-          "oklch(37.9% 0.00000 0.00)",
-          "oklch(49.3% 0.00000 0.00)",
-          "oklch(60.7% 0.00000 0.00)",
-          "oklch(72.1% 0.00000 0.00)",
-          "oklch(83.6% 0.00000 0.00)",
-          "oklch(95.0% 0.00000 0.00)"
-        ]
+        "displayName": "Control border"
       },
       "selection": {
         "role": "neutral",
-        "displayName": "Cool selection",
-        "tonalRamp": [
-          "oklch(15.0% 0.00420 236.50)",
-          "oklch(26.4% 0.00420 236.50)",
-          "oklch(37.9% 0.00420 236.50)",
-          "oklch(49.3% 0.00420 236.50)",
-          "oklch(60.7% 0.00420 236.50)",
-          "oklch(72.1% 0.00420 236.50)",
-          "oklch(83.6% 0.00420 236.50)",
-          "oklch(95.0% 0.00420 236.50)"
-        ]
+        "displayName": "Selection"
       },
       "success": {
         "role": "neutral",
-        "displayName": "Success ink",
-        "tonalRamp": [
-          "oklch(15.0% 0.09358 159.65)",
-          "oklch(26.4% 0.09358 159.65)",
-          "oklch(37.9% 0.09358 159.65)",
-          "oklch(49.3% 0.09358 159.65)",
-          "oklch(60.7% 0.09358 159.65)",
-          "oklch(72.1% 0.09358 159.65)",
-          "oklch(83.6% 0.09358 159.65)",
-          "oklch(95.0% 0.09358 159.65)"
-        ]
+        "displayName": "Success ink"
       },
       "success-soft": {
         "role": "neutral",
-        "displayName": "Success surface",
-        "tonalRamp": [
-          "oklch(15.0% 0.01159 153.67)",
-          "oklch(26.4% 0.01159 153.67)",
-          "oklch(37.9% 0.01159 153.67)",
-          "oklch(49.3% 0.01159 153.67)",
-          "oklch(60.7% 0.01159 153.67)",
-          "oklch(72.1% 0.01159 153.67)",
-          "oklch(83.6% 0.01159 153.67)",
-          "oklch(95.0% 0.01159 153.67)"
-        ]
+        "displayName": "Success surface"
       },
       "warning": {
         "role": "neutral",
-        "displayName": "Warning ink",
-        "tonalRamp": [
-          "oklch(15.0% 0.09473 71.68)",
-          "oklch(26.4% 0.09473 71.68)",
-          "oklch(37.9% 0.09473 71.68)",
-          "oklch(49.3% 0.09473 71.68)",
-          "oklch(60.7% 0.09473 71.68)",
-          "oklch(72.1% 0.09473 71.68)",
-          "oklch(83.6% 0.09473 71.68)",
-          "oklch(95.0% 0.09473 71.68)"
-        ]
+        "displayName": "Warning ink"
       },
       "warning-soft": {
         "role": "neutral",
-        "displayName": "Warning surface",
-        "tonalRamp": [
-          "oklch(15.0% 0.01712 84.59)",
-          "oklch(26.4% 0.01712 84.59)",
-          "oklch(37.9% 0.01712 84.59)",
-          "oklch(49.3% 0.01712 84.59)",
-          "oklch(60.7% 0.01712 84.59)",
-          "oklch(72.1% 0.01712 84.59)",
-          "oklch(83.6% 0.01712 84.59)",
-          "oklch(95.0% 0.01712 84.59)"
-        ]
+        "displayName": "Warning surface"
       },
       "destructive": {
         "role": "neutral",
-        "displayName": "Destructive ink",
-        "tonalRamp": [
-          "oklch(15.0% 0.14501 23.88)",
-          "oklch(26.4% 0.14501 23.88)",
-          "oklch(37.9% 0.14501 23.88)",
-          "oklch(49.3% 0.14501 23.88)",
-          "oklch(60.7% 0.14501 23.88)",
-          "oklch(72.1% 0.14501 23.88)",
-          "oklch(83.6% 0.14501 23.88)",
-          "oklch(95.0% 0.14501 23.88)"
-        ]
+        "displayName": "Destructive ink"
       },
       "destructive-soft": {
         "role": "neutral",
-        "displayName": "Destructive surface",
-        "tonalRamp": [
-          "oklch(15.0% 0.01081 17.35)",
-          "oklch(26.4% 0.01081 17.35)",
-          "oklch(37.9% 0.01081 17.35)",
-          "oklch(49.3% 0.01081 17.35)",
-          "oklch(60.7% 0.01081 17.35)",
-          "oklch(72.1% 0.01081 17.35)",
-          "oklch(83.6% 0.01081 17.35)",
-          "oklch(95.0% 0.01081 17.35)"
-        ]
+        "displayName": "Destructive surface"
       }
     },
     "typographyMeta": {
@@ -300,7 +140,7 @@
       "refersTo": "button-primary",
       "description": "The leading action for the current workflow scope; busy and disabled states remain explicit.",
       "html": "<button class=\"ds-primary\">Run part checks</button>",
-      "css": ".ds-primary{font:14px/20px var(--intgral-font-sans);border-radius:var(--intgral-radius-control);cursor:pointer;min-height:40px;padding:9px 14px;border:0;background:var(--intgral-foreground);color:var(--intgral-background);font-weight:500;transition:background var(--intgral-duration-feedback),color var(--intgral-duration-feedback)}.ds-primary:hover:not(:disabled){background:var(--intgral-foreground-secondary)}.ds-primary:focus-visible{outline:2px solid var(--intgral-focus);outline-offset:3px;}.ds-primary:disabled{cursor:not-allowed;opacity:.5}@media(max-width:760px){.ds-primary{min-height:44px}}@media(prefers-reduced-motion:reduce){.ds-primary{transition:none}}"
+      "css": ".ds-primary{font:13px/20px var(--intgral-font-sans);border-radius:var(--intgral-radius-control);cursor:pointer;min-height:34px;padding:9px 14px;border:0;background:var(--intgral-foreground);color:var(--intgral-background);font-weight:500;transition:background var(--intgral-duration-feedback),color var(--intgral-duration-feedback)}.ds-primary:hover:not(:disabled){background:var(--intgral-foreground-secondary)}.ds-primary:focus-visible{outline:2px solid var(--intgral-focus);outline-offset:3px;}.ds-primary:disabled{cursor:not-allowed;opacity:.5}@media(max-width:760px){.ds-primary{min-height:44px}}@media(prefers-reduced-motion:reduce){.ds-primary{transition:none}}"
     },
     {
       "name": "Secondary action",
@@ -308,7 +148,7 @@
       "refersTo": "button-secondary",
       "description": "A supporting action beside a primary workflow action.",
       "html": "<button class=\"ds-secondary\">Define criteria in Codex</button>",
-      "css": ".ds-secondary{font:14px/20px var(--intgral-font-sans);border-radius:var(--intgral-radius-control);cursor:pointer;min-height:40px;padding:7px 12px;border:0;background:var(--intgral-surface-raised);color:var(--intgral-foreground);transition:background var(--intgral-duration-feedback),color var(--intgral-duration-feedback)}.ds-secondary:hover:not(:disabled){background:var(--intgral-selection)}.ds-secondary:focus-visible{outline:2px solid var(--intgral-focus);outline-offset:3px;}.ds-secondary:disabled{cursor:not-allowed;opacity:.5}@media(prefers-reduced-motion:reduce){.ds-secondary{transition:none}}"
+      "css": ".ds-secondary{font:13px/20px var(--intgral-font-sans);border-radius:var(--intgral-radius-control);cursor:pointer;min-height:34px;padding:7px 12px;border:0;background:var(--intgral-surface-raised);color:var(--intgral-foreground);transition:background var(--intgral-duration-feedback),color var(--intgral-duration-feedback)}.ds-secondary:hover:not(:disabled){background:var(--intgral-selection)}.ds-secondary:focus-visible{outline:2px solid var(--intgral-focus);outline-offset:3px;}.ds-secondary:disabled{cursor:not-allowed;opacity:.5}@media(prefers-reduced-motion:reduce){.ds-secondary{transition:none}}"
     },
     {
       "name": "Project selector",
@@ -316,7 +156,7 @@
       "refersTo": "project-select",
       "description": "A labeled native selector preserves keyboard behavior and grouped example/saved project choices.",
       "html": "<label class=\"ds-picker\"><span>Project</span><select class=\"ds-select\"><option>Choose a project</option><optgroup label=\"Examples\"><option>Inspection rig · example</option></optgroup><optgroup label=\"Saved projects\"><option>Bench fixture · r3</option></optgroup></select></label>",
-      "css": ".ds-picker{display:flex;align-items:center;gap:8px;font:12px/18px var(--intgral-font-sans);color:var(--intgral-foreground-muted)}.ds-select{height:40px;width:240px;max-width:100%;min-width:0;padding:0 12px;border:1px solid var(--intgral-control-border);border-radius:var(--intgral-radius-control);font:14px/20px var(--intgral-font-sans);background:var(--intgral-surface-raised);color:var(--intgral-foreground)}.ds-select:focus-visible{outline:2px solid var(--intgral-focus);outline-offset:3px;}"
+      "css": ".ds-picker{display:flex;align-items:center;gap:8px;font:12px/18px var(--intgral-font-sans);color:var(--intgral-foreground-muted)}.ds-select{height:40px;width:240px;max-width:100%;min-width:0;padding:0 12px;border:1px solid var(--intgral-control-border);border-radius:var(--intgral-radius-control);font:13px/20px var(--intgral-font-sans);background:var(--intgral-surface-raised);color:var(--intgral-foreground)}.ds-select:focus-visible{outline:2px solid var(--intgral-focus);outline-offset:3px;}"
     },
     {
       "name": "Source intake field",
@@ -331,7 +171,7 @@
       "refersTo": "inspector-tab",
       "description": "Details, Reference and Checks share one selection scope; the app implements roving focus and arrow/Home/End navigation.",
       "html": "<div class=\"ds-tabs\" role=\"tablist\" aria-label=\"Part inspection\"><button class=\"ds-tab\" role=\"tab\" aria-selected=\"false\" tabindex=\"-1\">Details</button><button class=\"ds-tab\" role=\"tab\" aria-selected=\"true\">Reference</button><button class=\"ds-tab\" role=\"tab\" aria-selected=\"false\" tabindex=\"-1\">Checks</button></div>",
-      "css": ".ds-tabs{display:flex;gap:24px;padding:0 20px;border-bottom:1px solid var(--intgral-border)}.ds-tab{min-height:44px;padding:8px 0;border:0;border-bottom:2px solid transparent;border-radius:0;background:transparent;color:var(--intgral-foreground-muted);font:14px/20px var(--intgral-font-sans);cursor:pointer}.ds-tab[aria-selected=\"true\"]{color:var(--intgral-foreground);border-bottom-color:var(--intgral-foreground)}.ds-tab:hover{background:var(--intgral-selection)}.ds-tab:focus-visible{outline:2px solid var(--intgral-focus);outline-offset:3px;}"
+      "css": ".ds-tabs{display:flex;gap:24px;padding:0 20px;border-bottom:1px solid var(--intgral-border)}.ds-tab{min-height:44px;padding:8px 0;border:0;border-bottom:2px solid transparent;border-radius:0;background:transparent;color:var(--intgral-foreground-muted);font:13px/20px var(--intgral-font-sans);cursor:pointer}.ds-tab[aria-selected=\"true\"]{color:var(--intgral-foreground);border-bottom-color:var(--intgral-foreground)}.ds-tab:hover{background:var(--intgral-selection)}.ds-tab:focus-visible{outline:2px solid var(--intgral-focus);outline-offset:3px;}"
     },
     {
       "name": "Current check outcome",
@@ -347,24 +187,25 @@
       "refersTo": "floating-panel",
       "description": "At narrow widths the inspector is an explicitly opened complementary panel above the model stage; opening it closes structure.",
       "html": "<aside class=\"ds-panel\" aria-label=\"Reference and selection\"><div class=\"ds-panel-header\"><span>Inspector</span><button class=\"ds-panel-close\" aria-label=\"Close inspector\"><svg width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" aria-hidden=\"true\"><path d=\"m6 6 12 12M18 6 6 18\"/></svg></button></div><section class=\"ds-panel-body\"><h2>Selected part</h2><p>Reference and checks remain scoped to this occurrence.</p></section></aside>",
-      "css": ".ds-panel{width:min(340px,calc(100% - 32px));overflow-y:auto;border-radius:var(--intgral-radius-floating);background:var(--intgral-background);color:var(--intgral-foreground);box-shadow:var(--intgral-shadow-floating);font:14px/20px var(--intgral-font-sans)}.ds-panel-header{display:flex;align-items:center;justify-content:space-between;padding:12px 20px;border-bottom:1px solid var(--intgral-border);font-weight:500}.ds-panel-close{min-width:32px;min-height:32px;padding:6px;border:0;border-radius:var(--intgral-radius-control);background:transparent;color:inherit;cursor:pointer}.ds-panel-close:hover{background:var(--intgral-selection)}.ds-panel-close:focus-visible{outline:2px solid var(--intgral-focus);outline-offset:3px;}.ds-panel-body{padding:24px 20px}.ds-panel-body h2{margin:0 0 8px;font-size:20px;line-height:28px;font-weight:500}.ds-panel-body p{color:var(--intgral-foreground-secondary);font-size:14px;line-height:22px}"
+      "css": ".ds-panel{width:min(340px,calc(100% - 32px));overflow-y:auto;border-radius:var(--intgral-radius-floating);background:var(--intgral-background);color:var(--intgral-foreground);box-shadow:var(--intgral-shadow-floating);font:13px/20px var(--intgral-font-sans)}.ds-panel-header{display:flex;align-items:center;justify-content:space-between;padding:12px 20px;border-bottom:1px solid var(--intgral-border);font-weight:500}.ds-panel-close{min-width:32px;min-height:32px;padding:6px;border:0;border-radius:var(--intgral-radius-control);background:transparent;color:inherit;cursor:pointer}.ds-panel-close:hover{background:var(--intgral-selection)}.ds-panel-close:focus-visible{outline:2px solid var(--intgral-focus);outline-offset:3px;}.ds-panel-body{padding:24px 20px}.ds-panel-body h2{margin:0 0 8px;font-size:20px;line-height:28px;font-weight:500}.ds-panel-body p{color:var(--intgral-foreground-secondary);font-size:14px;line-height:22px}"
     },
     {
       "name": "Workflow step",
       "kind": "custom",
       "description": "Completed steps show an inline SVG check; current and upcoming steps keep their centered sequence number.",
       "html": "<ol class=\"ds-phases\" aria-label=\"Object to CAD workflow\"><li class=\"ds-step\" data-state=\"complete\"><span class=\"ds-marker\" aria-hidden=\"true\"><svg width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\"><path d=\"m5 12 4 4L19 6\"/></svg></span><span>Source</span></li><li class=\"ds-step\" data-state=\"current\" aria-current=\"step\"><span class=\"ds-marker\" aria-hidden=\"true\">2</span><span>Proposal</span></li><li class=\"ds-step\" data-state=\"upcoming\"><span class=\"ds-marker\" aria-hidden=\"true\">3</span><span>Decompose</span></li></ol>",
-      "css": ".ds-phases{display:flex;gap:24px;list-style:none;margin:0;padding:16px 24px}.ds-step{display:flex;align-items:center;gap:8px;color:var(--intgral-foreground-muted);font:14px/20px var(--intgral-font-sans)}.ds-marker{display:flex;align-items:center;justify-content:center;flex:0 0 26px;width:26px;height:26px;border:1px solid var(--intgral-control-border);border-radius:50%;font-size:12px;line-height:1;font-variant-numeric:tabular-nums}.ds-step[data-state=\"complete\"]{color:var(--intgral-foreground-secondary)}.ds-step[data-state=\"complete\"] .ds-marker{background:var(--intgral-selection);border-color:transparent}.ds-step[data-state=\"current\"]{color:var(--intgral-foreground);font-weight:500}.ds-step[data-state=\"current\"] .ds-marker{background:var(--intgral-foreground);color:var(--intgral-background);border-color:var(--intgral-foreground)}"
+      "css": ".ds-phases{display:flex;gap:24px;list-style:none;margin:0;padding:16px 24px}.ds-step{display:flex;align-items:center;gap:8px;color:var(--intgral-foreground-muted);font:13px/20px var(--intgral-font-sans)}.ds-marker{display:flex;align-items:center;justify-content:center;flex:0 0 26px;width:26px;height:26px;border:1px solid var(--intgral-control-border);border-radius:50%;font-size:12px;line-height:1;font-variant-numeric:tabular-nums}.ds-step[data-state=\"complete\"]{color:var(--intgral-foreground-secondary)}.ds-step[data-state=\"complete\"] .ds-marker{background:var(--intgral-selection);border-color:transparent}.ds-step[data-state=\"current\"]{color:var(--intgral-foreground);font-weight:500}.ds-step[data-state=\"current\"] .ds-marker{background:var(--intgral-foreground);color:var(--intgral-background);border-color:var(--intgral-foreground)}"
     }
   ],
   "narrative": {
     "northStar": "The model comes first",
-    "overview": "This is the workbench's app-specific adoption of Silence 1.0.2. It records the\nexisting inspection surface after an authorized refinement. The neutral shell,\nclear type and restrained dividers keep attention on the actual model and its\nevidence. Model materials and source imagery retain their own color.\n\nThe workbench supports source intake, proposal review, decomposition, physical\nscope confirmation and explicit native conversion. Interpretation and iteration\nremain in the host conversation. This visual document complements the existing\n[architecture and limits](docs/design.md); it does not replace that document.\nThe implemented token subset is in [silence-tokens.css](web/src/silence-tokens.css),\nwith component and layout rules in [decomposition.css](web/src/decomposition.css).",
+    "overview": "The owner requested the installed Text-to-CAD0.10.0 workbench appearance. A scoped dark theme preserves three columns and all workflow/CAD gates, with system sans, compact controls, steel-blue render materials and crisp edges. See docs/text-to-cad-appearance.md. Canonical Silence tokens and legacy viewer are unchanged.",
     "keyCharacteristics": [
-      "A full-height model stage with complementary structure and inspector panels.",
-      "Neutral actions and selection; semantic color accompanies written outcomes.",
-      "Evidence, uncertainty, confirmation and native artifacts remain distinct.",
-      "Keyboard controls, explicit focus and a native project selector."
+      "Dark charcoal chrome and solid canvas.",
+      "Three-column model inspection with existing workflow and review gates.",
+      "Compact system typography, explicit focus and touch targets.",
+      "Reference and Checks prioritize scoped content; Details retains authoring handoff and notes.",
+      "Concept and native labels stay distinct; rendering never changes CAD."
     ],
     "rules": [
       {

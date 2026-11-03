@@ -1,52 +1,52 @@
 ---
-name: OpenSkyfall workbench
-description: Silence adoption for inspecting source evidence, physical parts and reviewed CAD.
+name: CAD workbench
+description: Text-to-CAD workbench appearance for source evidence, physical parts and reviewed CAD.
 colors:
-  primary: "#262626"
-  background: "#fcfcfc"
-  surface: "#f8f8f8"
-  surface-raised: "#ffffff"
-  foreground-strong: "#171717"
-  foreground-secondary: "#525252"
-  foreground-muted: "#6b6b6b"
-  border: "#e5e5e5"
-  control-border: "#858585"
-  selection: "#edf0f2"
-  success: "#24704d"
-  success-soft: "#edf5ef"
-  warning: "#805515"
-  warning-soft: "#faf4e8"
-  destructive: "#a83a3a"
-  destructive-soft: "#f8eeee"
+  primary: "#e4e8ed"
+  background: "#27292d"
+  surface: "#25272b"
+  surface-raised: "#2f3035"
+  foreground-strong: "#fafafa"
+  foreground-secondary: "#cecece"
+  foreground-muted: "#aeaeae"
+  border: "#3d3e42"
+  control-border: "#5b5c5f"
+  selection: "#404247"
+  success: "#8ac7a3"
+  success-soft: "#23352d"
+  warning: "#e7c48b"
+  warning-soft: "#393227"
+  destructive: "#ffb4ab"
+  destructive-soft: "#3a2628"
 typography:
   headline:
-    fontFamily: '"Geist", "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif'
+    fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans", Arial, sans-serif'
     fontSize: "32px"
     fontWeight: 500
     lineHeight: "40px"
     letterSpacing: "-0.02em"
   title:
-    fontFamily: '"Geist", "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif'
+    fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans", Arial, sans-serif'
     fontSize: "20px"
     fontWeight: 500
     lineHeight: "28px"
   body:
-    fontFamily: '"Geist", "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif'
+    fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans", Arial, sans-serif'
     fontSize: "14px"
     fontWeight: 400
     lineHeight: "22px"
   ui:
-    fontFamily: '"Geist", "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif'
+    fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans", Arial, sans-serif'
     fontSize: "14px"
     fontWeight: 400
     lineHeight: "20px"
   label:
-    fontFamily: '"Geist", "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif'
+    fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans", Arial, sans-serif'
     fontSize: "14px"
     fontWeight: 500
     lineHeight: "20px"
   meta:
-    fontFamily: '"Geist", "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif'
+    fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans", Arial, sans-serif'
     fontSize: "12px"
     fontWeight: 400
     lineHeight: "18px"
@@ -107,23 +107,24 @@ components:
     rounded: "{rounded.floating}"
 ---
 
-# Design System: OpenSkyfall workbench
+# Design System: CAD workbench
 
 ## Overview
 
 **Creative North Star: "The model comes first"**
 
-This is the workbench's app-specific adoption of Silence 1.0.2. It records the
-existing inspection surface after an authorized refinement. The neutral shell,
-clear type and restrained dividers keep attention on the actual model and its
-evidence. Model materials and source imagery retain their own color.
+This app uses the installed Text-to-CAD 0.10.0 workbench as its visual reference,
+following the owner's explicit request. The existing three-column structure,
+workflow, source review, scoped checks and native CAD gates remain in place.
+The neutral dark shell, compact system type and restrained controls place the
+actual model first. Local colors and geometry are untouched by display styling.
 
-The workbench supports source intake, proposal review, decomposition, physical
-scope confirmation and explicit native conversion. Interpretation and iteration
-remain in the host conversation. This visual document complements the existing
-[architecture and limits](docs/design.md); it does not replace that document.
-The implemented token subset is in [silence-tokens.css](web/src/silence-tokens.css),
-with component and layout rules in [decomposition.css](web/src/decomposition.css).
+The underlying Silence token vocabulary stays available to existing surfaces.
+[decomposition-theme.css](web/src/decomposition-theme.css) scopes this workbench's
+visual override; the canonical team design system and legacy STEP viewer are
+unchanged. [Architecture and limits](docs/design.md) remains authoritative for
+workflow and CAD behavior. [Visual provenance](docs/text-to-cad-appearance.md)
+records shipped artifact evidence, runtime observations and adaptation choices.
 
 **Key Characteristics:**
 
@@ -144,11 +145,11 @@ and model colors are content, independent of the interface palette.
 
 ### Neutral
 
-- **Paper:** the page and inspector background.
-- **Quiet surface:** the stage surround and quoted context.
-- **Raised white:** fields and secondary controls.
-- **Strong ink:** the strongest text emphasis.
-- **Muted ink:** provenance and supplementary metadata.
+- **Charcoal:** the page and inspector background.
+- **Canvas:** the solid model stage and quoted context.
+- **Raised surface:** fields and secondary controls.
+- **Foreground:** the strongest text emphasis.
+- **Muted foreground:** provenance and supplementary metadata.
 - **Divider:** structural boundaries that do not identify an input.
 - **Control border:** boundaries needed to recognize an interactive control.
 - **Cool selection:** selected rows, toggles and completed step markers.
@@ -164,11 +165,13 @@ interface controls neutral and reserve semantic color for meaningful state.
 
 ## Typography
 
-Geist serves the interface with the recorded CJK fallbacks. Geist is bundled;
-the other named families depend on availability. Geist Mono is the preferred
+System sans serves this workbench, matching the installed reference. The bundled
+Geist remains available to the legacy viewer. Geist Mono is the preferred
 family for hashes, identifiers and numeric comparison, with system mono fallbacks.
 
-The frontmatter records the reused hierarchy: headline for the source/proposal
+The frontmatter records semantic roles. The local workbench theme uses compact
+13px body/UI, 12px tree rows and 11px metadata. It preserves larger touch targets.
+The inherited role hierarchy is: headline for the source/proposal
 empty stage, title for the selected piece, body for inspector explanations, UI
 and label for actions, and meta/code for provenance. At narrow widths the empty
 stage headline becomes compact (24px / 32px). Numeric measurements use tabular
@@ -183,7 +186,7 @@ hidden. Panel content scrolls independently.
 
 At widths up to 1000px, the model receives the whole workspace. Structure and
 inspector become explicitly opened floating panels, inset from the stage (16px)
-and bounded to its width. The header becomes two rows at widths up to 760px:
+and bounded to its width. The header stays two rows at widths up to 760px:
 brand/actions first, then the visible **Project** label and native selector.
 The selector groups **Examples** and **Saved projects**. The five-step sequence
 keeps every label visible, with centered markers above labels on narrow screens.
@@ -198,7 +201,7 @@ controls have their own implemented sizes and are not a universal touch-size rul
 
 ## Elevation & Depth
 
-The desktop shell uses flat surfaces, whitespace and single dividers. Floating
+The desktop shell uses flat dark surfaces and single low-contrast dividers. Floating
 structure/inspector panels use one soft shadow; its exact value is retained in
 the sidecar. The model's lighting and shadows belong to the rendered content.
 They do not prescribe elevation for ordinary UI containers.
@@ -249,14 +252,17 @@ to the current source, accepted program and reviewed physical scope.
 The tree represents physical occurrences and groups; reusable definitions stay
 distinct from occurrences. Selected rows use cool selection. Fit, focus,
 isolation, hide and restore retain their existing model behavior. Explosion is
-a display offset and preserves authored placements. The stage keeps shaded
-orthographic rendering and the actual model as its primary content.
+a display offset and preserves authored placements. The stage keeps orthographic rendering, a solid charcoal background, cool steel
+blue display materials and crisp dark edges. It omits decorative ground/grid.
+Selected geometry uses a brighter blue. The same style applies to concept and
+verified native tessellations; the label continues to distinguish them.
 
 ### Inspector and independent references
 
 Every selected piece exposes **Reference** and **Checks**, alongside **Details**.
-The tab list supports arrow keys, Home and End. Details keeps the design note
-collapsed, with confirmation, native artifact and construction evidence below.
+The tab list supports arrow keys, Home and End. Details keeps notes, IDs, Codex handoff, confirmation and native artifacts.
+Reference and Checks suppress repeated entry controls and notes so their scoped
+content starts near the top. The controls remain available in Details.
 Reference shows actual bound source observations, image regions or literal
 quotes, plus saved check context. Missing observations remain explicitly missing.
 

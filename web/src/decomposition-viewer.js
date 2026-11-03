@@ -28,6 +28,7 @@ import {
   followExplosion,
 } from "./decomposition-state.js";
 import "./decomposition.css";
+import "./decomposition-theme.css";
 import {
   workflowProgress,
   pieceReferenceURL,
@@ -52,7 +53,7 @@ const paths = {
   external: '<path d="M14 3h7v7m0-7L10 14M10 3H3v18h18v-7"/>',
 };
 const icon = (name) =>
-  `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${paths[name]}</svg>`;
+  `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${paths[name]}</svg>`;
 const escape = (value) =>
   String(value ?? "").replace(
     /[&<>"']/g,
@@ -90,6 +91,7 @@ export async function initDecomposition() {
   const compact = matchMedia("(max-width: 1000px)");
   const meshes = new Map();
   document.title = "CAD workspace";
+  document.querySelector('meta[name="theme-color"]').content = "#25272b";
   $("#app").innerHTML = `
     <div class="d-app">
       <header class="d-header">
@@ -156,6 +158,11 @@ export async function initDecomposition() {
       <dialog id="d-intake" class="d-intake"><form id="d-intake-form"><div class="d-form-heading"><div><h2>Start with what you know.</h2></div><button type="button" id="d-intake-close" aria-label="Close source form">×</button></div><label>Project name<input name="name" maxlength="100" placeholder="Bench inspection fixture"></label><label>Reference image <span>Optional for a written brief</span><input name="image" type="file" accept="image/png,image/jpeg,image/webp"></label><label>Describe the object<textarea name="description" rows="4" placeholder="What it does, known dimensions, visible features, and what needs to remain uncertain."></textarea></label><label>Source rights<input name="rights" required maxlength="500" placeholder="For example, my original photograph or design"></label><p>Codex authors a proposal first. Your approval is required before geometry, and each CAD scope needs a separate confirmation.</p><button type="submit" class="d-primary">Save source & continue in Codex</button><p id="d-intake-error" role="alert" hidden></p></form></dialog>
     </div>`;
 
+  for (const button of document.querySelectorAll(".d-tools button")) {
+    button.dataset.tooltip = button.title || button.getAttribute("aria-label");
+    button.removeAttribute("title");
+  }
+
   async function api(path) {
     const host = await hostRequest(path);
     if (host !== null) return host;
@@ -202,11 +209,11 @@ export async function initDecomposition() {
   }
   const viewport = $("#d-viewport");
   renderer.setPixelRatio(Math.min(devicePixelRatio, 1.5));
-  renderer.setClearColor("#f3f1eb");
+  renderer.setClearColor("#25272b");
   renderer.shadowMap.enabled = true;
   renderer.shadowMap.type = THREE.PCFSoftShadowMap;
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
-  renderer.toneMappingExposure = 1.05;
+  renderer.toneMappingExposure = 1.16;
   viewport.append(renderer.domElement);
   const scene = new THREE.Scene();
   const camera = new THREE.OrthographicCamera(-4, 4, 4, -4, 0.01, 200);
@@ -218,8 +225,8 @@ export async function initDecomposition() {
   controls.maxDistance = 80;
   controls.minZoom = 0.15;
   controls.maxZoom = 40;
-  scene.add(new THREE.HemisphereLight(0xfffdf6, 0x8a8980, 2.2));
-  const key = new THREE.DirectionalLight(0xfffaf0, 2.5);
+  scene.add(new THREE.HemisphereLight(0xffffff, 0xc7d5e3, 1.12));
+  const key = new THREE.DirectionalLight(0xffffff, 1.16);
   key.position.set(-4, -6, 9);
   key.castShadow = true;
   key.shadow.mapSize.set(2048, 2048);
@@ -234,23 +241,15 @@ export async function initDecomposition() {
   key.shadow.bias = -0.0005;
   key.shadow.normalBias = 0.015;
   scene.add(key);
-  const fill = new THREE.DirectionalLight(0xffffff, 0.9);
+  scene.add(new THREE.AmbientLight(0xffffff, 0.4));
+  const fill = new THREE.SpotLight(0xf4fbff, 0.52, 0, Math.PI / 3, 0.8, 0);
   fill.position.set(5, 3, 5);
   scene.add(fill);
+  const rim = new THREE.PointLight(0xffe2ba, 0.28, 0, 0);
+  rim.position.set(-5, 4, 3);
+  scene.add(rim);
   const root = new THREE.Group();
   scene.add(root);
-  const floor = new THREE.Mesh(
-    new THREE.PlaneGeometry(200, 200),
-    new THREE.ShadowMaterial({ opacity: 0.1 }),
-  );
-  floor.receiveShadow = true;
-  scene.add(floor);
-  const grid = new THREE.GridHelper(16, 32, 0xe0ddd4, 0xe8e5dd);
-  grid.rotation.x = Math.PI / 2;
-  grid.material.transparent = true;
-  grid.material.opacity = 0.15;
-  scene.add(grid);
-  floor.visible = grid.visible = false;
   const observer = new ResizeObserver(() => {
     const width = viewport.clientWidth,
       height = viewport.clientHeight;
@@ -302,7 +301,6 @@ export async function initDecomposition() {
     }
     meshes.clear();
     root.clear();
-    floor.visible = grid.visible = false;
   }
   function fit(selectionOnly = false) {
     const box = new THREE.Box3();
@@ -342,10 +340,12 @@ export async function initDecomposition() {
       indexed.dispose();
       const mesh = new THREE.Mesh(
         geometry,
-        new THREE.MeshStandardMaterial({
+        new THREE.MeshPhysicalMaterial({
           color: nodeColor(part.id),
-          roughness: 0.75,
-          metalness: 0.08,
+          roughness: 0.58,
+          metalness: 0.02,
+          clearcoat: 0.12,
+          clearcoatRoughness: 0.42,
         }),
       );
       mesh.castShadow = mesh.receiveShadow = true;
@@ -353,9 +353,9 @@ export async function initDecomposition() {
       const edges = new THREE.LineSegments(
         new THREE.EdgesGeometry(geometry, 35),
         new THREE.LineBasicMaterial({
-          color: 0x4b4c43,
+          color: 0x18181b,
           transparent: true,
-          opacity: 0.18,
+          opacity: 0.84,
         }),
       );
       mesh.add(edges);
@@ -363,10 +363,6 @@ export async function initDecomposition() {
       root.add(mesh);
     }
     root.updateMatrixWorld(true);
-    const box = new THREE.Box3().setFromObject(root);
-    floor.position.z = box.min.z - 0.025;
-    grid.position.z = box.min.z - 0.03;
-    floor.visible = grid.visible = true;
   }
   function applyView() {
     if (!tree || !preview) {
@@ -384,13 +380,14 @@ export async function initDecomposition() {
       mesh.visible = partVisible(tree, id, selected, isolated, hidden);
       const active = selected && tree.contains(selected, id);
       mesh.material.color.set(
-        active ? "#7b95a6" : nodeColor(tree.atDepth(id, depth)),
+        active ? "#7db8ef" : nodeColor(tree.atDepth(id, depth)),
       );
       mesh.material.emissive.set("#000000");
       mesh.material.transparent = false;
       mesh.material.opacity = 1;
       mesh.material.depthWrite = true;
-      mesh.children[0].material.opacity = active ? 0.35 : 0.13;
+      mesh.children[0].material.opacity = active ? 1 : 0.84;
+      mesh.children[0].material.color.set(active ? "#76baff" : "#18181b");
     }
     $("#d-isolate").setAttribute("aria-pressed", String(isolated));
     $("#d-explode").value = amount;
@@ -520,6 +517,7 @@ export async function initDecomposition() {
   }
   function setInspectorTab(name, open = false) {
     inspectorTab = name;
+    $("#d-reference-panel").dataset.tab = name;
     for (const tab of ["details", "reference", "checks"]) {
       const active = tab === name;
       $(`#d-tab-${tab}`).setAttribute("aria-selected", String(active));
@@ -1279,10 +1277,6 @@ export async function initDecomposition() {
       referenceObserver.disconnect();
       controls.dispose();
       disposeMeshes();
-      floor.geometry.dispose();
-      floor.material.dispose();
-      grid.geometry.dispose();
-      grid.material.dispose();
       renderer.dispose();
       if (imageUrl) URL.revokeObjectURL(imageUrl);
     },
