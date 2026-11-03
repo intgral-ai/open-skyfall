@@ -409,3 +409,52 @@ def test_pending_shared_request_cannot_be_bypassed_by_renaming_occurrences(works
     current = store.get(project_id)
     assert current == captured
     assert not current["workflow"]["scopes"]["worktable"]["can_build"]
+
+
+def test_multiselection_capture_unions_shared_parts_and_applies_one_request(workspace):
+    store, project_id = workspace
+    initial = accept(store, project_id)
+    confirmed = confirm(store, project_id)
+    text = "Make these selected legs 35 mm wide; preserve the top and all centers."
+    captured = action(
+        store, project_id, "request", request_id="multi-width",
+        node_ids=["leg-front-left", "leg-back-left"], text=text,
+    )
+    request = captured["workflow"]["requests"][-1]
+    assert set(request["node_ids"]) == {"leg-front-left", "leg-back-left"}
+    assert len(request["part_ids"]) == 4
+    assert "top" not in request["part_ids"]
+    assert request["text"] == text
+    assert set(captured["workflow"]["approvals"]) == {"top"}
+    retry = DecompositionWorkflow(store).mutate(project_id, "request", {
+        "revision": initial["revision"], "workflow_revision": confirmed["workflow_revision"],
+        "request_id": "multi-width", "node_ids": ["leg-back-left", "leg-front-left"], "text": text,
+    })
+    assert retry == captured
+    with pytest.raises(RevisionConflict):
+        action(store, project_id, "request", request_id="multi-width", node_ids=["top"], text=text)
+    plan = copy.deepcopy(captured["plan"])
+    definition = next(item for item in plan["definitions"] if item["id"] == "leg-definition")
+    definition["shapes"][0]["dimensions"][0:2] = [35, 35]
+    updated = store.update(project_id, {
+        "revision": captured["revision"], "workflow_revision": captured["workflow_revision"],
+        "request_id": "multi-width", "plan": plan,
+    })
+    assert updated["workflow"]["requests"][-1]["status"] == "applied"
+    assert next(n for n in updated["plan"]["nodes"] if n["id"] == "top") == next(
+        n for n in initial["plan"]["nodes"] if n["id"] == "top"
+    )
+    assert store.revision(project_id, initial["revision"])["plan"] == initial["plan"]
+
+
+@pytest.mark.parametrize("selection", [
+    {"node_ids": []}, {"node_ids": ["top", "top"]},
+    {"node_id": "top", "node_ids": ["leg-front-left"]},
+    {"node_ids": ["top", "missing-part"]},
+])
+def test_multiselection_capture_rejects_invalid_scope_atomically(workspace, selection):
+    store, project_id = workspace
+    initial = accept(store, project_id)
+    with pytest.raises(ValueError):
+        action(store, project_id, "request", request_id="bad-multi", text="Change these parts", **selection)
+    assert store.get(project_id) == initial

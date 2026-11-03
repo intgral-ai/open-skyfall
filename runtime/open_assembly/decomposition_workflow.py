@@ -65,8 +65,21 @@ class ApproveProposal(Mutation):
 
 class Capture(Mutation):
     request_id: Identifier
-    node_id: Identifier
+    node_id: Identifier | None = None
+    node_ids: list[Identifier] = Field(default_factory=list, max_length=64)
     text: str = Field(min_length=1, max_length=6000)
+
+    @model_validator(mode="after")
+    def selection(self):
+        if bool(self.node_id) == bool(self.node_ids):
+            raise ValueError("Supply exactly one node_id or a nonempty node_ids list")
+        if len(set(self.node_ids)) != len(self.node_ids):
+            raise ValueError("Selected node IDs must be unique")
+        return self
+
+    @property
+    def selected_nodes(self):
+        return sorted(self.node_ids or [self.node_id])
 
 
 class ScopeCommand(Mutation):
@@ -314,7 +327,8 @@ class DecompositionWorkflow:
                 if existing:
                     if (
                         existing["text"] == command.text
-                        and existing["node_id"] == command.node_id
+                        and sorted(existing.get("node_ids") or [existing["node_id"]])
+                        == command.selected_nodes
                         and existing["revision"] == command.revision
                     ):
                         return project
@@ -343,8 +357,14 @@ class DecompositionWorkflow:
                     raise ValueError("Capture the user's literal nonempty requested change")
                 if len(flow["requests"]) >= 128:
                     raise ValueError("This project has reached its change-request limit")
-                scope = self._scope(project, command.node_id)
-                parts = [part for part in flow["parts"] if part["node_id"] in scope["part_ids"]]
+                scopes = [self._scope(project, node_id) for node_id in command.selected_nodes]
+                selected_parts = {part_id for scope in scopes for part_id in scope["part_ids"]}
+                parts = [part for part in flow["parts"] if part["node_id"] in selected_parts]
+                scope_digest = (
+                    scopes[0]["review_digest"]
+                    if len(scopes) == 1
+                    else _digest(_json_bytes(dict(zip(command.selected_nodes, scopes))))
+                )
                 affected = sorted(
                     {item for part in parts for item in part["shared_occurrence_ids"]}
                 )
@@ -352,13 +372,14 @@ class DecompositionWorkflow:
                     {
                         "id": command.request_id,
                         "node_id": command.node_id,
+                        "node_ids": command.selected_nodes,
                         "text": command.text,
                         "status": "pending",
                         "part_ids": affected,
                         "revision": project["revision"],
                         "source_sha256": project["source"]["sha256"],
                         "program_sha256": project["analysis"]["binding"]["program_sha256"],
-                        "scope_digest": scope["review_digest"],
+                        "scope_digest": scope_digest,
                         "captured_at": _now(),
                     }
                 )

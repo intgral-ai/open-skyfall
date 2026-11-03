@@ -94,7 +94,7 @@ establish mechanical correctness or source fidelity.
 ## Iterate on a selected element repeatedly
 
 Read the current selected node and its server-derived scope. Capture the user's
-literal request with `request`, supplying `request_id`, `node_id` and exact
+literal request with `request`, supplying `request_id`, one `node_id` or a nonempty unique `node_ids` list, and exact
 `text`. Do not paraphrase or append an invented approval. The immutable record
 binds the source, accepted Plan revision/program and affected part scope. Retry
 only the identical request with the same ID. A shared-definition request affects
@@ -181,3 +181,24 @@ brief and proposal without geometry, approvals or CAD. After explicit human
 proposal confirmation, `decompose-example` loads that case's Plan. This action
 is restricted to the labeled synthetic case. It never stands in for inspecting
 a new user's image or text, and must not automatically confirm parts or build CAD.
+
+## Single-part and multi-part selection handoff
+
+The viewer sends a `cad-selection/1` locator containing the project/revision,
+source/program hashes, selected node IDs/names, local assembled poses, review
+scope digests, physical member IDs and shared unselected occurrences. Read the
+current saved Plan and image/brief; this packet is not a geometry replacement.
+If its geometry/review binding is stale, ask the user to reselect.
+
+Ask for the user's literal change before capturing one `request`. For several
+selected parts, send `node_ids` (maximum64 unique current nodes), not both
+`node_id` and `node_ids`. The server unions descendant physical parts and expands
+shared definitions, then retains one immutable request. Explain shared impacts;
+preserve unrelated parts/poses and submit the full Plan with that `request_id`.
+Approval and native rebuild remain separate explicit user steps.
+
+In an embedded MCP Apps host the existing sendMessage transport can submit the
+locator to the host conversation. The standalone localhost page copies it for
+pasting into Codex; copying is not host delivery. The legacy `example` mesh is
+read-only and has no saved review workflow. Import a reviewed project before
+capturing changes to it.

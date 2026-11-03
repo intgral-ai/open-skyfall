@@ -131,7 +131,7 @@ records shipped artifact evidence, runtime observations and adaptation choices.
 - A full-height model stage with complementary structure and inspector panels.
 - Neutral actions and selection; semantic color accompanies written outcomes.
 - Evidence, uncertainty, confirmation and native artifacts remain distinct.
-- Keyboard controls, explicit focus and a native project selector.
+- Keyboard controls, explicit focus and a searchable local project switcher.
 
 ## Colors
 
@@ -187,8 +187,9 @@ hidden. Panel content scrolls independently.
 At widths up to 1000px, the model receives the whole workspace. Structure and
 inspector become explicitly opened floating panels, inset from the stage (16px)
 and bounded to its width. The header stays two rows at widths up to 760px:
-brand/actions first, then the visible **Project** label and native selector.
-The selector groups **Examples** and **Saved projects**. The five-step sequence
+brand/actions first, then the visible **Project** label and searchable project switcher.
+The searchable popover groups **Examples** and **Saved projects**, distinguishes
+read-only meshes from saved drafts/CAD, and supports arrow keys and Enter. The five-step sequence
 keeps every label visible, with centered markers above labels on narrow screens.
 Entering the compact layout closes both panels; opening one closes the other.
 Panel visibility and accessible toggle labels stay synchronized when the window
@@ -309,7 +310,7 @@ program/replay downloads. Source fidelity and manufacturing review stay separate
 - **Do** keep the actual model and its source evidence visually primary.
 - **Do** preserve literal requirements, units, unknowns and current scope identities.
 - **Do** pair outcome color with written status and readable evidence.
-- **Do** retain visible keyboard focus and native project selection.
+- **Do** retain visible keyboard focus and project switching.
 
 ### Don't:
 

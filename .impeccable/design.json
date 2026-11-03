@@ -151,12 +151,12 @@
       "css": ".ds-secondary{font:13px/20px var(--intgral-font-sans);border-radius:var(--intgral-radius-control);cursor:pointer;min-height:34px;padding:7px 12px;border:0;background:var(--intgral-surface-raised);color:var(--intgral-foreground);transition:background var(--intgral-duration-feedback),color var(--intgral-duration-feedback)}.ds-secondary:hover:not(:disabled){background:var(--intgral-selection)}.ds-secondary:focus-visible{outline:2px solid var(--intgral-focus);outline-offset:3px;}.ds-secondary:disabled{cursor:not-allowed;opacity:.5}@media(prefers-reduced-motion:reduce){.ds-secondary{transition:none}}"
     },
     {
-      "name": "Project selector",
+      "name": "Project switcher",
       "kind": "input",
       "refersTo": "project-select",
-      "description": "A labeled native selector preserves keyboard behavior and grouped example/saved project choices.",
-      "html": "<label class=\"ds-picker\"><span>Project</span><select class=\"ds-select\"><option>Choose a project</option><optgroup label=\"Examples\"><option>Inspection rig · example</option></optgroup><optgroup label=\"Saved projects\"><option>Bench fixture · r3</option></optgroup></select></label>",
-      "css": ".ds-picker{display:flex;align-items:center;gap:8px;font:12px/18px var(--intgral-font-sans);color:var(--intgral-foreground-muted)}.ds-select{height:40px;width:240px;max-width:100%;min-width:0;padding:0 12px;border:1px solid var(--intgral-control-border);border-radius:var(--intgral-radius-control);font:13px/20px var(--intgral-font-sans);background:var(--intgral-surface-raised);color:var(--intgral-foreground)}.ds-select:focus-visible{outline:2px solid var(--intgral-focus);outline-offset:3px;}"
+      "description": "A compact filename-style button opens a searchable local-project popover. Saved drafts/CAD and read-only examples remain distinct.",
+      "html": "<button class=\"ds-project-switch\" aria-haspopup=\"dialog\" aria-expanded=\"false\">Inspection rig ▾</button>",
+      "css": ".ds-project-switch{font:13px/20px var(--intgral-font-sans);padding:4px 8px;min-height:30px;border:1px solid transparent;border-radius:6px;background:transparent;color:var(--intgral-foreground)}.ds-project-switch:hover{background:var(--intgral-selection)}.ds-project-switch:focus-visible{outline:2px solid var(--intgral-focus);outline-offset:2px}"
     },
     {
       "name": "Source intake field",

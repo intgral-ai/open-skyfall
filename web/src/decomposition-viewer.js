@@ -10,7 +10,6 @@ import {
   intakePayload,
   selectionWorkflow,
   buildArtifactPath,
-  iterationMessage,
   createWorkflowActions,
   verifyNativePreview,
 } from "./decomposition-workflow.js";
@@ -29,6 +28,13 @@ import {
 } from "./decomposition-state.js";
 import "./decomposition.css";
 import "./decomposition-theme.css";
+import {
+  changeSelection,
+  selectionContains,
+  selectionContext,
+  selectionMessage,
+} from "./decomposition-selection.js";
+import { mountProjectPicker } from "./project-picker.js";
 import {
   workflowProgress,
   pieceReferenceURL,
@@ -79,6 +85,8 @@ export async function initDecomposition() {
     tree = null,
     depth = 2,
     selected = null;
+  let selectedIds = [];
+  let projectPicker;
   let isolated = false,
     amount = 0,
     displayedAmount = 0,
@@ -98,7 +106,7 @@ export async function initDecomposition() {
         <a class="d-brand" href="/" aria-label="Home">${icon("layers")}<span>Research preview</span></a>
         <span class="d-divider"></span><strong id="d-name">Part workspace</strong>
         <button id="d-new">New source</button>
-        <label class="d-project-picker"><span>Project</span><select id="d-projects" aria-label="Open a decomposition"><option value="">Choose a project</option><optgroup label="Examples"><option value="anatomy-example">Inspection rig · example</option><option value="example">Desk lamp · legacy example</option></optgroup><optgroup id="d-saved-projects" label="Saved projects"></optgroup></select></label>
+        <div class="d-project-picker"><button id="d-project-switch" aria-label="Open project" aria-haspopup="dialog" aria-expanded="false" aria-controls="d-project-menu">${icon("cube")}<span>Open project</span>${icon("arrow")}</button><div id="d-project-menu" class="d-project-menu" popover role="dialog" aria-label="Open project"><input id="d-project-search" type="search" aria-label="Search projects" placeholder="Search projects" autocomplete="off"><div id="d-project-options"></div><footer>Saved on this computer</footer></div></div>
         <button id="d-source-toggle" aria-label="Close inspector" aria-controls="d-reference-panel" aria-pressed="true">${icon("image")}<span>Inspector</span></button>
       </header>
       <div class="d-subheader"><span><i class="d-dot"></i><span id="d-status" role="status">Ready for an image</span></span><span id="d-revision">Concept decomposition</span></div>
@@ -108,7 +116,7 @@ export async function initDecomposition() {
           <div class="d-panel-title"><span>Structure</span><span id="d-count">—</span><button id="d-sidebar-close" aria-label="Close structure">${icon("close")}</button></div>
           <div id="d-levels" class="d-levels" role="group" aria-label="Decomposition depth"></div>
           <nav id="d-tree" aria-label="Part hierarchy"><p class="d-muted d-padding">Physical parts and assemblies appear here.</p></nav>
-          <div class="d-sidebar-note">${icon("layers")}<span>One object. Separate parts.<br>Shared scale and placement.</span></div>
+          <div class="d-sidebar-note"><span>Click a part to inspect.<br>Use checkboxes or ⌘ / Ctrl-click for multiple parts.</span></div>
         </aside>
         <section class="d-stage" aria-label="Model inspection">
           <div id="d-viewport" tabindex="0" aria-label="3D decomposition. Drag to orbit, shift-drag to pan, scroll to zoom. F fits the model; Escape clears selection."></div>
@@ -132,8 +140,8 @@ export async function initDecomposition() {
           <div id="d-error" class="d-error" role="alert" hidden></div>
         </section>
         <aside id="d-reference-panel" class="d-reference" aria-label="Reference and selection">
-          <div class="d-inspector-header"><span>Inspector</span><button id="d-inspector-close" aria-label="Close inspector">${icon("close")}</button></div>
-          <section class="d-inspector"><h2 id="d-node-name">Select a part</h2><span id="d-node-kind" class="d-tag">Part workspace</span><details class="d-selection-note"><summary>Design note</summary><p id="d-node-note">Choose a part in the model or structure to inspect its references and checks.</p></details><code id="d-node-id"></code><div class="d-piece-actions"><button id="d-open-reference" disabled>${icon("image")}Reference</button><button id="d-open-checks" disabled>${icon("check")}Checks</button></div><button id="d-copy" disabled>${icon("copy")}Iterate in Codex</button></section>
+          <div class="d-inspector-header"><span>Inspector</span><button id="d-inspector-close" aria-label="Close inspector">${icon("close")}</button></div><section id="d-selection-summary" class="d-selection-summary" aria-label="Selected parts" hidden><p id="d-selection-count"></p><ul id="d-selection-list"></ul><small id="d-selection-impact"></small><small id="d-selection-primary"></small><button id="d-multi-copy"></button></section>
+          <section class="d-inspector"><h2 id="d-node-name">Select a part</h2><span id="d-node-kind" class="d-tag">Part workspace</span><details class="d-selection-note"><summary>Design note</summary><p id="d-node-note">Choose a part in the model or structure to inspect its references and checks.</p></details><code id="d-node-id"></code><div class="d-piece-actions"><button id="d-open-reference" disabled>${icon("image")}Reference</button><button id="d-open-checks" disabled>${icon("check")}Checks</button></div><button id="d-copy" disabled>${icon("copy")}Iterate in Codex</button><p id="d-handoff-mode" class="d-handoff-mode"></p><details id="d-handoff-context-panel" hidden><summary>Selection context</summary><pre id="d-handoff-context"></pre></details></section>
           <div class="d-inspector-tabs" role="tablist" aria-label="Part inspection"><button id="d-tab-details" role="tab" data-tab="details" aria-controls="d-pane-details">Details</button><button id="d-tab-reference" role="tab" data-tab="reference" aria-controls="d-pane-reference">Reference</button><button id="d-tab-checks" role="tab" data-tab="checks" aria-controls="d-pane-checks">Checks</button></div>
           <section id="d-proposal" class="d-workflow-section" hidden></section>
           <div id="d-pane-reference" role="tabpanel" aria-labelledby="d-tab-reference">
@@ -305,7 +313,10 @@ export async function initDecomposition() {
   function fit(selectionOnly = false) {
     const box = new THREE.Box3();
     for (const [id, mesh] of meshes)
-      if (mesh.visible && (!selectionOnly || tree.contains(selected, id)))
+      if (
+        mesh.visible &&
+        (!selectionOnly || selectionContains(tree, selectedIds, id))
+      )
         box.expandByObject(mesh);
     if (box.isEmpty()) return;
     const sphere = box.getBoundingSphere(new THREE.Sphere());
@@ -377,8 +388,10 @@ export async function initDecomposition() {
     );
     for (const [id, mesh] of meshes) {
       mesh.position.set(...offsets.get(id));
-      mesh.visible = partVisible(tree, id, selected, isolated, hidden);
-      const active = selected && tree.contains(selected, id);
+      mesh.visible =
+        partVisible(tree, id, null, false, hidden) &&
+        (!isolated || selectionContains(tree, selectedIds, id));
+      const active = selectionContains(tree, selectedIds, id);
       mesh.material.color.set(
         active ? "#7db8ef" : nodeColor(tree.atDepth(id, depth)),
       );
@@ -407,9 +420,9 @@ export async function initDecomposition() {
         level = tree.depths.get(id);
       if (level > depth) return "";
       const branch = children.length > 0 && level < depth;
-      return `<li><div class="d-tree-row" style="--indent:${level * 14}px" data-selected="${selected === id}">
+      return `<li><div class="d-tree-row" style="--indent:${level * 14}px" data-selected="${selectedIds.includes(id)}">
         <button class="d-disclosure" data-collapse="${escape(id)}" ${branch ? `aria-expanded="${!collapsed.has(id)}" aria-label="${collapsed.has(id) ? "Expand" : "Collapse"} ${escape(node.label)}"` : 'disabled aria-hidden="true" tabindex="-1"'}>${branch ? icon("arrow") : ""}</button>
-        <button class="d-node" data-node="${escape(id)}" aria-pressed="${selected === id}" title="${escape(node.label)} · ${escape(node.evidence)}"><i style="background:${nodeColor(id)}"></i><span>${escape(node.label)}</span>${children.length ? `<small>${children.length}</small>` : ""}</button>
+        <button class="d-select-part" data-select="${escape(id)}" aria-pressed="${selectedIds.includes(id)}" aria-label="${selectedIds.includes(id) ? "Remove" : "Add"} ${escape(node.label)} ${selectedIds.includes(id) ? "from" : "to"} selection">${selectedIds.includes(id) ? icon("check") : ""}</button><button class="d-node" data-node="${escape(id)}" aria-pressed="${selectedIds.includes(id)}" title="${escape(node.label)} · ${escape(node.evidence)}"><i style="background:${nodeColor(id)}"></i><span>${escape(node.label)}</span>${children.length ? `<small>${children.length}</small>` : ""}</button>
       </div>${branch && !collapsed.has(id) ? `<ul>${children.map(row).join("")}</ul>` : ""}</li>`;
     }
     $("#d-tree").innerHTML = `<ul>${row(tree.root)}</ul>`;
@@ -682,8 +695,16 @@ export async function initDecomposition() {
       overlay.append(group);
     }
   }
-  function select(id, resetIsolation = true) {
-    selected = id;
+  function select(
+    id,
+    resetIsolation = true,
+    additive = false,
+    preserve = false,
+  ) {
+    if (!preserve) selectedIds = changeSelection(selectedIds, id, additive);
+    $("#d-handoff")?.remove();
+    selected = selectedIds.includes(id) ? id : selectedIds.at(-1) || null;
+    id = selected;
     if (nativeBuildId) {
       const review = selectionWorkflow(project, selected);
       if (
@@ -717,8 +738,40 @@ export async function initDecomposition() {
       : project?.name || "Image → structure → parts";
     for (const key of ["focus", "isolate", "hide", "copy"])
       $(`#d-${key}`).disabled = !node;
-    $("#d-copy").innerHTML =
-      `${icon("copy")}${embedded ? "Iterate in Codex" : "Copy for Codex"}`;
+    const handoffLabel = embedded ? "Edit in Codex" : "Copy for Codex";
+    $("#d-handoff-mode").textContent =
+      project?.id === "example"
+        ? "Read-only sample. Copy as a reference; start a saved reviewed project before editing."
+        : embedded
+          ? "Send this selection to the host conversation."
+          : "Copy this selection, then paste it into Codex.";
+    $("#d-handoff-context-panel").hidden = !selectedIds.length;
+    $("#d-handoff-context").textContent = selectedIds.length
+      ? JSON.stringify(selectionContext(project, selectedIds), null, 2)
+      : "";
+    $("#d-copy").innerHTML = `${icon("copy")}${handoffLabel}`;
+    $("#d-multi-copy").textContent =
+      `${handoffLabel} (${selectedIds.length} selected)`;
+    $("#d-selection-summary").hidden = selectedIds.length < 2;
+    if (selectedIds.length > 1) {
+      const context = selectionContext(project, selectedIds);
+      $("#d-selection-count").textContent =
+        `${selectedIds.length} selected / ${context.physical_part_ids.length} physical parts`;
+      $("#d-selection-list").replaceChildren(
+        ...context.selected_nodes.map((item) => {
+          const li = document.createElement("li");
+          li.textContent = item.label;
+          return li;
+        }),
+      );
+      $("#d-selection-impact").textContent = context.shared_unselected_part_ids
+        .length
+        ? `Shared geometry also affects ${context.shared_unselected_part_ids.length} unselected occurrences.`
+        : "No other shared occurrences.";
+      $("#d-selection-primary").textContent = project.workflow
+        ? `Details and CAD actions below apply to ${node.label}.`
+        : "Read-only reference; import a saved reviewed project to edit.";
+    }
     renderExplanation();
     renderTree();
     applyView();
@@ -735,6 +788,7 @@ export async function initDecomposition() {
     project = data;
     $(".d-workspace").dataset.empty = String(!data.plan);
     if (changed) {
+      selectedIds = [];
       selected = null;
       isolated = false;
       hidden.clear();
@@ -746,6 +800,7 @@ export async function initDecomposition() {
       entryPart && data.id === entryProject && tree?.byId.has(entryPart);
     if (openEntry) {
       selected = entryPart;
+      selectedIds = [entryPart];
       entryPart = null;
       isolated = true;
       setInspectorTab("reference", true);
@@ -755,7 +810,8 @@ export async function initDecomposition() {
       changed || firstGeometry
         ? tree?.maxDepth || 0
         : Math.min(depth, tree?.maxDepth || 0);
-    if (selected && !tree?.byId.has(selected)) selected = null;
+    selectedIds = selectedIds.filter((id) => tree?.byId.has(id));
+    if (!selectedIds.includes(selected)) selected = selectedIds.at(-1) || null;
     hidden = new Set([...hidden].filter((id) => tree?.byId.has(id)));
     conceptPreview = nextPreview;
     const currentBuilds = selectionWorkflow(data, selected);
@@ -854,7 +910,8 @@ export async function initDecomposition() {
       $("#d-program-binding").textContent =
         `Revision ${data.revision} · program SHA256 ${data.analysis.binding.program_sha256}`;
     }
-    if (geometryChanged || changed) select(selected, changed && !openEntry);
+    if (geometryChanged || changed)
+      select(selected, changed && !openEntry, false, true);
     else {
       applyView();
       renderWorkflow();
@@ -875,8 +932,7 @@ export async function initDecomposition() {
       history.replaceState(null, "", url);
     }
     projectOption(data);
-    $("#d-projects").value = data.id;
-    $("#d-projects").title = data.name;
+    projectPicker?.loading(false);
   }
   const session = createDecompositionSession({
     request: api,
@@ -884,9 +940,11 @@ export async function initDecomposition() {
     onProject: accept,
     onLoading: () => {
       $("#d-status").textContent = "Loading decomposition…";
+      projectPicker?.loading(true);
     },
     onError: (e) => {
       error(e.message);
+      projectPicker?.loading(false);
       $("#d-status").textContent = "Read failed · current view retained";
     },
   });
@@ -897,16 +955,16 @@ export async function initDecomposition() {
     accept: (data) => session.accept(data),
     notify: renderWorkflow,
   });
+  projectPicker = mountProjectPicker({
+    button: $("#d-project-switch"),
+    menu: $("#d-project-menu"),
+    search: $("#d-project-search"),
+    list: $("#d-project-options"),
+    open: (id) => session.open(id),
+    current: () => project,
+  });
   function projectOption(data) {
-    let option = [...$("#d-projects").options].find(
-      (item) => item.value === data.id,
-    );
-    if (!option) {
-      option = document.createElement("option");
-      option.value = data.id;
-      $("#d-saved-projects").append(option);
-    }
-    option.textContent = `${data.name} · r${data.revision}`;
+    projectPicker?.upsert(data);
   }
   $("#d-open-reference").onclick = () => setInspectorTab("reference", true);
   $("#d-open-checks").onclick = () => setInspectorTab("checks", true);
@@ -1115,7 +1173,6 @@ export async function initDecomposition() {
     $("#d-status").textContent = "Native preview · current verified build";
     renderWorkflow();
   }
-  $("#d-projects").onchange = (event) => session.open(event.target.value);
   $("#d-source-toggle").onclick = () => {
     setInspectorVisibility($("#d-reference-panel").hidden);
   };
@@ -1149,9 +1206,17 @@ export async function initDecomposition() {
       $("#d-tree").querySelector(`[data-collapse="${id}"]`)?.focus();
       return;
     }
+    const toggle = event.target.closest("[data-select]");
+    if (toggle) {
+      select(toggle.dataset.select, true, true);
+      $("#d-tree")
+        .querySelector(`[data-select="${toggle.dataset.select}"]`)
+        ?.focus();
+      return;
+    }
     const node = event.target.closest("[data-node]");
     if (node) {
-      select(node.dataset.node);
+      select(node.dataset.node, true, event.metaKey || event.ctrlKey);
       $("#d-tree").querySelector(`[data-node="${node.dataset.node}"]`)?.focus();
     }
   };
@@ -1159,7 +1224,10 @@ export async function initDecomposition() {
     const button = event.target.closest("[data-depth]");
     if (!button) return;
     depth = Number(button.dataset.depth);
-    select(selected ? tree.atDepth(selected, depth) : null);
+    selectedIds = [
+      ...new Set(selectedIds.map((id) => tree.atDepth(id, depth))),
+    ];
+    select(selectedIds.at(-1) || null, true, false, true);
     $("#d-levels").querySelector(`[data-depth="${depth}"]`).focus();
   };
   $("#d-fit").onclick = () => fit();
@@ -1170,7 +1238,7 @@ export async function initDecomposition() {
   };
   $("#d-hide").onclick = () => {
     if (selected) {
-      hidden.add(selected);
+      for (const id of selectedIds) hidden.add(id);
       select(null);
     }
   };
@@ -1187,12 +1255,18 @@ export async function initDecomposition() {
       applyView();
     }
   };
-  $("#d-copy").onclick = async () => {
-    if (!selected) return;
-    $("#d-copy").textContent = await handoff(
-      iterationMessage(project, selected),
-    );
-  };
+  async function copySelection(event) {
+    if (!selectedIds.length) return;
+    try {
+      event.currentTarget.textContent = await handoff(
+        selectionMessage(project, selectedIds),
+      );
+    } catch (failure) {
+      error(failure.message);
+    }
+  }
+  $("#d-copy").onclick = copySelection;
+  $("#d-multi-copy").onclick = copySelection;
   $("#d-reference-panel").onclick = async (event) => {
     const link = event.target.closest("a[download]");
     if (!link || !embedded) return;
@@ -1220,14 +1294,27 @@ export async function initDecomposition() {
     }
   };
   let start;
-  renderer.domElement.addEventListener("pointerdown", (e) => {
-    start =
-      e.button === 0 && !e.shiftKey && !e.ctrlKey && !e.metaKey
-        ? [e.clientX, e.clientY]
-        : null;
+  renderer.domElement.addEventListener(
+    "pointerdown",
+    (event) => {
+      const additive = event.metaKey || event.ctrlKey;
+      start =
+        event.button === 0 && event.isPrimary !== false && !event.shiftKey
+          ? [event.clientX, event.clientY, additive]
+          : null;
+      if (start && additive) {
+        controls.enabled = false;
+        renderer.domElement.setPointerCapture(event.pointerId);
+      }
+    },
+    true,
+  );
+  renderer.domElement.addEventListener("pointerup", () => {
+    controls.enabled = true;
   });
   renderer.domElement.addEventListener("pointercancel", () => {
     start = null;
+    controls.enabled = true;
   });
   renderer.domElement.addEventListener("click", (event) => {
     const down = start;
@@ -1251,7 +1338,11 @@ export async function initDecomposition() {
       [...meshes.values()].filter((m) => m.visible),
       false,
     )[0];
-    select(hit ? tree.atDepth(hit.object.userData.id, depth) : null);
+    select(
+      hit ? tree.atDepth(hit.object.userData.id, depth) : null,
+      true,
+      down[2],
+    );
   });
   viewport.addEventListener("keydown", (event) => {
     if (event.key === "Escape") select(null);
@@ -1271,6 +1362,7 @@ export async function initDecomposition() {
     "pagehide",
     () => {
       session.dispose();
+      projectPicker?.destroy();
       compact.removeEventListener("change", applyPanelLayout);
       cancelAnimationFrame(frame);
       observer.disconnect();
@@ -1287,7 +1379,6 @@ export async function initDecomposition() {
       for (const item of projects) {
         projectOption(item);
       }
-      if (project) $("#d-projects").value = project.id;
     })
     .catch((e) => error(e.message));
   const initial = new URL(location.href).searchParams.get("project");
