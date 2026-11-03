@@ -1,0 +1,473 @@
+{
+  "schema_version": 2,
+  "source_sha256": "d90fd7ba7173729ed9f28245adf97b0e2537f6a003dba01406f9320c49f5ce18",
+  "units": "mm",
+  "scale_note": "The reference caption states mm; dimensions and center offsets are explicit. No pixel-derived scale is used.",
+  "assumptions": [
+    "This is a bounded concept interpretation of an independent dimensioned illustration, not native CAD or a manufactured product.",
+    "Use a floor-centered Z-up datum, positive X to the right and positive Y toward the back. Front/back labels follow that chosen convention.",
+    "The top and legs are separate box previews. Connections, fasteners, material, tolerances and loads are unspecified and omitted."
+  ],
+  "definitions": [
+    {
+      "id": "top-definition",
+      "shapes": [
+        {
+          "id": "top-box",
+          "kind": "box",
+          "dimensions": [
+            400,
+            300,
+            20
+          ],
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "id": "leg-definition",
+      "shapes": [
+        {
+          "id": "leg-box",
+          "kind": "box",
+          "dimensions": [
+            30,
+            30,
+            430
+          ],
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ]
+        }
+      ]
+    }
+  ],
+  "nodes": [
+    {
+      "id": "worktable",
+      "label": "Workshop side table",
+      "parent_id": null,
+      "definition_id": null,
+      "position": [
+        0,
+        0,
+        0
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "evidence": "visible",
+      "note": "Concept grouping of the five parts identified in the drawing. Connections and material are unspecified."
+    },
+    {
+      "id": "top",
+      "label": "Top",
+      "parent_id": "worktable",
+      "definition_id": "top-definition",
+      "position": [
+        0,
+        0,
+        440
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "evidence": "visible",
+      "note": "One top, 400 x 300 x 20 mm. Center elevation is derived from the stated leg height."
+    },
+    {
+      "id": "leg-front-left",
+      "label": "Front left leg",
+      "parent_id": "worktable",
+      "definition_id": "leg-definition",
+      "position": [
+        -170,
+        -120,
+        215
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "evidence": "visible",
+      "note": "One of four separate 30 x 30 x 430 mm legs. Front/back names follow the chosen Y convention."
+    },
+    {
+      "id": "leg-front-right",
+      "label": "Front right leg",
+      "parent_id": "worktable",
+      "definition_id": "leg-definition",
+      "position": [
+        170,
+        -120,
+        215
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "evidence": "visible",
+      "note": "One of four separate 30 x 30 x 430 mm legs. Front/back names follow the chosen Y convention."
+    },
+    {
+      "id": "leg-back-left",
+      "label": "Back left leg",
+      "parent_id": "worktable",
+      "definition_id": "leg-definition",
+      "position": [
+        -170,
+        120,
+        215
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "evidence": "visible",
+      "note": "One of four separate 30 x 30 x 430 mm legs. Front/back names follow the chosen Y convention."
+    },
+    {
+      "id": "leg-back-right",
+      "label": "Back right leg",
+      "parent_id": "worktable",
+      "definition_id": "leg-definition",
+      "position": [
+        170,
+        120,
+        215
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "evidence": "visible",
+      "note": "One of four separate 30 x 30 x 430 mm legs. Front/back names follow the chosen Y convention."
+    }
+  ],
+  "explanation": {
+    "observations": [
+      {
+        "id": "drawing-units",
+        "region": [
+          0.045,
+          0.075,
+          0.56,
+          0.11
+        ],
+        "statement": "The caption states that all dimensions are in mm and that these are orthographic views."
+      },
+      {
+        "id": "top-size",
+        "region": [
+          0.61,
+          0.68,
+          0.83,
+          0.72
+        ],
+        "statement": "The top is labeled 400 x 300 x 20."
+      },
+      {
+        "id": "leg-size-count",
+        "region": [
+          0.61,
+          0.55,
+          0.87,
+          0.58
+        ],
+        "statement": "The note specifies four square legs, 30 x 30 x 430."
+      },
+      {
+        "id": "leg-centers",
+        "region": [
+          0.61,
+          0.59,
+          0.87,
+          0.675
+        ],
+        "statement": "Leg centers are labeled X = -170 or +170 and Y = -120 or +120 from the table center."
+      },
+      {
+        "id": "front-profile",
+        "region": [
+          0.075,
+          0.17,
+          0.51,
+          0.72
+        ],
+        "statement": "The front view shows a horizontal rectangular top above vertical rectangular legs, 450 overall height and 430 below the top."
+      },
+      {
+        "id": "top-profile",
+        "region": [
+          0.6,
+          0.17,
+          0.985,
+          0.54
+        ],
+        "statement": "The top view shows a rectangular top and four square leg sections at the corners around centerlines."
+      },
+      {
+        "id": "part-boundaries",
+        "region": [
+          0.045,
+          0.85,
+          0.58,
+          0.88
+        ],
+        "statement": "The note states one top and four separate legs."
+      },
+      {
+        "id": "unspecified-details",
+        "region": [
+          0.045,
+          0.89,
+          0.86,
+          0.92
+        ],
+        "statement": "Connections, fasteners and material are unspecified; the drawing says not to invent hidden hardware."
+      }
+    ],
+    "bases": {
+      "scale-mm": {
+        "kind": "observed",
+        "observations": [
+          "drawing-units"
+        ],
+        "why": "Use the stated millimeter dimensions, without scaling the drawing by pixels."
+      },
+      "top-dimensions": {
+        "kind": "observed",
+        "observations": [
+          "top-size"
+        ],
+        "why": "The top dimensions are explicitly 400 x 300 x 20 mm."
+      },
+      "leg-dimensions": {
+        "kind": "observed",
+        "observations": [
+          "leg-size-count"
+        ],
+        "why": "Each of four identical square legs is explicitly 30 x 30 x 430 mm."
+      },
+      "top-box": {
+        "kind": "observed",
+        "observations": [
+          "top-size",
+          "front-profile",
+          "top-profile"
+        ],
+        "why": "Orthographic rectangular profiles and three dimensions support a box preview of the top."
+      },
+      "leg-box": {
+        "kind": "observed",
+        "observations": [
+          "leg-size-count",
+          "front-profile",
+          "top-profile"
+        ],
+        "why": "Square sections and straight vertical profiles support one box definition reused for four legs."
+      },
+      "definition-origin": {
+        "kind": "assumed",
+        "observations": [],
+        "why": "Center each box in its definition with zero local translation and rotation; occurrence poses place the parts."
+      },
+      "assembly-group": {
+        "kind": "assumed",
+        "observations": [],
+        "why": "Use one nonphysical root group for the top and four legs, without claiming a detachable subassembly."
+      },
+      "root-datum": {
+        "kind": "assumed",
+        "observations": [],
+        "why": "Set the root origin on the floor under the table center, with X across width, Y across depth and Z up."
+      },
+      "top-part": {
+        "kind": "observed",
+        "observations": [
+          "part-boundaries",
+          "top-profile"
+        ],
+        "why": "The drawing identifies one separate top."
+      },
+      "leg-part": {
+        "kind": "observed",
+        "observations": [
+          "part-boundaries",
+          "leg-size-count",
+          "top-profile"
+        ],
+        "why": "The drawing identifies four separate legs, including the back pair that overlaps in front view."
+      },
+      "top-placement": {
+        "kind": "estimated",
+        "observations": [
+          "top-size",
+          "front-profile",
+          "top-profile"
+        ],
+        "why": "Center the top above the four legs; its center is Z = 430 + 20/2 = 440 mm above the floor."
+      },
+      "leg-placement": {
+        "kind": "estimated",
+        "observations": [
+          "leg-centers",
+          "leg-size-count",
+          "front-profile"
+        ],
+        "why": "Use the labeled X and Y center offsets; each leg center is Z = 430/2 = 215 mm above the floor."
+      },
+      "top-center": {
+        "kind": "observed",
+        "observations": [
+          "top-profile",
+          "leg-centers"
+        ],
+        "why": "Use the table center shown by the top-view centerlines for the top X and Y coordinates."
+      },
+      "leg-offsets": {
+        "kind": "observed",
+        "observations": [
+          "leg-centers"
+        ],
+        "why": "Use the explicit signed center offsets, X = +/-170 mm and Y = +/-120 mm."
+      },
+      "top-elevation": {
+        "kind": "estimated",
+        "observations": [
+          "leg-size-count",
+          "top-size",
+          "front-profile"
+        ],
+        "why": "With the leg bottoms at Z = 0, the top center is 430 + 20/2 = 440 mm."
+      },
+      "leg-elevation": {
+        "kind": "estimated",
+        "observations": [
+          "leg-size-count",
+          "front-profile"
+        ],
+        "why": "With the leg bottoms at Z = 0, each leg center is 430/2 = 215 mm."
+      },
+      "axis-alignment": {
+        "kind": "assumed",
+        "observations": [
+          "front-profile",
+          "top-profile"
+        ],
+        "why": "Align box axes with the orthographic views and choose positive Y toward the back; square legs need no rotation."
+      }
+    },
+    "parameters": {
+      "shape/top-definition/top-box/dimensions/0": "top-dimensions",
+      "shape/top-definition/top-box/dimensions/1": "top-dimensions",
+      "shape/top-definition/top-box/dimensions/2": "top-dimensions",
+      "shape/top-definition/top-box/position/0": "definition-origin",
+      "shape/top-definition/top-box/position/1": "definition-origin",
+      "shape/top-definition/top-box/position/2": "definition-origin",
+      "shape/top-definition/top-box/rotation/0": "definition-origin",
+      "shape/top-definition/top-box/rotation/1": "definition-origin",
+      "shape/top-definition/top-box/rotation/2": "definition-origin",
+      "shape/leg-definition/leg-box/dimensions/0": "leg-dimensions",
+      "shape/leg-definition/leg-box/dimensions/1": "leg-dimensions",
+      "shape/leg-definition/leg-box/dimensions/2": "leg-dimensions",
+      "shape/leg-definition/leg-box/position/0": "definition-origin",
+      "shape/leg-definition/leg-box/position/1": "definition-origin",
+      "shape/leg-definition/leg-box/position/2": "definition-origin",
+      "shape/leg-definition/leg-box/rotation/0": "definition-origin",
+      "shape/leg-definition/leg-box/rotation/1": "definition-origin",
+      "shape/leg-definition/leg-box/rotation/2": "definition-origin",
+      "node/worktable/position/0": "root-datum",
+      "node/worktable/rotation/0": "root-datum",
+      "node/worktable/position/1": "root-datum",
+      "node/worktable/rotation/1": "root-datum",
+      "node/worktable/position/2": "root-datum",
+      "node/worktable/rotation/2": "root-datum",
+      "node/top/position/0": "top-center",
+      "node/top/rotation/0": "axis-alignment",
+      "node/top/position/1": "top-center",
+      "node/top/rotation/1": "axis-alignment",
+      "node/top/position/2": "top-elevation",
+      "node/top/rotation/2": "axis-alignment",
+      "node/leg-front-left/position/0": "leg-offsets",
+      "node/leg-front-left/rotation/0": "axis-alignment",
+      "node/leg-front-left/position/1": "leg-offsets",
+      "node/leg-front-left/rotation/1": "axis-alignment",
+      "node/leg-front-left/position/2": "leg-elevation",
+      "node/leg-front-left/rotation/2": "axis-alignment",
+      "node/leg-front-right/position/0": "leg-offsets",
+      "node/leg-front-right/rotation/0": "axis-alignment",
+      "node/leg-front-right/position/1": "leg-offsets",
+      "node/leg-front-right/rotation/1": "axis-alignment",
+      "node/leg-front-right/position/2": "leg-elevation",
+      "node/leg-front-right/rotation/2": "axis-alignment",
+      "node/leg-back-left/position/0": "leg-offsets",
+      "node/leg-back-left/rotation/0": "axis-alignment",
+      "node/leg-back-left/position/1": "leg-offsets",
+      "node/leg-back-left/rotation/1": "axis-alignment",
+      "node/leg-back-left/position/2": "leg-elevation",
+      "node/leg-back-left/rotation/2": "axis-alignment",
+      "node/leg-back-right/position/0": "leg-offsets",
+      "node/leg-back-right/rotation/0": "axis-alignment",
+      "node/leg-back-right/position/1": "leg-offsets",
+      "node/leg-back-right/rotation/1": "axis-alignment",
+      "node/leg-back-right/position/2": "leg-elevation",
+      "node/leg-back-right/rotation/2": "axis-alignment"
+    },
+    "shapes": {
+      "top-definition/top-box": "top-box",
+      "leg-definition/leg-box": "leg-box"
+    },
+    "nodes": {
+      "worktable": {
+        "part": "assembly-group",
+        "placement": "root-datum"
+      },
+      "top": {
+        "part": "top-part",
+        "placement": "top-placement"
+      },
+      "leg-front-left": {
+        "part": "leg-part",
+        "placement": "leg-placement"
+      },
+      "leg-front-right": {
+        "part": "leg-part",
+        "placement": "leg-placement"
+      },
+      "leg-back-left": {
+        "part": "leg-part",
+        "placement": "leg-placement"
+      },
+      "leg-back-right": {
+        "part": "leg-part",
+        "placement": "leg-placement"
+      }
+    },
+    "scale": "scale-mm"
+  }
+}

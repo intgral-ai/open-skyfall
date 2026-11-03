@@ -1,0 +1,360 @@
+{
+  "summary": "Original bench comparator design proposal with 50 physical occurrences in six subassemblies. Review this scheme before creating geometry.",
+  "parts": [
+    {
+      "id": "inspection-rig",
+      "label": "Bench comparator / proposed design",
+      "parent_id": null,
+      "description": "Original designed fixture. Fifty physical occurrences in six subassemblies. No approvals, recovered BOM, calibration or native validity are claimed."
+    },
+    {
+      "id": "bed-group",
+      "label": "Bed and leveling feet",
+      "parent_id": "inspection-rig",
+      "description": "Proposed physical occurrence. Exact dimensions and interfaces require human engineering review; this is not recovered manufacturer detail."
+    },
+    {
+      "id": "guides-group",
+      "label": "Twin guides and travel stops",
+      "parent_id": "inspection-rig",
+      "description": "Proposed physical occurrence. Exact dimensions and interfaces require human engineering review; this is not recovered manufacturer detail."
+    },
+    {
+      "id": "carriage-group",
+      "label": "Sliding coupon carriage",
+      "parent_id": "inspection-rig",
+      "description": "Proposed physical occurrence. Exact dimensions and interfaces require human engineering review; this is not recovered manufacturer detail."
+    },
+    {
+      "id": "stand-group",
+      "label": "Column and cantilever arm",
+      "parent_id": "inspection-rig",
+      "description": "Proposed physical occurrence. Exact dimensions and interfaces require human engineering review; this is not recovered manufacturer detail."
+    },
+    {
+      "id": "indicator-group",
+      "label": "Comparator exterior and contact",
+      "parent_id": "inspection-rig",
+      "description": "Proposed physical occurrence. Exact dimensions and interfaces require human engineering review; this is not recovered manufacturer detail."
+    },
+    {
+      "id": "datum-group",
+      "label": "Travel datum",
+      "parent_id": "inspection-rig",
+      "description": "Proposed physical occurrence. Exact dimensions and interfaces require human engineering review; this is not recovered manufacturer detail."
+    },
+    {
+      "id": "bed-plate",
+      "label": "Ground bed plate",
+      "parent_id": "bed-group",
+      "description": "Proposed physical occurrence. Exact dimensions and interfaces require human engineering review; this is not recovered manufacturer detail."
+    },
+    {
+      "id": "foot-front-left",
+      "label": "Front left foot",
+      "parent_id": "bed-group",
+      "description": "Proposed physical occurrence. Exact dimensions and interfaces require human engineering review; this is not recovered manufacturer detail."
+    },
+    {
+      "id": "foot-screw-front-left",
+      "label": "Front left foot screw",
+      "parent_id": "bed-group",
+      "description": "Proposed physical occurrence. Exact dimensions and interfaces require human engineering review; this is not recovered manufacturer detail."
+    },
+    {
+      "id": "foot-rear-left",
+      "label": "Rear left foot",
+      "parent_id": "bed-group",
+      "description": "Proposed physical occurrence. Exact dimensions and interfaces require human engineering review; this is not recovered manufacturer detail."
+    },
+    {
+      "id": "foot-screw-rear-left",
+      "label": "Rear left foot screw",
+      "parent_id": "bed-group",
+      "description": "Proposed physical occurrence. Exact dimensions and interfaces require human engineering review; this is not recovered manufacturer detail."
+    },
+    {
+      "id": "foot-front-right",
+      "label": "Front right foot",
+      "parent_id": "bed-group",
+      "description": "Proposed physical occurrence. Exact dimensions and interfaces require human engineering review; this is not recovered manufacturer detail."
+    },
+    {
+      "id": "foot-screw-front-right",
+      "label": "Front right foot screw",
+      "parent_id": "bed-group",
+      "description": "Proposed physical occurrence. Exact dimensions and interfaces require human engineering review; this is not recovered manufacturer detail."
+    },
+    {
+      "id": "foot-rear-right",
+      "label": "Rear right foot",
+      "parent_id": "bed-group",
+      "description": "Proposed physical occurrence. Exact dimensions and interfaces require human engineering review; this is not recovered manufacturer detail."
+    },
+    {
+      "id": "foot-screw-rear-right",
+      "label": "Rear right foot screw",
+      "parent_id": "bed-group",
+      "description": "Proposed physical occurrence. Exact dimensions and interfaces require human engineering review; this is not recovered manufacturer detail."
+    },
+    {
+      "id": "rail-front",
+      "label": "Front guide rod",
+      "parent_id": "guides-group",
+      "description": "Proposed physical occurrence. Exact dimensions and interfaces require human engineering review; this is not recovered manufacturer detail."
+    },
+    {
+      "id": "saddle-front-left",
+      "label": "Front left bored saddle",
+      "parent_id": "guides-group",
+      "description": "Proposed physical occurrence. Exact dimensions and interfaces require human engineering review; this is not recovered manufacturer detail."
+    },
+    {
+      "id": "saddle-screw-front-left",
+      "label": "Front left saddle screw",
+      "parent_id": "guides-group",
+      "description": "Proposed physical occurrence. Exact dimensions and interfaces require human engineering review; this is not recovered manufacturer detail."
+    },
+    {
+      "id": "saddle-front-right",
+      "label": "Front right bored saddle",
+      "parent_id": "guides-group",
+      "description": "Proposed physical occurrence. Exact dimensions and interfaces require human engineering review; this is not recovered manufacturer detail."
+    },
+    {
+      "id": "saddle-screw-front-right",
+      "label": "Front right saddle screw",
+      "parent_id": "guides-group",
+      "description": "Proposed physical occurrence. Exact dimensions and interfaces require human engineering review; this is not recovered manufacturer detail."
+    },
+    {
+      "id": "rail-rear",
+      "label": "Rear guide rod",
+      "parent_id": "guides-group",
+      "description": "Proposed physical occurrence. Exact dimensions and interfaces require human engineering review; this is not recovered manufacturer detail."
+    },
+    {
+      "id": "saddle-rear-left",
+      "label": "Rear left bored saddle",
+      "parent_id": "guides-group",
+      "description": "Proposed physical occurrence. Exact dimensions and interfaces require human engineering review; this is not recovered manufacturer detail."
+    },
+    {
+      "id": "saddle-screw-rear-left",
+      "label": "Rear left saddle screw",
+      "parent_id": "guides-group",
+      "description": "Proposed physical occurrence. Exact dimensions and interfaces require human engineering review; this is not recovered manufacturer detail."
+    },
+    {
+      "id": "saddle-rear-right",
+      "label": "Rear right bored saddle",
+      "parent_id": "guides-group",
+      "description": "Proposed physical occurrence. Exact dimensions and interfaces require human engineering review; this is not recovered manufacturer detail."
+    },
+    {
+      "id": "saddle-screw-rear-right",
+      "label": "Rear right saddle screw",
+      "parent_id": "guides-group",
+      "description": "Proposed physical occurrence. Exact dimensions and interfaces require human engineering review; this is not recovered manufacturer detail."
+    },
+    {
+      "id": "stop-left",
+      "label": "Left end stop",
+      "parent_id": "guides-group",
+      "description": "Proposed physical occurrence. Exact dimensions and interfaces require human engineering review; this is not recovered manufacturer detail."
+    },
+    {
+      "id": "stop-screw-left",
+      "label": "Left stop screw",
+      "parent_id": "guides-group",
+      "description": "Proposed physical occurrence. Exact dimensions and interfaces require human engineering review; this is not recovered manufacturer detail."
+    },
+    {
+      "id": "stop-right",
+      "label": "Right end stop",
+      "parent_id": "guides-group",
+      "description": "Proposed physical occurrence. Exact dimensions and interfaces require human engineering review; this is not recovered manufacturer detail."
+    },
+    {
+      "id": "stop-screw-right",
+      "label": "Right stop screw",
+      "parent_id": "guides-group",
+      "description": "Proposed physical occurrence. Exact dimensions and interfaces require human engineering review; this is not recovered manufacturer detail."
+    },
+    {
+      "id": "carriage-plate",
+      "label": "Carriage plate",
+      "parent_id": "carriage-group",
+      "description": "Proposed physical occurrence. Exact dimensions and interfaces require human engineering review; this is not recovered manufacturer detail."
+    },
+    {
+      "id": "bushing-front-left",
+      "label": "Front left sleeve bushing",
+      "parent_id": "carriage-group",
+      "description": "Proposed physical occurrence. Exact dimensions and interfaces require human engineering review; this is not recovered manufacturer detail."
+    },
+    {
+      "id": "bushing-rear-left",
+      "label": "Rear left sleeve bushing",
+      "parent_id": "carriage-group",
+      "description": "Proposed physical occurrence. Exact dimensions and interfaces require human engineering review; this is not recovered manufacturer detail."
+    },
+    {
+      "id": "bushing-front-right",
+      "label": "Front right sleeve bushing",
+      "parent_id": "carriage-group",
+      "description": "Proposed physical occurrence. Exact dimensions and interfaces require human engineering review; this is not recovered manufacturer detail."
+    },
+    {
+      "id": "bushing-rear-right",
+      "label": "Rear right sleeve bushing",
+      "parent_id": "carriage-group",
+      "description": "Proposed physical occurrence. Exact dimensions and interfaces require human engineering review; this is not recovered manufacturer detail."
+    },
+    {
+      "id": "carriage-handle",
+      "label": "Carriage hand grip",
+      "parent_id": "carriage-group",
+      "description": "Proposed physical occurrence. Exact dimensions and interfaces require human engineering review; this is not recovered manufacturer detail."
+    },
+    {
+      "id": "test-coupon",
+      "label": "Inspection coupon",
+      "parent_id": "carriage-group",
+      "description": "Proposed physical occurrence. Exact dimensions and interfaces require human engineering review; this is not recovered manufacturer detail."
+    },
+    {
+      "id": "post-pedestal",
+      "label": "Column pedestal",
+      "parent_id": "stand-group",
+      "description": "Proposed physical occurrence. Exact dimensions and interfaces require human engineering review; this is not recovered manufacturer detail."
+    },
+    {
+      "id": "column-post",
+      "label": "Ground column post",
+      "parent_id": "stand-group",
+      "description": "Proposed physical occurrence. Exact dimensions and interfaces require human engineering review; this is not recovered manufacturer detail."
+    },
+    {
+      "id": "post-collar",
+      "label": "Bored column collar",
+      "parent_id": "stand-group",
+      "description": "Proposed physical occurrence. Exact dimensions and interfaces require human engineering review; this is not recovered manufacturer detail."
+    },
+    {
+      "id": "cantilever-arm",
+      "label": "One-piece L arm",
+      "parent_id": "stand-group",
+      "description": "Proposed physical occurrence. Exact dimensions and interfaces require human engineering review; this is not recovered manufacturer detail."
+    },
+    {
+      "id": "column-clamp-knob",
+      "label": "Column height clamp knob",
+      "parent_id": "stand-group",
+      "description": "Proposed physical occurrence. Exact dimensions and interfaces require human engineering review; this is not recovered manufacturer detail."
+    },
+    {
+      "id": "indicator-clamp-knob",
+      "label": "Indicator arm clamp knob",
+      "parent_id": "stand-group",
+      "description": "Proposed physical occurrence. Exact dimensions and interfaces require human engineering review; this is not recovered manufacturer detail."
+    },
+    {
+      "id": "pedestal-screw-left",
+      "label": "Left pedestal screw",
+      "parent_id": "stand-group",
+      "description": "Proposed physical occurrence. Exact dimensions and interfaces require human engineering review; this is not recovered manufacturer detail."
+    },
+    {
+      "id": "pedestal-screw-right",
+      "label": "Right pedestal screw",
+      "parent_id": "stand-group",
+      "description": "Proposed physical occurrence. Exact dimensions and interfaces require human engineering review; this is not recovered manufacturer detail."
+    },
+    {
+      "id": "dial-housing",
+      "label": "Bored dial housing",
+      "parent_id": "indicator-group",
+      "description": "Proposed physical occurrence. Exact dimensions and interfaces require human engineering review; this is not recovered manufacturer detail."
+    },
+    {
+      "id": "dial-back",
+      "label": "Dial rear cover",
+      "parent_id": "indicator-group",
+      "description": "Proposed physical occurrence. Exact dimensions and interfaces require human engineering review; this is not recovered manufacturer detail."
+    },
+    {
+      "id": "dial-bezel",
+      "label": "Separate bored bezel",
+      "parent_id": "indicator-group",
+      "description": "Proposed physical occurrence. Exact dimensions and interfaces require human engineering review; this is not recovered manufacturer detail."
+    },
+    {
+      "id": "dial-face",
+      "label": "Plain dial face",
+      "parent_id": "indicator-group",
+      "description": "Proposed physical occurrence. Exact dimensions and interfaces require human engineering review; this is not recovered manufacturer detail."
+    },
+    {
+      "id": "dial-pointer",
+      "label": "Pointer with integral hub",
+      "parent_id": "indicator-group",
+      "description": "Proposed physical occurrence. Exact dimensions and interfaces require human engineering review; this is not recovered manufacturer detail."
+    },
+    {
+      "id": "stem-sleeve",
+      "label": "Bored indicator stem",
+      "parent_id": "indicator-group",
+      "description": "Proposed physical occurrence. Exact dimensions and interfaces require human engineering review; this is not recovered manufacturer detail."
+    },
+    {
+      "id": "contact-plunger",
+      "label": "Contact plunger",
+      "parent_id": "indicator-group",
+      "description": "Proposed physical occurrence. Exact dimensions and interfaces require human engineering review; this is not recovered manufacturer detail."
+    },
+    {
+      "id": "contact-ball",
+      "label": "Spherical coupon contact",
+      "parent_id": "indicator-group",
+      "description": "Proposed physical occurrence. Exact dimensions and interfaces require human engineering review; this is not recovered manufacturer detail."
+    },
+    {
+      "id": "dial-crown",
+      "label": "Dial lift crown",
+      "parent_id": "indicator-group",
+      "description": "Proposed physical occurrence. Exact dimensions and interfaces require human engineering review; this is not recovered manufacturer detail."
+    },
+    {
+      "id": "travel-datum-block",
+      "label": "Travel datum block",
+      "parent_id": "datum-group",
+      "description": "Proposed physical occurrence. Exact dimensions and interfaces require human engineering review; this is not recovered manufacturer detail."
+    },
+    {
+      "id": "travel-datum-pin",
+      "label": "Ground travel datum pin",
+      "parent_id": "datum-group",
+      "description": "Proposed physical occurrence. Exact dimensions and interfaces require human engineering review; this is not recovered manufacturer detail."
+    },
+    {
+      "id": "travel-datum-screw",
+      "label": "Travel datum fixing screw",
+      "parent_id": "datum-group",
+      "description": "Proposed physical occurrence. Exact dimensions and interfaces require human engineering review; this is not recovered manufacturer detail."
+    }
+  ],
+  "unknowns": [
+    "Original proposed inspection instrument, not a recovered manufacturer BOM, calibrated comparator or approved factory design.",
+    "All local dimensions, poses and primitive recipes beyond the explicit source callouts are chosen design assumptions. The complete v2 basis map documents these choices without asserting source truth.",
+    "Screws are connected one-piece head/shank envelopes. Threads and recipient holes are omitted, so overlap at a fastened interface is an unresolved manufacturing feature, not joint validation.",
+    "Saddles, bushings, collar, bezel, housing and stem have modeled bores. Running and clamping clearances are proposed, not toleranced fits.",
+    "Dial gearing, spring, spindle, glass, graduations, seals, retainers, drive recesses and lubrication are omitted. The face marks in the original drawing are graphics rather than physical parts.",
+    "Parts that touch or overlap do not establish fastener engagement, detachable joints, collision-free travel, stiffness or calibration. One stationary inspection pose is proposed.",
+    "Manufacturing notes per definition are proposals only. Actual material, process, finish, datum scheme, tolerances, loads and factory acceptance require responsible human review."
+  ],
+  "manufacturing_notes": [
+    "Every definition carries proposed process, material, interface notes and critical features. None is factory-confirmed.",
+    "Review omitted threads, recipient holes, purchased dial internals, fits, retention and calibration before any production decision."
+  ]
+}

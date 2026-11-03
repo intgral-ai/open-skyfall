@@ -49,5 +49,60 @@ def test_stdio_tools_resource_and_authorized_reference_image(tmp_path):
                 rendered = await session.call_tool("get_reference_image", {"job_id": job["id"]})
                 assert not rendered.isError
                 assert rendered.content[0].type == "image"
+                example = Path(__file__).resolve().parents[1] / "examples/decomposition"
+                created = await session.call_tool(
+                    "workspace_request",
+                    {
+                        "method": "POST",
+                        "path": "/api/decompositions",
+                        "payload": {
+                            "name": "Lamp",
+                            "rights": "Original MIT illustration",
+                            "data_base64": base64.b64encode(
+                                (example / "desk-lamp.png").read_bytes()
+                            ).decode(),
+                        },
+                    },
+                )
+                assert not created.isError
+                project = created.structuredContent
+                reference = await session.call_tool(
+                    "get_decomposition_image", {"project_id": project["id"]}
+                )
+                assert not reference.isError and reference.content[0].type == "image"
+                import json
+
+                result = await session.call_tool(
+                    "workspace_request",
+                    {
+                        "method": "PUT",
+                        "path": f"/api/decompositions/{project['id']}/plan",
+                        "payload": {
+                            "revision": 0,
+                            "plan": json.loads((example / "plan.json").read_text()),
+                        },
+                    },
+                )
+                assert not result.isError, result.content
+                assert result.structuredContent["revision"] == 1
+                shown = await session.call_tool("show_decomposition", {"project_id": project["id"]})
+                assert not shown.isError and shown.structuredContent["kind"] == "decomposition"
+                downloaded = await session.call_tool(
+                    "workspace_request",
+                    {
+                        "method": "GET",
+                        "path": f"/api/decompositions/{project['id']}/revisions/1/bundle",
+                    },
+                )
+                assert not downloaded.isError, downloaded.content
+                payload = downloaded.structuredContent
+                assert payload["mime_type"] == "application/zip"
+                bundle = tmp_path / "mcp-export.zip"
+                bundle.write_bytes(base64.b64decode(payload["data_base64"], validate=True))
+                from open_assembly.decomposition import replay_bundle
+
+                assert replay_bundle(bundle, tmp_path / "mcp-replay")["outcome"] == "pass"
+                resource = await session.read_resource("ui://open-assembly/decomposition-v1.html")
+                assert 'data-viewer="decomposition"' in resource.contents[0].text
 
     asyncio.run(exercise())

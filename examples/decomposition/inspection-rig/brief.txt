@@ -1,0 +1,21 @@
+Design proposal: a compact bench comparator for checking a flat coupon.
+Use a 240 x 150 x 12 mm bed on four separate feet. Two 170 mm long, 8 mm
+diameter guide rods run along X at Y = +/-27 mm and Z = 27 mm. Four bored
+saddles support the rods. A 60 x 76 x 6 mm carriage runs on four sleeve
+bushings and carries a separate 24 x 30 x 12 mm coupon. Its top is Z = 51 mm.
+A rear-left 12 mm diameter post supports an L arm and a 50 mm diameter
+front-facing comparator dial. Put the dial center at X = 25, Y = -7,
+Z = 125 mm, with a vertical contact tip touching the coupon at Z = 51 mm.
+Include individual bed fasteners, rail saddles, rail end stops, sleeve
+bushings, clamp knobs, dial enclosure pieces, plunger, contact ball and
+travel datum. Reuse physically identical screws, feet, saddles and bushings.
+This is an original proposed design example, not an inferred manufacturer
+BOM or a recovered instrument mechanism. Use millimeters and a right-handed
+Z-up frame, with the bed bottom at Z = 0 and positive Y toward the rear.
+All unlisted dimensions, joint details and purchased-part envelopes are
+design choices. Threads, tapped and clearance holes in solid recipient
+plates, dial gearing, calibration, engraved graduations, lubrication,
+retention details, chamfers, fits, tolerances, loads and factory processes
+need engineering review. The drawn dial ticks are graphics, not extra parts.
+Native validity and STEP exchange must be checked independently. Production
+manufacturability and source fidelity are not established by this example.

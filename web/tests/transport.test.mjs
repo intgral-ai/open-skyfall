@@ -141,6 +141,67 @@ test("browser reads fall through and host requests are GET only", async () => {
   assert.equal(h.calls.length, 1);
 });
 
+test("workflow writes have a separate narrow POST transport", async () => {
+  const h = setup({
+    outcome: { structuredContent: { id: "project1", workflow_revision: 2 } },
+  });
+  const payload = { revision: 1, workflow_revision: 1, confirmed: true };
+  assert.equal(
+    (
+      await h.ctx.hostWorkflowAction(
+        "/api/decompositions/project1/workflow/approve",
+        payload,
+      )
+    ).workflow_revision,
+    2,
+  );
+  assert.equal(h.calls[0].arguments.method, "POST");
+  assert.equal(h.calls[0].arguments.payload, payload);
+  await h.ctx.hostWorkflowAction("/api/decompositions", { workflow: true });
+  await h.ctx.hostWorkflowAction(
+    "/api/decompositions/project1/workflow/decompose-example",
+    payload,
+  );
+  for (const path of [
+    "/api/jobs/A",
+    "https://other/api/decompositions",
+    "/api/decompositions/A/workflow/delete",
+    "/api/decompositions/A/../workflow/approve",
+    "/api/decompositions/A/workflow/approve?x=1",
+  ])
+    await assert.rejects(
+      h.ctx.hostWorkflowAction(path, payload),
+      /Unsupported/,
+    );
+  assert.equal(h.calls.length, 3);
+  await assert.rejects(
+    h.ctx.hostRequest("/api/decompositions/A", { method: "POST" }),
+    /only reads/,
+  );
+});
+
+test("standalone handoff falls back honestly and embedded handoff uses the installed user message shape", async () => {
+  const standalone = setup({ embedded: false });
+  assert.equal(
+    await standalone.ctx.hostIterationMessage("selected scope"),
+    false,
+  );
+  const h = setup();
+  const messages = [];
+  h.host.sendMessage = async (message) => {
+    messages.push(message);
+    return {};
+  };
+  assert.equal(await h.ctx.hostIterationMessage("Ask me what to change"), true);
+  assert.equal(messages[0].role, "user");
+  assert.equal(messages[0].content[0].text, "Ask me what to change");
+  h.host.sendMessage = async () => ({ isError: true });
+  await assert.rejects(
+    h.ctx.hostIterationMessage("selection"),
+    /could not accept/,
+  );
+});
+
 test("only relative final STEP download URLs are intercepted", async () => {
   const h = setup();
   h.ctx.installHostDownloads();

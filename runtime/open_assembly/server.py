@@ -19,6 +19,7 @@ from pydantic import BaseModel, ConfigDict, Field, StrictInt
 from starlette.concurrency import run_in_threadpool
 
 from .context import BriefRequest, ChangeRequestCommand, ContextUpdate
+from .decomposition import DecompositionStore
 from .document import AssemblyDocument
 from .native import NativeEditCommand, NativeExampleCommand, native_cases
 from .project import MAX_INPUT_BYTES, ArtifactUnavailable, ProjectStore, RevisionConflict
@@ -127,12 +128,14 @@ def create_app(store=None):
 
     app = FastAPI(title="Open Assembly CAD", lifespan=lifespan)
     app.state.store = store
+    decomposition = DecompositionStore(store.root)
     app.add_middleware(_BodyLimit)
 
     @app.middleware("http")
     async def local_requests(request, call_next):
         mutation = (
-            request.method not in {"GET", "HEAD", "OPTIONS"} or request.url.path == "/api/demo"
+            request.method not in {"GET", "HEAD", "OPTIONS"}
+            or request.url.path in {"/api/demo", "/api/decomposition-anatomy-example"}
         )
         if not _trusted_request(request, mutation):
             return JSONResponse(
@@ -301,7 +304,9 @@ def create_app(store=None):
         try:
             job = store.get(job_id)
             if (job["document"] or {}).get("backend") == "smlibpy":
-                raise ValueError("Native cases require a new captured native edit, not legacy rebuild")
+                raise ValueError(
+                    "Native cases require a new captured native edit, not legacy rebuild"
+                )
             if job["revision"] != body.revision or job["state"] == "building":
                 raise RevisionConflict("Revision is stale or already building")
         except Exception:
@@ -381,6 +386,85 @@ def create_app(store=None):
             capacity.release()
             raise
         return schedule(job)
+
+    @app.get("/api/decomposition-schema")
+    def decomposition_schema():
+        return decomposition.request("GET", "/api/decomposition-schema")
+
+    @app.get("/api/decomposition-example")
+    def decomposition_example():
+        return decomposition.request("GET", "/api/decomposition-example")
+
+    @app.get("/api/decomposition-anatomy-example")
+    def anatomy_decomposition_example():
+        return decomposition.request("GET", "/api/decomposition-anatomy-example")
+
+    @app.get("/api/decompositions")
+    def list_decompositions():
+        return decomposition.request("GET", "/api/decompositions")
+
+    @app.post("/api/decompositions", status_code=201)
+    def create_decomposition(payload: dict):
+        return decomposition.request("POST", "/api/decompositions", payload)
+
+    @app.get("/api/decompositions/{project_id}")
+    def get_decomposition(project_id: str):
+        return decomposition.get(project_id)
+
+    @app.put("/api/decompositions/{project_id}/plan")
+    def put_decomposition(project_id: str, payload: dict):
+        return decomposition.update(project_id, payload)
+
+    @app.post("/api/decompositions/{project_id}/workflow/{action}")
+    def decomposition_workflow_action(project_id: str, action: str, payload: dict):
+        return decomposition.request(
+            "POST", f"/api/decompositions/{project_id}/workflow/{action}", payload
+        )
+
+    @app.get("/api/decompositions/{project_id}/workflow/builds/{build_id}/artifacts/{name:path}")
+    def decomposition_native_artifact(project_id: str, build_id: str, name: str):
+        from .decomposition_workflow import DecompositionWorkflow
+
+        artifact = DecompositionWorkflow(decomposition).artifact(project_id, build_id, name)
+        return FileResponse(
+            artifact,
+            filename=artifact.name,
+            media_type="application/step"
+            if artifact.suffix == ".step"
+            else mimetypes.guess_type(artifact.name)[0] or "application/octet-stream",
+        )
+
+    @app.get("/api/decompositions/{project_id}/reference")
+    def decomposition_reference(project_id: str):
+        return FileResponse(decomposition.reference(project_id), media_type="image/png")
+
+    @app.get("/api/decompositions/{project_id}/bundle")
+    def decomposition_bundle(project_id: str):
+        return FileResponse(
+            decomposition.bundle(project_id),
+            media_type="application/zip",
+            filename="decomposition.zip",
+        )
+
+    @app.get("/api/decompositions/{project_id}/revisions/{revision}")
+    def decomposition_revision(project_id: str, revision: int):
+        return decomposition.revision(project_id, revision)
+
+    @app.get("/api/decompositions/{project_id}/revisions/{revision}/bundle")
+    def decomposition_revision_bundle(project_id: str, revision: int):
+        return FileResponse(
+            decomposition.bundle(project_id, revision),
+            media_type="application/zip",
+            filename=f"decomposition-r{revision}.zip",
+        )
+
+    @app.get("/api/decompositions/{project_id}/artifacts/{name:path}")
+    def decomposition_artifact(project_id: str, name: str):
+        artifact = decomposition.artifact(project_id, name)
+        return FileResponse(
+            artifact,
+            media_type=mimetypes.guess_type(artifact.name)[0] or "application/octet-stream",
+        )
 
     packaged = Path(__file__).resolve().parent / "web_dist"
     dist = packaged if packaged.is_dir() else Path(__file__).resolve().parents[2] / "web" / "dist"

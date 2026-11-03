@@ -1,0 +1,205 @@
+{
+  "source_sha256": "3c6171a741a8a1b3a5a9cf6a9888cf803fda492c012bbd929a85038f15a40e1b",
+  "units": "relative",
+  "scale_note": "No known dimension in the reference; all dimensions are relative, not millimeters.",
+  "assumptions": [
+    "This is a concept interpretation of a single authored illustration, not recovered CAD.",
+    "The circular base and rotational shade are inferred from the elliptical silhouettes.",
+    "The collar is inferred; no internal bulb, wiring, fasteners or manufacturing details are claimed."
+  ],
+  "definitions": [
+    {
+      "id": "shade-shape",
+      "shapes": [
+        {
+          "kind": "shell",
+          "dimensions": [
+            0.88,
+            0.46,
+            0.94,
+            0.025
+          ]
+        },
+        {
+          "kind": "cylinder",
+          "dimensions": [
+            0.46,
+            0.025
+          ],
+          "position": [
+            0,
+            0,
+            0.4575
+          ]
+        }
+      ]
+    },
+    {
+      "id": "collar-shape",
+      "shapes": [
+        {
+          "kind": "cylinder",
+          "dimensions": [
+            0.075,
+            0.16
+          ]
+        }
+      ]
+    },
+    {
+      "id": "stem-shape",
+      "shapes": [
+        {
+          "kind": "cylinder",
+          "dimensions": [
+            0.052,
+            1.74
+          ]
+        }
+      ]
+    },
+    {
+      "id": "base-shape",
+      "shapes": [
+        {
+          "kind": "cylinder",
+          "dimensions": [
+            0.84,
+            0.09
+          ]
+        }
+      ]
+    },
+    {
+      "id": "switch-shape",
+      "shapes": [
+        {
+          "kind": "cylinder",
+          "dimensions": [
+            0.073,
+            0.025
+          ]
+        }
+      ]
+    }
+  ],
+  "nodes": [
+    {
+      "id": "lamp",
+      "label": "Desk lamp",
+      "parent_id": null,
+      "definition_id": null,
+      "position": [
+        0,
+        0,
+        0
+      ],
+      "evidence": "visible",
+      "note": "Reference illustration; proposed physical part tree."
+    },
+    {
+      "id": "head",
+      "label": "Lamp head",
+      "parent_id": "lamp",
+      "definition_id": null,
+      "position": [
+        0,
+        0,
+        2.35
+      ],
+      "evidence": "visible",
+      "note": "Visible silhouette; dimensions are approximate."
+    },
+    {
+      "id": "shade",
+      "label": "Shade",
+      "parent_id": "head",
+      "definition_id": "shade-shape",
+      "position": [
+        0,
+        0,
+        0
+      ],
+      "evidence": "visible",
+      "note": "Visible silhouette; dimensions are approximate."
+    },
+    {
+      "id": "collar",
+      "label": "Collar",
+      "parent_id": "head",
+      "definition_id": "collar-shape",
+      "position": [
+        0,
+        0,
+        -0.5
+      ],
+      "evidence": "inferred",
+      "note": "A connection is needed between shade and stem; its exact structure is not visible."
+    },
+    {
+      "id": "support",
+      "label": "Support",
+      "parent_id": "lamp",
+      "definition_id": null,
+      "position": [
+        0,
+        0,
+        0
+      ],
+      "evidence": "visible",
+      "note": "Visible silhouette; dimensions are approximate."
+    },
+    {
+      "id": "stem",
+      "label": "Stem",
+      "parent_id": "support",
+      "definition_id": "stem-shape",
+      "position": [
+        0,
+        0,
+        0.96
+      ],
+      "evidence": "visible",
+      "note": "Visible silhouette; dimensions are approximate."
+    },
+    {
+      "id": "foot",
+      "label": "Base assembly",
+      "parent_id": "lamp",
+      "definition_id": null,
+      "position": [
+        0,
+        0,
+        0
+      ],
+      "evidence": "visible",
+      "note": "Visible silhouette; dimensions are approximate."
+    },
+    {
+      "id": "base",
+      "label": "Base",
+      "parent_id": "foot",
+      "definition_id": "base-shape",
+      "position": [
+        0,
+        0,
+        0.045
+      ],
+      "evidence": "visible",
+      "note": "Visible silhouette; dimensions are approximate."
+    },
+    {
+      "id": "switch",
+      "label": "Switch",
+      "parent_id": "foot",
+      "definition_id": "switch-shape",
+      "position": [
+        0.64,
+        -0.12,
+        0.101
+      ],
+      "evidence": "visible",
+      "note": "Small circular control visible on the base; mechanism is unknown."
+    }
+  ]
+}

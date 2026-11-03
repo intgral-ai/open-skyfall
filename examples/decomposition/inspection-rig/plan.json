@@ -1,0 +1,3455 @@
+{
+  "schema_version": 2,
+  "source_sha256": "890ea78f9a1acfa390c8652675b59db793b895a72f3c9aaee429b95f155cc47c",
+  "units": "mm",
+  "scale_note": "Millimeters are explicit designed requirements in the original source and literal brief. No scale is inferred from preview pixels.",
+  "assumptions": [
+    "Original proposed inspection instrument, not a recovered manufacturer BOM, calibrated comparator or approved factory design.",
+    "All local dimensions, poses and primitive recipes beyond the explicit source callouts are chosen design assumptions. The complete v2 basis map documents these choices without asserting source truth.",
+    "Screws are connected one-piece head/shank envelopes. Threads and recipient holes are omitted, so overlap at a fastened interface is an unresolved manufacturing feature, not joint validation.",
+    "Saddles, bushings, collar, bezel, housing and stem have modeled bores. Running and clamping clearances are proposed, not toleranced fits.",
+    "Dial gearing, spring, spindle, glass, graduations, seals, retainers, drive recesses and lubrication are omitted. The face marks in the original drawing are graphics rather than physical parts.",
+    "Parts that touch or overlap do not establish fastener engagement, detachable joints, collision-free travel, stiffness or calibration. One stationary inspection pose is proposed.",
+    "Manufacturing notes per definition are proposals only. Actual material, process, finish, datum scheme, tolerances, loads and factory acceptance require responsible human review."
+  ],
+  "definitions": [
+    {
+      "id": "bed",
+      "shapes": [
+        {
+          "id": "plate",
+          "kind": "box",
+          "dimensions": [
+            240,
+            150,
+            12
+          ],
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      "manufacturing": {
+        "process": "machining",
+        "material": "Proposed ground steel",
+        "notes": [
+          "Datum faces, mounting and tapped holes are not modeled.",
+          "Confirm flatness, stiffness, finish and corrosion protection."
+        ],
+        "critical_features": [
+          "Top measuring datum",
+          "Foot and guide mounting hole patterns"
+        ]
+      }
+    },
+    {
+      "id": "foot",
+      "shapes": [
+        {
+          "id": "pad",
+          "kind": "cylinder",
+          "dimensions": [
+            8,
+            10
+          ],
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      "manufacturing": {
+        "process": "purchased",
+        "material": "Proposed elastomer",
+        "notes": [
+          "Purchased pad envelope only; attachment thread and compression are unspecified."
+        ],
+        "critical_features": [
+          "Support height and attachment"
+        ]
+      }
+    },
+    {
+      "id": "m4-screw",
+      "shapes": [
+        {
+          "id": "shank",
+          "kind": "cylinder",
+          "dimensions": [
+            2,
+            12
+          ],
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "id": "head",
+          "kind": "cylinder",
+          "dimensions": [
+            4,
+            4
+          ],
+          "position": [
+            0,
+            0,
+            7
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      "manufacturing": {
+        "process": "purchased",
+        "material": "Proposed steel",
+        "notes": [
+          "One-piece connected screw envelope; thread, drive recess and standard are unspecified.",
+          "Recipient clearance or tapped holes are omitted; penetrating shanks do not prove a usable joint."
+        ],
+        "critical_features": [
+          "Thread engagement",
+          "Head bearing face",
+          "Tool access"
+        ]
+      }
+    },
+    {
+      "id": "guide-rod",
+      "shapes": [
+        {
+          "id": "rod",
+          "kind": "cylinder",
+          "dimensions": [
+            4,
+            170
+          ],
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      "manufacturing": {
+        "process": "purchased",
+        "material": "Proposed ground steel",
+        "notes": [
+          "Ground rod envelope; straightness, hardness and finish need specification."
+        ],
+        "critical_features": [
+          "Sliding diameter and straightness"
+        ]
+      }
+    },
+    {
+      "id": "saddle",
+      "shapes": [
+        {
+          "id": "foot",
+          "kind": "box",
+          "dimensions": [
+            24,
+            22,
+            8
+          ],
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "id": "bore",
+          "kind": "shell",
+          "dimensions": [
+            8,
+            8,
+            12,
+            3.75
+          ],
+          "position": [
+            0,
+            0,
+            11
+          ],
+          "rotation": [
+            0,
+            90,
+            0
+          ]
+        }
+      ],
+      "manufacturing": {
+        "process": "machining",
+        "material": "Proposed aluminum",
+        "notes": [
+          "Bore is represented with a shell; its outer wall intersects the mounting pad to make one solid.",
+          "Clamp split, fixing hole and rod retention are omitted."
+        ],
+        "critical_features": [
+          "8.5 mm proposed bore",
+          "Rod center 11 mm above pad center",
+          "Mounting face"
+        ]
+      }
+    },
+    {
+      "id": "end-stop",
+      "shapes": [
+        {
+          "id": "stop",
+          "kind": "box",
+          "dimensions": [
+            12,
+            70,
+            16
+          ],
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      "manufacturing": {
+        "process": "machining",
+        "material": "Proposed aluminum",
+        "notes": [
+          "Stop mounting hole, cushioning and permissible impact load are unspecified."
+        ],
+        "critical_features": [
+          "Travel clearance",
+          "Stop contact faces"
+        ]
+      }
+    },
+    {
+      "id": "carriage",
+      "shapes": [
+        {
+          "id": "plate",
+          "kind": "box",
+          "dimensions": [
+            60,
+            76,
+            6
+          ],
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      "manufacturing": {
+        "process": "machining",
+        "material": "Proposed aluminum",
+        "notes": [
+          "Bushing attachment, handle and coupon mounting holes are omitted.",
+          "Confirm rigidity and parallelism to the guide bores."
+        ],
+        "critical_features": [
+          "Bushing support faces",
+          "Coupon seating datum"
+        ]
+      }
+    },
+    {
+      "id": "bushing",
+      "shapes": [
+        {
+          "id": "sleeve",
+          "kind": "shell",
+          "dimensions": [
+            6,
+            6,
+            14,
+            1.7
+          ],
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      "manufacturing": {
+        "process": "purchased",
+        "material": "Proposed bearing bronze",
+        "notes": [
+          "8.6 mm bore is a proposed preview clearance, not an approved running fit.",
+          "Lubrication, retention and actual bearing specification are unresolved."
+        ],
+        "critical_features": [
+          "Bore fit",
+          "Coaxial alignment",
+          "Retention"
+        ]
+      }
+    },
+    {
+      "id": "carriage-handle",
+      "shapes": [
+        {
+          "id": "shaft",
+          "kind": "cylinder",
+          "dimensions": [
+            2.5,
+            9
+          ],
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "id": "grip",
+          "kind": "sphere",
+          "dimensions": [
+            6
+          ],
+          "position": [
+            0,
+            0,
+            7
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      "manufacturing": {
+        "process": "purchased",
+        "material": "Proposed polymer and insert envelope",
+        "notes": [
+          "A connected one-piece envelope; insert, thread and grip attachment require detail."
+        ],
+        "critical_features": [
+          "Hand clearance",
+          "Carriage attachment"
+        ]
+      }
+    },
+    {
+      "id": "coupon",
+      "shapes": [
+        {
+          "id": "sample",
+          "kind": "box",
+          "dimensions": [
+            24,
+            30,
+            12
+          ],
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      "manufacturing": {
+        "process": "machining",
+        "material": "Proposed steel sample",
+        "notes": [
+          "Designed test subject, not a calibrated gauge block.",
+          "Contact finish, thickness tolerance and seating need confirmation."
+        ],
+        "critical_features": [
+          "Top contact face at Z51",
+          "Bottom seating face"
+        ]
+      }
+    },
+    {
+      "id": "pedestal",
+      "shapes": [
+        {
+          "id": "body",
+          "kind": "cylinder",
+          "dimensions": [
+            16,
+            18
+          ],
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      "manufacturing": {
+        "process": "machining",
+        "material": "Proposed steel",
+        "notes": [
+          "Post socket and mounting holes are omitted; post meets the top face as a proposed interface."
+        ],
+        "critical_features": [
+          "Post attachment",
+          "Bed mounting datum"
+        ]
+      }
+    },
+    {
+      "id": "post",
+      "shapes": [
+        {
+          "id": "shaft",
+          "kind": "cylinder",
+          "dimensions": [
+            6,
+            130
+          ],
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      "manufacturing": {
+        "process": "machining",
+        "material": "Proposed ground steel",
+        "notes": [
+          "End threads, pedestal fit and height retention require design."
+        ],
+        "critical_features": [
+          "Column straightness",
+          "Collar sliding fit"
+        ]
+      }
+    },
+    {
+      "id": "post-collar",
+      "shapes": [
+        {
+          "id": "bore",
+          "kind": "shell",
+          "dimensions": [
+            10,
+            10,
+            18,
+            3.7
+          ],
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      "manufacturing": {
+        "process": "machining",
+        "material": "Proposed aluminum",
+        "notes": [
+          "12.6 mm proposed bore preserves a visible post clearance.",
+          "Clamp split, cross-hole and arm attachment are omitted."
+        ],
+        "critical_features": [
+          "Post fit and clamping",
+          "Arm interface"
+        ]
+      }
+    },
+    {
+      "id": "arm",
+      "shapes": [
+        {
+          "id": "beam",
+          "kind": "box",
+          "dimensions": [
+            103,
+            12,
+            10
+          ],
+          "position": [
+            61.5,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "id": "finger",
+          "kind": "box",
+          "dimensions": [
+            12,
+            38,
+            10
+          ],
+          "position": [
+            107,
+            -19,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      "manufacturing": {
+        "process": "machining",
+        "material": "Proposed aluminum",
+        "notes": [
+          "Two overlapping orthogonal prisms fuse as one L-shaped arm.",
+          "Collar and indicator mounts, fastener holes and bending analysis are omitted."
+        ],
+        "critical_features": [
+          "Post collar connection",
+          "Indicator back mounting face",
+          "Bending stiffness"
+        ]
+      }
+    },
+    {
+      "id": "clamp-knob",
+      "shapes": [
+        {
+          "id": "screw",
+          "kind": "cylinder",
+          "dimensions": [
+            2,
+            10
+          ],
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "id": "grip",
+          "kind": "cylinder",
+          "dimensions": [
+            6,
+            6
+          ],
+          "position": [
+            0,
+            0,
+            7
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      "manufacturing": {
+        "process": "purchased",
+        "material": "Proposed steel",
+        "notes": [
+          "One-piece knob envelope. Threads, knurling and tapped recipient holes are omitted."
+        ],
+        "critical_features": [
+          "Clamp force",
+          "Thread engagement",
+          "Finger access"
+        ]
+      }
+    },
+    {
+      "id": "dial-housing",
+      "shapes": [
+        {
+          "id": "cup-wall",
+          "kind": "shell",
+          "dimensions": [
+            25,
+            25,
+            14,
+            2
+          ],
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      "manufacturing": {
+        "process": "purchased",
+        "material": "Proposed aluminum",
+        "notes": [
+          "Purchased dial exterior envelope; internal comparator mechanism is unknown and omitted.",
+          "Stem port, bezel retention, sealing and back mount are unresolved."
+        ],
+        "critical_features": [
+          "Back mounting face",
+          "Stem entry",
+          "Bezel seat"
+        ]
+      }
+    },
+    {
+      "id": "dial-back",
+      "shapes": [
+        {
+          "id": "cap",
+          "kind": "cylinder",
+          "dimensions": [
+            25,
+            4
+          ],
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      "manufacturing": {
+        "process": "purchased",
+        "material": "Proposed aluminum",
+        "notes": [
+          "Back cap envelope; closure screws, seal and arm interface need definition."
+        ],
+        "critical_features": [
+          "Housing closure",
+          "Arm contact"
+        ]
+      }
+    },
+    {
+      "id": "dial-bezel",
+      "shapes": [
+        {
+          "id": "rim",
+          "kind": "shell",
+          "dimensions": [
+            25.8,
+            25.8,
+            3,
+            2.5
+          ],
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      "manufacturing": {
+        "process": "purchased",
+        "material": "Proposed aluminum",
+        "notes": [
+          "Bored bezel envelope. Threads, locking and glass retention are omitted."
+        ],
+        "critical_features": [
+          "Housing fit",
+          "Face clearance"
+        ]
+      }
+    },
+    {
+      "id": "dial-face",
+      "shapes": [
+        {
+          "id": "disc",
+          "kind": "cylinder",
+          "dimensions": [
+            22.8,
+            1.4
+          ],
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      "manufacturing": {
+        "process": "purchased",
+        "material": "Proposed coated metal",
+        "notes": [
+          "Separate face disc, not a precision dial calibration.",
+          "Graduations, center hole and retention are omitted; source ticks are graphics."
+        ],
+        "critical_features": [
+          "Pointer clearance",
+          "Calibration and graduation"
+        ]
+      }
+    },
+    {
+      "id": "dial-pointer",
+      "shapes": [
+        {
+          "id": "hub",
+          "kind": "cylinder",
+          "dimensions": [
+            2,
+            0.6
+          ],
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "id": "needle",
+          "kind": "box",
+          "dimensions": [
+            1.1,
+            19,
+            0.6
+          ],
+          "position": [
+            0,
+            7,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      "manufacturing": {
+        "process": "purchased",
+        "material": "Proposed aluminum",
+        "notes": [
+          "Overlapping hub and needle fuse into one solid.",
+          "Spindle bore, balance and calibration are unspecified."
+        ],
+        "critical_features": [
+          "Spindle fit",
+          "Face clearance"
+        ]
+      }
+    },
+    {
+      "id": "stem-sleeve",
+      "shapes": [
+        {
+          "id": "bore",
+          "kind": "shell",
+          "dimensions": [
+            4,
+            4,
+            22,
+            1
+          ],
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      "manufacturing": {
+        "process": "purchased",
+        "material": "Proposed steel",
+        "notes": [
+          "Bored stem envelope; guides, spring and seal are not modeled."
+        ],
+        "critical_features": [
+          "Plunger running fit",
+          "Housing connection"
+        ]
+      }
+    },
+    {
+      "id": "plunger",
+      "shapes": [
+        {
+          "id": "shaft",
+          "kind": "cylinder",
+          "dimensions": [
+            1.5,
+            30
+          ],
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      "manufacturing": {
+        "process": "purchased",
+        "material": "Proposed ground steel",
+        "notes": [
+          "Exposed contact plunger envelope; internal actuation and end attachment are unspecified."
+        ],
+        "critical_features": [
+          "Stroke and guidance",
+          "Contact attachment"
+        ]
+      }
+    },
+    {
+      "id": "contact-ball",
+      "shapes": [
+        {
+          "id": "contact",
+          "kind": "sphere",
+          "dimensions": [
+            3
+          ],
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      "manufacturing": {
+        "process": "purchased",
+        "material": "Proposed carbide",
+        "notes": [
+          "Spherical tip envelope; stem attachment is represented by overlap only.",
+          "Confirm contact stress, radius and replaceable attachment."
+        ],
+        "critical_features": [
+          "Coupon contact",
+          "Plunger attachment"
+        ]
+      }
+    },
+    {
+      "id": "dial-crown",
+      "shapes": [
+        {
+          "id": "crown",
+          "kind": "cylinder",
+          "dimensions": [
+            3,
+            6
+          ],
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      "manufacturing": {
+        "process": "purchased",
+        "material": "Proposed steel",
+        "notes": [
+          "External lift/control envelope; function, seal and housing thread remain proposed."
+        ],
+        "critical_features": [
+          "Housing interface",
+          "Control travel"
+        ]
+      }
+    },
+    {
+      "id": "datum-block",
+      "shapes": [
+        {
+          "id": "block",
+          "kind": "box",
+          "dimensions": [
+            18,
+            24,
+            12
+          ],
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      "manufacturing": {
+        "process": "machining",
+        "material": "Proposed steel",
+        "notes": [
+          "Travel-datum block envelope. Mounting and pin holes are omitted."
+        ],
+        "critical_features": [
+          "Bed seating face",
+          "Pin alignment"
+        ]
+      }
+    },
+    {
+      "id": "datum-pin",
+      "shapes": [
+        {
+          "id": "pin",
+          "kind": "cylinder",
+          "dimensions": [
+            3,
+            20
+          ],
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      "manufacturing": {
+        "process": "purchased",
+        "material": "Proposed ground steel",
+        "notes": [
+          "Proposed locating pin. Press fit and retention are unconfirmed.",
+          "Travel stop contact occurs only after carriage translation; the saved pose is a stationary inspection pose."
+        ],
+        "critical_features": [
+          "Locating fit",
+          "Stop clearance"
+        ]
+      }
+    }
+  ],
+  "nodes": [
+    {
+      "id": "inspection-rig",
+      "label": "Bench comparator / proposed design",
+      "parent_id": null,
+      "definition_id": null,
+      "position": [
+        0,
+        0,
+        0
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "evidence": "inferred",
+      "note": "Original designed fixture. Fifty physical occurrences in six subassemblies. No approvals, recovered BOM, calibration or native validity are claimed."
+    },
+    {
+      "id": "bed-group",
+      "label": "Bed and leveling feet",
+      "parent_id": "inspection-rig",
+      "definition_id": null,
+      "position": [
+        0,
+        0,
+        0
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "evidence": "inferred",
+      "note": "Proposed physical occurrence. Exact dimensions and interfaces require human engineering review; this is not recovered manufacturer detail."
+    },
+    {
+      "id": "guides-group",
+      "label": "Twin guides and travel stops",
+      "parent_id": "inspection-rig",
+      "definition_id": null,
+      "position": [
+        0,
+        0,
+        0
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "evidence": "inferred",
+      "note": "Proposed physical occurrence. Exact dimensions and interfaces require human engineering review; this is not recovered manufacturer detail."
+    },
+    {
+      "id": "carriage-group",
+      "label": "Sliding coupon carriage",
+      "parent_id": "inspection-rig",
+      "definition_id": null,
+      "position": [
+        0,
+        0,
+        0
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "evidence": "inferred",
+      "note": "Proposed physical occurrence. Exact dimensions and interfaces require human engineering review; this is not recovered manufacturer detail."
+    },
+    {
+      "id": "stand-group",
+      "label": "Column and cantilever arm",
+      "parent_id": "inspection-rig",
+      "definition_id": null,
+      "position": [
+        0,
+        0,
+        0
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "evidence": "inferred",
+      "note": "Proposed physical occurrence. Exact dimensions and interfaces require human engineering review; this is not recovered manufacturer detail."
+    },
+    {
+      "id": "indicator-group",
+      "label": "Comparator exterior and contact",
+      "parent_id": "inspection-rig",
+      "definition_id": null,
+      "position": [
+        0,
+        0,
+        0
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "evidence": "inferred",
+      "note": "Proposed physical occurrence. Exact dimensions and interfaces require human engineering review; this is not recovered manufacturer detail."
+    },
+    {
+      "id": "datum-group",
+      "label": "Travel datum",
+      "parent_id": "inspection-rig",
+      "definition_id": null,
+      "position": [
+        0,
+        0,
+        0
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "evidence": "inferred",
+      "note": "Proposed physical occurrence. Exact dimensions and interfaces require human engineering review; this is not recovered manufacturer detail."
+    },
+    {
+      "id": "bed-plate",
+      "label": "Ground bed plate",
+      "parent_id": "bed-group",
+      "definition_id": "bed",
+      "position": [
+        0,
+        0,
+        6
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "evidence": "inferred",
+      "note": "Proposed physical occurrence. Exact dimensions and interfaces require human engineering review; this is not recovered manufacturer detail."
+    },
+    {
+      "id": "foot-front-left",
+      "label": "Front left foot",
+      "parent_id": "bed-group",
+      "definition_id": "foot",
+      "position": [
+        -100,
+        -55,
+        -5
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "evidence": "inferred",
+      "note": "Proposed physical occurrence. Exact dimensions and interfaces require human engineering review; this is not recovered manufacturer detail."
+    },
+    {
+      "id": "foot-screw-front-left",
+      "label": "Front left foot screw",
+      "parent_id": "bed-group",
+      "definition_id": "m4-screw",
+      "position": [
+        -100,
+        -55,
+        5
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "evidence": "inferred",
+      "note": "Proposed physical occurrence. Exact dimensions and interfaces require human engineering review; this is not recovered manufacturer detail."
+    },
+    {
+      "id": "foot-rear-left",
+      "label": "Rear left foot",
+      "parent_id": "bed-group",
+      "definition_id": "foot",
+      "position": [
+        -100,
+        55,
+        -5
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "evidence": "inferred",
+      "note": "Proposed physical occurrence. Exact dimensions and interfaces require human engineering review; this is not recovered manufacturer detail."
+    },
+    {
+      "id": "foot-screw-rear-left",
+      "label": "Rear left foot screw",
+      "parent_id": "bed-group",
+      "definition_id": "m4-screw",
+      "position": [
+        -100,
+        55,
+        5
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "evidence": "inferred",
+      "note": "Proposed physical occurrence. Exact dimensions and interfaces require human engineering review; this is not recovered manufacturer detail."
+    },
+    {
+      "id": "foot-front-right",
+      "label": "Front right foot",
+      "parent_id": "bed-group",
+      "definition_id": "foot",
+      "position": [
+        100,
+        -55,
+        -5
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "evidence": "inferred",
+      "note": "Proposed physical occurrence. Exact dimensions and interfaces require human engineering review; this is not recovered manufacturer detail."
+    },
+    {
+      "id": "foot-screw-front-right",
+      "label": "Front right foot screw",
+      "parent_id": "bed-group",
+      "definition_id": "m4-screw",
+      "position": [
+        100,
+        -55,
+        5
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "evidence": "inferred",
+      "note": "Proposed physical occurrence. Exact dimensions and interfaces require human engineering review; this is not recovered manufacturer detail."
+    },
+    {
+      "id": "foot-rear-right",
+      "label": "Rear right foot",
+      "parent_id": "bed-group",
+      "definition_id": "foot",
+      "position": [
+        100,
+        55,
+        -5
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "evidence": "inferred",
+      "note": "Proposed physical occurrence. Exact dimensions and interfaces require human engineering review; this is not recovered manufacturer detail."
+    },
+    {
+      "id": "foot-screw-rear-right",
+      "label": "Rear right foot screw",
+      "parent_id": "bed-group",
+      "definition_id": "m4-screw",
+      "position": [
+        100,
+        55,
+        5
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "evidence": "inferred",
+      "note": "Proposed physical occurrence. Exact dimensions and interfaces require human engineering review; this is not recovered manufacturer detail."
+    },
+    {
+      "id": "rail-front",
+      "label": "Front guide rod",
+      "parent_id": "guides-group",
+      "definition_id": "guide-rod",
+      "position": [
+        0,
+        -27,
+        27
+      ],
+      "rotation": [
+        0,
+        90,
+        0
+      ],
+      "evidence": "inferred",
+      "note": "Proposed physical occurrence. Exact dimensions and interfaces require human engineering review; this is not recovered manufacturer detail."
+    },
+    {
+      "id": "saddle-front-left",
+      "label": "Front left bored saddle",
+      "parent_id": "guides-group",
+      "definition_id": "saddle",
+      "position": [
+        -85,
+        -27,
+        16
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "evidence": "inferred",
+      "note": "Proposed physical occurrence. Exact dimensions and interfaces require human engineering review; this is not recovered manufacturer detail."
+    },
+    {
+      "id": "saddle-screw-front-left",
+      "label": "Front left saddle screw",
+      "parent_id": "guides-group",
+      "definition_id": "m4-screw",
+      "position": [
+        -85,
+        -35,
+        19
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "evidence": "inferred",
+      "note": "Proposed physical occurrence. Exact dimensions and interfaces require human engineering review; this is not recovered manufacturer detail."
+    },
+    {
+      "id": "saddle-front-right",
+      "label": "Front right bored saddle",
+      "parent_id": "guides-group",
+      "definition_id": "saddle",
+      "position": [
+        85,
+        -27,
+        16
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "evidence": "inferred",
+      "note": "Proposed physical occurrence. Exact dimensions and interfaces require human engineering review; this is not recovered manufacturer detail."
+    },
+    {
+      "id": "saddle-screw-front-right",
+      "label": "Front right saddle screw",
+      "parent_id": "guides-group",
+      "definition_id": "m4-screw",
+      "position": [
+        85,
+        -35,
+        19
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "evidence": "inferred",
+      "note": "Proposed physical occurrence. Exact dimensions and interfaces require human engineering review; this is not recovered manufacturer detail."
+    },
+    {
+      "id": "rail-rear",
+      "label": "Rear guide rod",
+      "parent_id": "guides-group",
+      "definition_id": "guide-rod",
+      "position": [
+        0,
+        27,
+        27
+      ],
+      "rotation": [
+        0,
+        90,
+        0
+      ],
+      "evidence": "inferred",
+      "note": "Proposed physical occurrence. Exact dimensions and interfaces require human engineering review; this is not recovered manufacturer detail."
+    },
+    {
+      "id": "saddle-rear-left",
+      "label": "Rear left bored saddle",
+      "parent_id": "guides-group",
+      "definition_id": "saddle",
+      "position": [
+        -85,
+        27,
+        16
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "evidence": "inferred",
+      "note": "Proposed physical occurrence. Exact dimensions and interfaces require human engineering review; this is not recovered manufacturer detail."
+    },
+    {
+      "id": "saddle-screw-rear-left",
+      "label": "Rear left saddle screw",
+      "parent_id": "guides-group",
+      "definition_id": "m4-screw",
+      "position": [
+        -85,
+        35,
+        19
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "evidence": "inferred",
+      "note": "Proposed physical occurrence. Exact dimensions and interfaces require human engineering review; this is not recovered manufacturer detail."
+    },
+    {
+      "id": "saddle-rear-right",
+      "label": "Rear right bored saddle",
+      "parent_id": "guides-group",
+      "definition_id": "saddle",
+      "position": [
+        85,
+        27,
+        16
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "evidence": "inferred",
+      "note": "Proposed physical occurrence. Exact dimensions and interfaces require human engineering review; this is not recovered manufacturer detail."
+    },
+    {
+      "id": "saddle-screw-rear-right",
+      "label": "Rear right saddle screw",
+      "parent_id": "guides-group",
+      "definition_id": "m4-screw",
+      "position": [
+        85,
+        35,
+        19
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "evidence": "inferred",
+      "note": "Proposed physical occurrence. Exact dimensions and interfaces require human engineering review; this is not recovered manufacturer detail."
+    },
+    {
+      "id": "stop-left",
+      "label": "Left end stop",
+      "parent_id": "guides-group",
+      "definition_id": "end-stop",
+      "position": [
+        -102,
+        0,
+        20
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "evidence": "inferred",
+      "note": "Proposed physical occurrence. Exact dimensions and interfaces require human engineering review; this is not recovered manufacturer detail."
+    },
+    {
+      "id": "stop-screw-left",
+      "label": "Left stop screw",
+      "parent_id": "guides-group",
+      "definition_id": "m4-screw",
+      "position": [
+        -102,
+        0,
+        27
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "evidence": "inferred",
+      "note": "Proposed physical occurrence. Exact dimensions and interfaces require human engineering review; this is not recovered manufacturer detail."
+    },
+    {
+      "id": "stop-right",
+      "label": "Right end stop",
+      "parent_id": "guides-group",
+      "definition_id": "end-stop",
+      "position": [
+        102,
+        0,
+        20
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "evidence": "inferred",
+      "note": "Proposed physical occurrence. Exact dimensions and interfaces require human engineering review; this is not recovered manufacturer detail."
+    },
+    {
+      "id": "stop-screw-right",
+      "label": "Right stop screw",
+      "parent_id": "guides-group",
+      "definition_id": "m4-screw",
+      "position": [
+        102,
+        0,
+        27
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "evidence": "inferred",
+      "note": "Proposed physical occurrence. Exact dimensions and interfaces require human engineering review; this is not recovered manufacturer detail."
+    },
+    {
+      "id": "carriage-plate",
+      "label": "Carriage plate",
+      "parent_id": "carriage-group",
+      "definition_id": "carriage",
+      "position": [
+        25,
+        0,
+        36
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "evidence": "inferred",
+      "note": "Proposed physical occurrence. Exact dimensions and interfaces require human engineering review; this is not recovered manufacturer detail."
+    },
+    {
+      "id": "bushing-front-left",
+      "label": "Front left sleeve bushing",
+      "parent_id": "carriage-group",
+      "definition_id": "bushing",
+      "position": [
+        6,
+        -27,
+        27
+      ],
+      "rotation": [
+        0,
+        90,
+        0
+      ],
+      "evidence": "inferred",
+      "note": "Proposed physical occurrence. Exact dimensions and interfaces require human engineering review; this is not recovered manufacturer detail."
+    },
+    {
+      "id": "bushing-rear-left",
+      "label": "Rear left sleeve bushing",
+      "parent_id": "carriage-group",
+      "definition_id": "bushing",
+      "position": [
+        6,
+        27,
+        27
+      ],
+      "rotation": [
+        0,
+        90,
+        0
+      ],
+      "evidence": "inferred",
+      "note": "Proposed physical occurrence. Exact dimensions and interfaces require human engineering review; this is not recovered manufacturer detail."
+    },
+    {
+      "id": "bushing-front-right",
+      "label": "Front right sleeve bushing",
+      "parent_id": "carriage-group",
+      "definition_id": "bushing",
+      "position": [
+        44,
+        -27,
+        27
+      ],
+      "rotation": [
+        0,
+        90,
+        0
+      ],
+      "evidence": "inferred",
+      "note": "Proposed physical occurrence. Exact dimensions and interfaces require human engineering review; this is not recovered manufacturer detail."
+    },
+    {
+      "id": "bushing-rear-right",
+      "label": "Rear right sleeve bushing",
+      "parent_id": "carriage-group",
+      "definition_id": "bushing",
+      "position": [
+        44,
+        27,
+        27
+      ],
+      "rotation": [
+        0,
+        90,
+        0
+      ],
+      "evidence": "inferred",
+      "note": "Proposed physical occurrence. Exact dimensions and interfaces require human engineering review; this is not recovered manufacturer detail."
+    },
+    {
+      "id": "carriage-handle",
+      "label": "Carriage hand grip",
+      "parent_id": "carriage-group",
+      "definition_id": "carriage-handle",
+      "position": [
+        44,
+        -42,
+        36
+      ],
+      "rotation": [
+        90,
+        0,
+        0
+      ],
+      "evidence": "inferred",
+      "note": "Proposed physical occurrence. Exact dimensions and interfaces require human engineering review; this is not recovered manufacturer detail."
+    },
+    {
+      "id": "test-coupon",
+      "label": "Inspection coupon",
+      "parent_id": "carriage-group",
+      "definition_id": "coupon",
+      "position": [
+        25,
+        0,
+        45
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "evidence": "inferred",
+      "note": "Proposed physical occurrence. Exact dimensions and interfaces require human engineering review; this is not recovered manufacturer detail."
+    },
+    {
+      "id": "post-pedestal",
+      "label": "Column pedestal",
+      "parent_id": "stand-group",
+      "definition_id": "pedestal",
+      "position": [
+        -88,
+        42,
+        21
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "evidence": "inferred",
+      "note": "Proposed physical occurrence. Exact dimensions and interfaces require human engineering review; this is not recovered manufacturer detail."
+    },
+    {
+      "id": "column-post",
+      "label": "Ground column post",
+      "parent_id": "stand-group",
+      "definition_id": "post",
+      "position": [
+        -88,
+        42,
+        95
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "evidence": "inferred",
+      "note": "Proposed physical occurrence. Exact dimensions and interfaces require human engineering review; this is not recovered manufacturer detail."
+    },
+    {
+      "id": "post-collar",
+      "label": "Bored column collar",
+      "parent_id": "stand-group",
+      "definition_id": "post-collar",
+      "position": [
+        -88,
+        42,
+        135
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "evidence": "inferred",
+      "note": "Proposed physical occurrence. Exact dimensions and interfaces require human engineering review; this is not recovered manufacturer detail."
+    },
+    {
+      "id": "cantilever-arm",
+      "label": "One-piece L arm",
+      "parent_id": "stand-group",
+      "definition_id": "arm",
+      "position": [
+        -88,
+        42,
+        135
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "evidence": "inferred",
+      "note": "Proposed physical occurrence. Exact dimensions and interfaces require human engineering review; this is not recovered manufacturer detail."
+    },
+    {
+      "id": "column-clamp-knob",
+      "label": "Column height clamp knob",
+      "parent_id": "stand-group",
+      "definition_id": "clamp-knob",
+      "position": [
+        -88,
+        30,
+        135
+      ],
+      "rotation": [
+        90,
+        0,
+        0
+      ],
+      "evidence": "inferred",
+      "note": "Proposed physical occurrence. Exact dimensions and interfaces require human engineering review; this is not recovered manufacturer detail."
+    },
+    {
+      "id": "indicator-clamp-knob",
+      "label": "Indicator arm clamp knob",
+      "parent_id": "stand-group",
+      "definition_id": "clamp-knob",
+      "position": [
+        19,
+        22,
+        143
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "evidence": "inferred",
+      "note": "Proposed physical occurrence. Exact dimensions and interfaces require human engineering review; this is not recovered manufacturer detail."
+    },
+    {
+      "id": "pedestal-screw-left",
+      "label": "Left pedestal screw",
+      "parent_id": "stand-group",
+      "definition_id": "m4-screw",
+      "position": [
+        -100,
+        42,
+        24
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "evidence": "inferred",
+      "note": "Proposed physical occurrence. Exact dimensions and interfaces require human engineering review; this is not recovered manufacturer detail."
+    },
+    {
+      "id": "pedestal-screw-right",
+      "label": "Right pedestal screw",
+      "parent_id": "stand-group",
+      "definition_id": "m4-screw",
+      "position": [
+        -76,
+        42,
+        24
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "evidence": "inferred",
+      "note": "Proposed physical occurrence. Exact dimensions and interfaces require human engineering review; this is not recovered manufacturer detail."
+    },
+    {
+      "id": "dial-housing",
+      "label": "Bored dial housing",
+      "parent_id": "indicator-group",
+      "definition_id": "dial-housing",
+      "position": [
+        25,
+        -7,
+        125
+      ],
+      "rotation": [
+        90,
+        0,
+        0
+      ],
+      "evidence": "inferred",
+      "note": "Proposed physical occurrence. Exact dimensions and interfaces require human engineering review; this is not recovered manufacturer detail."
+    },
+    {
+      "id": "dial-back",
+      "label": "Dial rear cover",
+      "parent_id": "indicator-group",
+      "definition_id": "dial-back",
+      "position": [
+        25,
+        2,
+        125
+      ],
+      "rotation": [
+        90,
+        0,
+        0
+      ],
+      "evidence": "inferred",
+      "note": "Proposed physical occurrence. Exact dimensions and interfaces require human engineering review; this is not recovered manufacturer detail."
+    },
+    {
+      "id": "dial-bezel",
+      "label": "Separate bored bezel",
+      "parent_id": "indicator-group",
+      "definition_id": "dial-bezel",
+      "position": [
+        25,
+        -15.5,
+        125
+      ],
+      "rotation": [
+        90,
+        0,
+        0
+      ],
+      "evidence": "inferred",
+      "note": "Proposed physical occurrence. Exact dimensions and interfaces require human engineering review; this is not recovered manufacturer detail."
+    },
+    {
+      "id": "dial-face",
+      "label": "Plain dial face",
+      "parent_id": "indicator-group",
+      "definition_id": "dial-face",
+      "position": [
+        25,
+        -15.8,
+        125
+      ],
+      "rotation": [
+        90,
+        0,
+        0
+      ],
+      "evidence": "inferred",
+      "note": "Proposed physical occurrence. Exact dimensions and interfaces require human engineering review; this is not recovered manufacturer detail."
+    },
+    {
+      "id": "dial-pointer",
+      "label": "Pointer with integral hub",
+      "parent_id": "indicator-group",
+      "definition_id": "dial-pointer",
+      "position": [
+        25,
+        -16.8,
+        125
+      ],
+      "rotation": [
+        90,
+        0,
+        0
+      ],
+      "evidence": "inferred",
+      "note": "Proposed physical occurrence. Exact dimensions and interfaces require human engineering review; this is not recovered manufacturer detail."
+    },
+    {
+      "id": "stem-sleeve",
+      "label": "Bored indicator stem",
+      "parent_id": "indicator-group",
+      "definition_id": "stem-sleeve",
+      "position": [
+        25,
+        -7,
+        89
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "evidence": "inferred",
+      "note": "Proposed physical occurrence. Exact dimensions and interfaces require human engineering review; this is not recovered manufacturer detail."
+    },
+    {
+      "id": "contact-plunger",
+      "label": "Contact plunger",
+      "parent_id": "indicator-group",
+      "definition_id": "plunger",
+      "position": [
+        25,
+        -7,
+        71
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "evidence": "inferred",
+      "note": "Proposed physical occurrence. Exact dimensions and interfaces require human engineering review; this is not recovered manufacturer detail."
+    },
+    {
+      "id": "contact-ball",
+      "label": "Spherical coupon contact",
+      "parent_id": "indicator-group",
+      "definition_id": "contact-ball",
+      "position": [
+        25,
+        -7,
+        54
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "evidence": "inferred",
+      "note": "Proposed physical occurrence. Exact dimensions and interfaces require human engineering review; this is not recovered manufacturer detail."
+    },
+    {
+      "id": "dial-crown",
+      "label": "Dial lift crown",
+      "parent_id": "indicator-group",
+      "definition_id": "dial-crown",
+      "position": [
+        25,
+        -7,
+        153
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "evidence": "inferred",
+      "note": "Proposed physical occurrence. Exact dimensions and interfaces require human engineering review; this is not recovered manufacturer detail."
+    },
+    {
+      "id": "travel-datum-block",
+      "label": "Travel datum block",
+      "parent_id": "datum-group",
+      "definition_id": "datum-block",
+      "position": [
+        68,
+        0,
+        18
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "evidence": "inferred",
+      "note": "Proposed physical occurrence. Exact dimensions and interfaces require human engineering review; this is not recovered manufacturer detail."
+    },
+    {
+      "id": "travel-datum-pin",
+      "label": "Ground travel datum pin",
+      "parent_id": "datum-group",
+      "definition_id": "datum-pin",
+      "position": [
+        68,
+        -5,
+        34
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "evidence": "inferred",
+      "note": "Proposed physical occurrence. Exact dimensions and interfaces require human engineering review; this is not recovered manufacturer detail."
+    },
+    {
+      "id": "travel-datum-screw",
+      "label": "Travel datum fixing screw",
+      "parent_id": "datum-group",
+      "definition_id": "m4-screw",
+      "position": [
+        68,
+        7,
+        25
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "evidence": "inferred",
+      "note": "Proposed physical occurrence. Exact dimensions and interfaces require human engineering review; this is not recovered manufacturer detail."
+    }
+  ],
+  "explanation": {
+    "observations": [
+      {
+        "id": "source-title",
+        "region": [
+          0.03,
+          0.02,
+          0.97,
+          0.1
+        ],
+        "statement": "The original source identifies an invented bench-comparator design proposal with millimeter dimensions and no manufacturer BOM claim."
+      },
+      {
+        "id": "front-view",
+        "region": [
+          0.05,
+          0.12,
+          0.55,
+          0.53
+        ],
+        "statement": "The front view shows a bed, feet, left column and L arm, round front-facing dial, vertical contact and separate coupon on a rail carriage."
+      },
+      {
+        "id": "top-view",
+        "region": [
+          0.58,
+          0.12,
+          0.99,
+          0.57
+        ],
+        "statement": "The top view shows twin guides, four saddles, end stops, a rectangular carriage, rear-left post and right-side travel datum."
+      },
+      {
+        "id": "front-dimensions",
+        "region": [
+          0.05,
+          0.53,
+          0.54,
+          0.61
+        ],
+        "statement": "The source states bed 240 x 150 x 12 mm, four feet, rods diameter 8 x 170, dial diameter 50, dial center Z125 and coupon top Z51."
+      },
+      {
+        "id": "top-dimensions",
+        "region": [
+          0.58,
+          0.57,
+          0.98,
+          0.62
+        ],
+        "statement": "The source states rod centers Y +/-27 and Z27, carriage 60 x 76 x 6 and post diameter 12."
+      },
+      {
+        "id": "design-limits",
+        "region": [
+          0.03,
+          0.65,
+          0.97,
+          0.95
+        ],
+        "statement": "The source calls the subassemblies proposed, omits internal gearing and threads or recipient holes, and leaves fits, tolerances, materials, calibration and factory processes unconfirmed."
+      }
+    ],
+    "bases": {
+      "frame": {
+        "kind": "assumed",
+        "observations": [],
+        "why": "Chosen right-handed Z-up millimeter frame. Bed bottom is Z0; +Y points rearward. Zero Euler rotations and zero local offsets are authoring conventions."
+      },
+      "metric": {
+        "kind": "observed",
+        "observations": [
+          "source-title"
+        ],
+        "why": "The original designed brief and drawing explicitly use millimeters. This scale is a proposed design requirement, not a measured physical product."
+      },
+      "physical-groups": {
+        "kind": "assumed",
+        "observations": [],
+        "why": "These six proposed subassemblies organize real modeled occurrences; they are not an inferred manufacturer assembly sequence."
+      },
+      "bed-design": {
+        "kind": "assumed",
+        "observations": [],
+        "why": "Proposed bed dimensions and primitive recipe from the original design brief. Unspecified details are chosen envelopes; manufacturing notes identify missing interfaces."
+      },
+      "foot-design": {
+        "kind": "assumed",
+        "observations": [],
+        "why": "Proposed foot dimensions and primitive recipe from the original design brief. Unspecified details are chosen envelopes; manufacturing notes identify missing interfaces."
+      },
+      "m4-screw-design": {
+        "kind": "assumed",
+        "observations": [],
+        "why": "Proposed m4 screw dimensions and primitive recipe from the original design brief. Unspecified details are chosen envelopes; manufacturing notes identify missing interfaces."
+      },
+      "guide-rod-design": {
+        "kind": "assumed",
+        "observations": [],
+        "why": "Proposed guide rod dimensions and primitive recipe from the original design brief. Unspecified details are chosen envelopes; manufacturing notes identify missing interfaces."
+      },
+      "saddle-design": {
+        "kind": "assumed",
+        "observations": [],
+        "why": "Proposed saddle dimensions and primitive recipe from the original design brief. Unspecified details are chosen envelopes; manufacturing notes identify missing interfaces."
+      },
+      "end-stop-design": {
+        "kind": "assumed",
+        "observations": [],
+        "why": "Proposed end stop dimensions and primitive recipe from the original design brief. Unspecified details are chosen envelopes; manufacturing notes identify missing interfaces."
+      },
+      "carriage-design": {
+        "kind": "assumed",
+        "observations": [],
+        "why": "Proposed carriage dimensions and primitive recipe from the original design brief. Unspecified details are chosen envelopes; manufacturing notes identify missing interfaces."
+      },
+      "bushing-design": {
+        "kind": "assumed",
+        "observations": [],
+        "why": "Proposed bushing dimensions and primitive recipe from the original design brief. Unspecified details are chosen envelopes; manufacturing notes identify missing interfaces."
+      },
+      "carriage-handle-design": {
+        "kind": "assumed",
+        "observations": [],
+        "why": "Proposed carriage handle dimensions and primitive recipe from the original design brief. Unspecified details are chosen envelopes; manufacturing notes identify missing interfaces."
+      },
+      "coupon-design": {
+        "kind": "assumed",
+        "observations": [],
+        "why": "Proposed coupon dimensions and primitive recipe from the original design brief. Unspecified details are chosen envelopes; manufacturing notes identify missing interfaces."
+      },
+      "pedestal-design": {
+        "kind": "assumed",
+        "observations": [],
+        "why": "Proposed pedestal dimensions and primitive recipe from the original design brief. Unspecified details are chosen envelopes; manufacturing notes identify missing interfaces."
+      },
+      "post-design": {
+        "kind": "assumed",
+        "observations": [],
+        "why": "Proposed post dimensions and primitive recipe from the original design brief. Unspecified details are chosen envelopes; manufacturing notes identify missing interfaces."
+      },
+      "post-collar-design": {
+        "kind": "assumed",
+        "observations": [],
+        "why": "Proposed post collar dimensions and primitive recipe from the original design brief. Unspecified details are chosen envelopes; manufacturing notes identify missing interfaces."
+      },
+      "arm-design": {
+        "kind": "assumed",
+        "observations": [],
+        "why": "Proposed arm dimensions and primitive recipe from the original design brief. Unspecified details are chosen envelopes; manufacturing notes identify missing interfaces."
+      },
+      "clamp-knob-design": {
+        "kind": "assumed",
+        "observations": [],
+        "why": "Proposed clamp knob dimensions and primitive recipe from the original design brief. Unspecified details are chosen envelopes; manufacturing notes identify missing interfaces."
+      },
+      "dial-housing-design": {
+        "kind": "assumed",
+        "observations": [],
+        "why": "Proposed dial housing dimensions and primitive recipe from the original design brief. Unspecified details are chosen envelopes; manufacturing notes identify missing interfaces."
+      },
+      "dial-back-design": {
+        "kind": "assumed",
+        "observations": [],
+        "why": "Proposed dial back dimensions and primitive recipe from the original design brief. Unspecified details are chosen envelopes; manufacturing notes identify missing interfaces."
+      },
+      "dial-bezel-design": {
+        "kind": "assumed",
+        "observations": [],
+        "why": "Proposed dial bezel dimensions and primitive recipe from the original design brief. Unspecified details are chosen envelopes; manufacturing notes identify missing interfaces."
+      },
+      "dial-face-design": {
+        "kind": "assumed",
+        "observations": [],
+        "why": "Proposed dial face dimensions and primitive recipe from the original design brief. Unspecified details are chosen envelopes; manufacturing notes identify missing interfaces."
+      },
+      "dial-pointer-design": {
+        "kind": "assumed",
+        "observations": [],
+        "why": "Proposed dial pointer dimensions and primitive recipe from the original design brief. Unspecified details are chosen envelopes; manufacturing notes identify missing interfaces."
+      },
+      "stem-sleeve-design": {
+        "kind": "assumed",
+        "observations": [],
+        "why": "Proposed stem sleeve dimensions and primitive recipe from the original design brief. Unspecified details are chosen envelopes; manufacturing notes identify missing interfaces."
+      },
+      "plunger-design": {
+        "kind": "assumed",
+        "observations": [],
+        "why": "Proposed plunger dimensions and primitive recipe from the original design brief. Unspecified details are chosen envelopes; manufacturing notes identify missing interfaces."
+      },
+      "contact-ball-design": {
+        "kind": "assumed",
+        "observations": [],
+        "why": "Proposed contact ball dimensions and primitive recipe from the original design brief. Unspecified details are chosen envelopes; manufacturing notes identify missing interfaces."
+      },
+      "dial-crown-design": {
+        "kind": "assumed",
+        "observations": [],
+        "why": "Proposed dial crown dimensions and primitive recipe from the original design brief. Unspecified details are chosen envelopes; manufacturing notes identify missing interfaces."
+      },
+      "datum-block-design": {
+        "kind": "assumed",
+        "observations": [],
+        "why": "Proposed datum block dimensions and primitive recipe from the original design brief. Unspecified details are chosen envelopes; manufacturing notes identify missing interfaces."
+      },
+      "datum-pin-design": {
+        "kind": "assumed",
+        "observations": [],
+        "why": "Proposed datum pin dimensions and primitive recipe from the original design brief. Unspecified details are chosen envelopes; manufacturing notes identify missing interfaces."
+      },
+      "inspection-rig-placement": {
+        "kind": "assumed",
+        "observations": [],
+        "why": "Proposed local placement of bench comparator / proposed design in the world frame. This is an assembled design pose; display explosion never changes it."
+      },
+      "bed-group-placement": {
+        "kind": "assumed",
+        "observations": [],
+        "why": "Proposed local placement of bed and leveling feet in inspection-rig. This is an assembled design pose; display explosion never changes it."
+      },
+      "guides-group-placement": {
+        "kind": "assumed",
+        "observations": [],
+        "why": "Proposed local placement of twin guides and travel stops in inspection-rig. This is an assembled design pose; display explosion never changes it."
+      },
+      "carriage-group-placement": {
+        "kind": "assumed",
+        "observations": [],
+        "why": "Proposed local placement of sliding coupon carriage in inspection-rig. This is an assembled design pose; display explosion never changes it."
+      },
+      "stand-group-placement": {
+        "kind": "assumed",
+        "observations": [],
+        "why": "Proposed local placement of column and cantilever arm in inspection-rig. This is an assembled design pose; display explosion never changes it."
+      },
+      "indicator-group-placement": {
+        "kind": "assumed",
+        "observations": [],
+        "why": "Proposed local placement of comparator exterior and contact in inspection-rig. This is an assembled design pose; display explosion never changes it."
+      },
+      "datum-group-placement": {
+        "kind": "assumed",
+        "observations": [],
+        "why": "Proposed local placement of travel datum in inspection-rig. This is an assembled design pose; display explosion never changes it."
+      },
+      "bed-plate-placement": {
+        "kind": "assumed",
+        "observations": [],
+        "why": "Proposed local placement of ground bed plate in bed-group. This is an assembled design pose; display explosion never changes it."
+      },
+      "foot-front-left-placement": {
+        "kind": "assumed",
+        "observations": [],
+        "why": "Proposed local placement of front left foot in bed-group. This is an assembled design pose; display explosion never changes it."
+      },
+      "foot-screw-front-left-placement": {
+        "kind": "assumed",
+        "observations": [],
+        "why": "Proposed local placement of front left foot screw in bed-group. This is an assembled design pose; display explosion never changes it."
+      },
+      "foot-rear-left-placement": {
+        "kind": "assumed",
+        "observations": [],
+        "why": "Proposed local placement of rear left foot in bed-group. This is an assembled design pose; display explosion never changes it."
+      },
+      "foot-screw-rear-left-placement": {
+        "kind": "assumed",
+        "observations": [],
+        "why": "Proposed local placement of rear left foot screw in bed-group. This is an assembled design pose; display explosion never changes it."
+      },
+      "foot-front-right-placement": {
+        "kind": "assumed",
+        "observations": [],
+        "why": "Proposed local placement of front right foot in bed-group. This is an assembled design pose; display explosion never changes it."
+      },
+      "foot-screw-front-right-placement": {
+        "kind": "assumed",
+        "observations": [],
+        "why": "Proposed local placement of front right foot screw in bed-group. This is an assembled design pose; display explosion never changes it."
+      },
+      "foot-rear-right-placement": {
+        "kind": "assumed",
+        "observations": [],
+        "why": "Proposed local placement of rear right foot in bed-group. This is an assembled design pose; display explosion never changes it."
+      },
+      "foot-screw-rear-right-placement": {
+        "kind": "assumed",
+        "observations": [],
+        "why": "Proposed local placement of rear right foot screw in bed-group. This is an assembled design pose; display explosion never changes it."
+      },
+      "rail-front-placement": {
+        "kind": "assumed",
+        "observations": [],
+        "why": "Proposed local placement of front guide rod in guides-group. This is an assembled design pose; display explosion never changes it."
+      },
+      "saddle-front-left-placement": {
+        "kind": "assumed",
+        "observations": [],
+        "why": "Proposed local placement of front left bored saddle in guides-group. This is an assembled design pose; display explosion never changes it."
+      },
+      "saddle-screw-front-left-placement": {
+        "kind": "assumed",
+        "observations": [],
+        "why": "Proposed local placement of front left saddle screw in guides-group. This is an assembled design pose; display explosion never changes it."
+      },
+      "saddle-front-right-placement": {
+        "kind": "assumed",
+        "observations": [],
+        "why": "Proposed local placement of front right bored saddle in guides-group. This is an assembled design pose; display explosion never changes it."
+      },
+      "saddle-screw-front-right-placement": {
+        "kind": "assumed",
+        "observations": [],
+        "why": "Proposed local placement of front right saddle screw in guides-group. This is an assembled design pose; display explosion never changes it."
+      },
+      "rail-rear-placement": {
+        "kind": "assumed",
+        "observations": [],
+        "why": "Proposed local placement of rear guide rod in guides-group. This is an assembled design pose; display explosion never changes it."
+      },
+      "saddle-rear-left-placement": {
+        "kind": "assumed",
+        "observations": [],
+        "why": "Proposed local placement of rear left bored saddle in guides-group. This is an assembled design pose; display explosion never changes it."
+      },
+      "saddle-screw-rear-left-placement": {
+        "kind": "assumed",
+        "observations": [],
+        "why": "Proposed local placement of rear left saddle screw in guides-group. This is an assembled design pose; display explosion never changes it."
+      },
+      "saddle-rear-right-placement": {
+        "kind": "assumed",
+        "observations": [],
+        "why": "Proposed local placement of rear right bored saddle in guides-group. This is an assembled design pose; display explosion never changes it."
+      },
+      "saddle-screw-rear-right-placement": {
+        "kind": "assumed",
+        "observations": [],
+        "why": "Proposed local placement of rear right saddle screw in guides-group. This is an assembled design pose; display explosion never changes it."
+      },
+      "stop-left-placement": {
+        "kind": "assumed",
+        "observations": [],
+        "why": "Proposed local placement of left end stop in guides-group. This is an assembled design pose; display explosion never changes it."
+      },
+      "stop-screw-left-placement": {
+        "kind": "assumed",
+        "observations": [],
+        "why": "Proposed local placement of left stop screw in guides-group. This is an assembled design pose; display explosion never changes it."
+      },
+      "stop-right-placement": {
+        "kind": "assumed",
+        "observations": [],
+        "why": "Proposed local placement of right end stop in guides-group. This is an assembled design pose; display explosion never changes it."
+      },
+      "stop-screw-right-placement": {
+        "kind": "assumed",
+        "observations": [],
+        "why": "Proposed local placement of right stop screw in guides-group. This is an assembled design pose; display explosion never changes it."
+      },
+      "carriage-plate-placement": {
+        "kind": "assumed",
+        "observations": [],
+        "why": "Proposed local placement of carriage plate in carriage-group. This is an assembled design pose; display explosion never changes it."
+      },
+      "bushing-front-left-placement": {
+        "kind": "assumed",
+        "observations": [],
+        "why": "Proposed local placement of front left sleeve bushing in carriage-group. This is an assembled design pose; display explosion never changes it."
+      },
+      "bushing-rear-left-placement": {
+        "kind": "assumed",
+        "observations": [],
+        "why": "Proposed local placement of rear left sleeve bushing in carriage-group. This is an assembled design pose; display explosion never changes it."
+      },
+      "bushing-front-right-placement": {
+        "kind": "assumed",
+        "observations": [],
+        "why": "Proposed local placement of front right sleeve bushing in carriage-group. This is an assembled design pose; display explosion never changes it."
+      },
+      "bushing-rear-right-placement": {
+        "kind": "assumed",
+        "observations": [],
+        "why": "Proposed local placement of rear right sleeve bushing in carriage-group. This is an assembled design pose; display explosion never changes it."
+      },
+      "carriage-handle-placement": {
+        "kind": "assumed",
+        "observations": [],
+        "why": "Proposed local placement of carriage hand grip in carriage-group. This is an assembled design pose; display explosion never changes it."
+      },
+      "test-coupon-placement": {
+        "kind": "assumed",
+        "observations": [],
+        "why": "Proposed local placement of inspection coupon in carriage-group. This is an assembled design pose; display explosion never changes it."
+      },
+      "post-pedestal-placement": {
+        "kind": "assumed",
+        "observations": [],
+        "why": "Proposed local placement of column pedestal in stand-group. This is an assembled design pose; display explosion never changes it."
+      },
+      "column-post-placement": {
+        "kind": "assumed",
+        "observations": [],
+        "why": "Proposed local placement of ground column post in stand-group. This is an assembled design pose; display explosion never changes it."
+      },
+      "post-collar-placement": {
+        "kind": "assumed",
+        "observations": [],
+        "why": "Proposed local placement of bored column collar in stand-group. This is an assembled design pose; display explosion never changes it."
+      },
+      "cantilever-arm-placement": {
+        "kind": "assumed",
+        "observations": [],
+        "why": "Proposed local placement of one-piece l arm in stand-group. This is an assembled design pose; display explosion never changes it."
+      },
+      "column-clamp-knob-placement": {
+        "kind": "assumed",
+        "observations": [],
+        "why": "Proposed local placement of column height clamp knob in stand-group. This is an assembled design pose; display explosion never changes it."
+      },
+      "indicator-clamp-knob-placement": {
+        "kind": "assumed",
+        "observations": [],
+        "why": "Proposed local placement of indicator arm clamp knob in stand-group. This is an assembled design pose; display explosion never changes it."
+      },
+      "pedestal-screw-left-placement": {
+        "kind": "assumed",
+        "observations": [],
+        "why": "Proposed local placement of left pedestal screw in stand-group. This is an assembled design pose; display explosion never changes it."
+      },
+      "pedestal-screw-right-placement": {
+        "kind": "assumed",
+        "observations": [],
+        "why": "Proposed local placement of right pedestal screw in stand-group. This is an assembled design pose; display explosion never changes it."
+      },
+      "dial-housing-placement": {
+        "kind": "assumed",
+        "observations": [],
+        "why": "Proposed local placement of bored dial housing in indicator-group. This is an assembled design pose; display explosion never changes it."
+      },
+      "dial-back-placement": {
+        "kind": "assumed",
+        "observations": [],
+        "why": "Proposed local placement of dial rear cover in indicator-group. This is an assembled design pose; display explosion never changes it."
+      },
+      "dial-bezel-placement": {
+        "kind": "assumed",
+        "observations": [],
+        "why": "Proposed local placement of separate bored bezel in indicator-group. This is an assembled design pose; display explosion never changes it."
+      },
+      "dial-face-placement": {
+        "kind": "assumed",
+        "observations": [],
+        "why": "Proposed local placement of plain dial face in indicator-group. This is an assembled design pose; display explosion never changes it."
+      },
+      "dial-pointer-placement": {
+        "kind": "assumed",
+        "observations": [],
+        "why": "Proposed local placement of pointer with integral hub in indicator-group. This is an assembled design pose; display explosion never changes it."
+      },
+      "stem-sleeve-placement": {
+        "kind": "assumed",
+        "observations": [],
+        "why": "Proposed local placement of bored indicator stem in indicator-group. This is an assembled design pose; display explosion never changes it."
+      },
+      "contact-plunger-placement": {
+        "kind": "assumed",
+        "observations": [],
+        "why": "Proposed local placement of contact plunger in indicator-group. This is an assembled design pose; display explosion never changes it."
+      },
+      "contact-ball-placement": {
+        "kind": "assumed",
+        "observations": [],
+        "why": "Proposed local placement of spherical coupon contact in indicator-group. This is an assembled design pose; display explosion never changes it."
+      },
+      "dial-crown-placement": {
+        "kind": "assumed",
+        "observations": [],
+        "why": "Proposed local placement of dial lift crown in indicator-group. This is an assembled design pose; display explosion never changes it."
+      },
+      "travel-datum-block-placement": {
+        "kind": "assumed",
+        "observations": [],
+        "why": "Proposed local placement of travel datum block in datum-group. This is an assembled design pose; display explosion never changes it."
+      },
+      "travel-datum-pin-placement": {
+        "kind": "assumed",
+        "observations": [],
+        "why": "Proposed local placement of ground travel datum pin in datum-group. This is an assembled design pose; display explosion never changes it."
+      },
+      "travel-datum-screw-placement": {
+        "kind": "assumed",
+        "observations": [],
+        "why": "Proposed local placement of travel datum fixing screw in datum-group. This is an assembled design pose; display explosion never changes it."
+      }
+    },
+    "parameters": {
+      "shape/bed/plate/dimensions/0": "bed-design",
+      "shape/bed/plate/dimensions/1": "bed-design",
+      "shape/bed/plate/dimensions/2": "bed-design",
+      "shape/bed/plate/position/0": "frame",
+      "shape/bed/plate/position/1": "frame",
+      "shape/bed/plate/position/2": "frame",
+      "shape/bed/plate/rotation/0": "frame",
+      "shape/bed/plate/rotation/1": "frame",
+      "shape/bed/plate/rotation/2": "frame",
+      "shape/foot/pad/dimensions/0": "foot-design",
+      "shape/foot/pad/dimensions/1": "foot-design",
+      "shape/foot/pad/position/0": "frame",
+      "shape/foot/pad/position/1": "frame",
+      "shape/foot/pad/position/2": "frame",
+      "shape/foot/pad/rotation/0": "frame",
+      "shape/foot/pad/rotation/1": "frame",
+      "shape/foot/pad/rotation/2": "frame",
+      "shape/m4-screw/shank/dimensions/0": "m4-screw-design",
+      "shape/m4-screw/shank/dimensions/1": "m4-screw-design",
+      "shape/m4-screw/shank/position/0": "frame",
+      "shape/m4-screw/shank/position/1": "frame",
+      "shape/m4-screw/shank/position/2": "frame",
+      "shape/m4-screw/shank/rotation/0": "frame",
+      "shape/m4-screw/shank/rotation/1": "frame",
+      "shape/m4-screw/shank/rotation/2": "frame",
+      "shape/m4-screw/head/dimensions/0": "m4-screw-design",
+      "shape/m4-screw/head/dimensions/1": "m4-screw-design",
+      "shape/m4-screw/head/position/0": "frame",
+      "shape/m4-screw/head/position/1": "frame",
+      "shape/m4-screw/head/position/2": "m4-screw-design",
+      "shape/m4-screw/head/rotation/0": "frame",
+      "shape/m4-screw/head/rotation/1": "frame",
+      "shape/m4-screw/head/rotation/2": "frame",
+      "shape/guide-rod/rod/dimensions/0": "guide-rod-design",
+      "shape/guide-rod/rod/dimensions/1": "guide-rod-design",
+      "shape/guide-rod/rod/position/0": "frame",
+      "shape/guide-rod/rod/position/1": "frame",
+      "shape/guide-rod/rod/position/2": "frame",
+      "shape/guide-rod/rod/rotation/0": "frame",
+      "shape/guide-rod/rod/rotation/1": "frame",
+      "shape/guide-rod/rod/rotation/2": "frame",
+      "shape/saddle/foot/dimensions/0": "saddle-design",
+      "shape/saddle/foot/dimensions/1": "saddle-design",
+      "shape/saddle/foot/dimensions/2": "saddle-design",
+      "shape/saddle/foot/position/0": "frame",
+      "shape/saddle/foot/position/1": "frame",
+      "shape/saddle/foot/position/2": "frame",
+      "shape/saddle/foot/rotation/0": "frame",
+      "shape/saddle/foot/rotation/1": "frame",
+      "shape/saddle/foot/rotation/2": "frame",
+      "shape/saddle/bore/dimensions/0": "saddle-design",
+      "shape/saddle/bore/dimensions/1": "saddle-design",
+      "shape/saddle/bore/dimensions/2": "saddle-design",
+      "shape/saddle/bore/dimensions/3": "saddle-design",
+      "shape/saddle/bore/position/0": "frame",
+      "shape/saddle/bore/position/1": "frame",
+      "shape/saddle/bore/position/2": "saddle-design",
+      "shape/saddle/bore/rotation/0": "frame",
+      "shape/saddle/bore/rotation/1": "saddle-design",
+      "shape/saddle/bore/rotation/2": "frame",
+      "shape/end-stop/stop/dimensions/0": "end-stop-design",
+      "shape/end-stop/stop/dimensions/1": "end-stop-design",
+      "shape/end-stop/stop/dimensions/2": "end-stop-design",
+      "shape/end-stop/stop/position/0": "frame",
+      "shape/end-stop/stop/position/1": "frame",
+      "shape/end-stop/stop/position/2": "frame",
+      "shape/end-stop/stop/rotation/0": "frame",
+      "shape/end-stop/stop/rotation/1": "frame",
+      "shape/end-stop/stop/rotation/2": "frame",
+      "shape/carriage/plate/dimensions/0": "carriage-design",
+      "shape/carriage/plate/dimensions/1": "carriage-design",
+      "shape/carriage/plate/dimensions/2": "carriage-design",
+      "shape/carriage/plate/position/0": "frame",
+      "shape/carriage/plate/position/1": "frame",
+      "shape/carriage/plate/position/2": "frame",
+      "shape/carriage/plate/rotation/0": "frame",
+      "shape/carriage/plate/rotation/1": "frame",
+      "shape/carriage/plate/rotation/2": "frame",
+      "shape/bushing/sleeve/dimensions/0": "bushing-design",
+      "shape/bushing/sleeve/dimensions/1": "bushing-design",
+      "shape/bushing/sleeve/dimensions/2": "bushing-design",
+      "shape/bushing/sleeve/dimensions/3": "bushing-design",
+      "shape/bushing/sleeve/position/0": "frame",
+      "shape/bushing/sleeve/position/1": "frame",
+      "shape/bushing/sleeve/position/2": "frame",
+      "shape/bushing/sleeve/rotation/0": "frame",
+      "shape/bushing/sleeve/rotation/1": "frame",
+      "shape/bushing/sleeve/rotation/2": "frame",
+      "shape/carriage-handle/shaft/dimensions/0": "carriage-handle-design",
+      "shape/carriage-handle/shaft/dimensions/1": "carriage-handle-design",
+      "shape/carriage-handle/shaft/position/0": "frame",
+      "shape/carriage-handle/shaft/position/1": "frame",
+      "shape/carriage-handle/shaft/position/2": "frame",
+      "shape/carriage-handle/shaft/rotation/0": "frame",
+      "shape/carriage-handle/shaft/rotation/1": "frame",
+      "shape/carriage-handle/shaft/rotation/2": "frame",
+      "shape/carriage-handle/grip/dimensions/0": "carriage-handle-design",
+      "shape/carriage-handle/grip/position/0": "frame",
+      "shape/carriage-handle/grip/position/1": "frame",
+      "shape/carriage-handle/grip/position/2": "carriage-handle-design",
+      "shape/carriage-handle/grip/rotation/0": "frame",
+      "shape/carriage-handle/grip/rotation/1": "frame",
+      "shape/carriage-handle/grip/rotation/2": "frame",
+      "shape/coupon/sample/dimensions/0": "coupon-design",
+      "shape/coupon/sample/dimensions/1": "coupon-design",
+      "shape/coupon/sample/dimensions/2": "coupon-design",
+      "shape/coupon/sample/position/0": "frame",
+      "shape/coupon/sample/position/1": "frame",
+      "shape/coupon/sample/position/2": "frame",
+      "shape/coupon/sample/rotation/0": "frame",
+      "shape/coupon/sample/rotation/1": "frame",
+      "shape/coupon/sample/rotation/2": "frame",
+      "shape/pedestal/body/dimensions/0": "pedestal-design",
+      "shape/pedestal/body/dimensions/1": "pedestal-design",
+      "shape/pedestal/body/position/0": "frame",
+      "shape/pedestal/body/position/1": "frame",
+      "shape/pedestal/body/position/2": "frame",
+      "shape/pedestal/body/rotation/0": "frame",
+      "shape/pedestal/body/rotation/1": "frame",
+      "shape/pedestal/body/rotation/2": "frame",
+      "shape/post/shaft/dimensions/0": "post-design",
+      "shape/post/shaft/dimensions/1": "post-design",
+      "shape/post/shaft/position/0": "frame",
+      "shape/post/shaft/position/1": "frame",
+      "shape/post/shaft/position/2": "frame",
+      "shape/post/shaft/rotation/0": "frame",
+      "shape/post/shaft/rotation/1": "frame",
+      "shape/post/shaft/rotation/2": "frame",
+      "shape/post-collar/bore/dimensions/0": "post-collar-design",
+      "shape/post-collar/bore/dimensions/1": "post-collar-design",
+      "shape/post-collar/bore/dimensions/2": "post-collar-design",
+      "shape/post-collar/bore/dimensions/3": "post-collar-design",
+      "shape/post-collar/bore/position/0": "frame",
+      "shape/post-collar/bore/position/1": "frame",
+      "shape/post-collar/bore/position/2": "frame",
+      "shape/post-collar/bore/rotation/0": "frame",
+      "shape/post-collar/bore/rotation/1": "frame",
+      "shape/post-collar/bore/rotation/2": "frame",
+      "shape/arm/beam/dimensions/0": "arm-design",
+      "shape/arm/beam/dimensions/1": "arm-design",
+      "shape/arm/beam/dimensions/2": "arm-design",
+      "shape/arm/beam/position/0": "arm-design",
+      "shape/arm/beam/position/1": "frame",
+      "shape/arm/beam/position/2": "frame",
+      "shape/arm/beam/rotation/0": "frame",
+      "shape/arm/beam/rotation/1": "frame",
+      "shape/arm/beam/rotation/2": "frame",
+      "shape/arm/finger/dimensions/0": "arm-design",
+      "shape/arm/finger/dimensions/1": "arm-design",
+      "shape/arm/finger/dimensions/2": "arm-design",
+      "shape/arm/finger/position/0": "arm-design",
+      "shape/arm/finger/position/1": "arm-design",
+      "shape/arm/finger/position/2": "frame",
+      "shape/arm/finger/rotation/0": "frame",
+      "shape/arm/finger/rotation/1": "frame",
+      "shape/arm/finger/rotation/2": "frame",
+      "shape/clamp-knob/screw/dimensions/0": "clamp-knob-design",
+      "shape/clamp-knob/screw/dimensions/1": "clamp-knob-design",
+      "shape/clamp-knob/screw/position/0": "frame",
+      "shape/clamp-knob/screw/position/1": "frame",
+      "shape/clamp-knob/screw/position/2": "frame",
+      "shape/clamp-knob/screw/rotation/0": "frame",
+      "shape/clamp-knob/screw/rotation/1": "frame",
+      "shape/clamp-knob/screw/rotation/2": "frame",
+      "shape/clamp-knob/grip/dimensions/0": "clamp-knob-design",
+      "shape/clamp-knob/grip/dimensions/1": "clamp-knob-design",
+      "shape/clamp-knob/grip/position/0": "frame",
+      "shape/clamp-knob/grip/position/1": "frame",
+      "shape/clamp-knob/grip/position/2": "clamp-knob-design",
+      "shape/clamp-knob/grip/rotation/0": "frame",
+      "shape/clamp-knob/grip/rotation/1": "frame",
+      "shape/clamp-knob/grip/rotation/2": "frame",
+      "shape/dial-housing/cup-wall/dimensions/0": "dial-housing-design",
+      "shape/dial-housing/cup-wall/dimensions/1": "dial-housing-design",
+      "shape/dial-housing/cup-wall/dimensions/2": "dial-housing-design",
+      "shape/dial-housing/cup-wall/dimensions/3": "dial-housing-design",
+      "shape/dial-housing/cup-wall/position/0": "frame",
+      "shape/dial-housing/cup-wall/position/1": "frame",
+      "shape/dial-housing/cup-wall/position/2": "frame",
+      "shape/dial-housing/cup-wall/rotation/0": "frame",
+      "shape/dial-housing/cup-wall/rotation/1": "frame",
+      "shape/dial-housing/cup-wall/rotation/2": "frame",
+      "shape/dial-back/cap/dimensions/0": "dial-back-design",
+      "shape/dial-back/cap/dimensions/1": "dial-back-design",
+      "shape/dial-back/cap/position/0": "frame",
+      "shape/dial-back/cap/position/1": "frame",
+      "shape/dial-back/cap/position/2": "frame",
+      "shape/dial-back/cap/rotation/0": "frame",
+      "shape/dial-back/cap/rotation/1": "frame",
+      "shape/dial-back/cap/rotation/2": "frame",
+      "shape/dial-bezel/rim/dimensions/0": "dial-bezel-design",
+      "shape/dial-bezel/rim/dimensions/1": "dial-bezel-design",
+      "shape/dial-bezel/rim/dimensions/2": "dial-bezel-design",
+      "shape/dial-bezel/rim/dimensions/3": "dial-bezel-design",
+      "shape/dial-bezel/rim/position/0": "frame",
+      "shape/dial-bezel/rim/position/1": "frame",
+      "shape/dial-bezel/rim/position/2": "frame",
+      "shape/dial-bezel/rim/rotation/0": "frame",
+      "shape/dial-bezel/rim/rotation/1": "frame",
+      "shape/dial-bezel/rim/rotation/2": "frame",
+      "shape/dial-face/disc/dimensions/0": "dial-face-design",
+      "shape/dial-face/disc/dimensions/1": "dial-face-design",
+      "shape/dial-face/disc/position/0": "frame",
+      "shape/dial-face/disc/position/1": "frame",
+      "shape/dial-face/disc/position/2": "frame",
+      "shape/dial-face/disc/rotation/0": "frame",
+      "shape/dial-face/disc/rotation/1": "frame",
+      "shape/dial-face/disc/rotation/2": "frame",
+      "shape/dial-pointer/hub/dimensions/0": "dial-pointer-design",
+      "shape/dial-pointer/hub/dimensions/1": "dial-pointer-design",
+      "shape/dial-pointer/hub/position/0": "frame",
+      "shape/dial-pointer/hub/position/1": "frame",
+      "shape/dial-pointer/hub/position/2": "frame",
+      "shape/dial-pointer/hub/rotation/0": "frame",
+      "shape/dial-pointer/hub/rotation/1": "frame",
+      "shape/dial-pointer/hub/rotation/2": "frame",
+      "shape/dial-pointer/needle/dimensions/0": "dial-pointer-design",
+      "shape/dial-pointer/needle/dimensions/1": "dial-pointer-design",
+      "shape/dial-pointer/needle/dimensions/2": "dial-pointer-design",
+      "shape/dial-pointer/needle/position/0": "frame",
+      "shape/dial-pointer/needle/position/1": "dial-pointer-design",
+      "shape/dial-pointer/needle/position/2": "frame",
+      "shape/dial-pointer/needle/rotation/0": "frame",
+      "shape/dial-pointer/needle/rotation/1": "frame",
+      "shape/dial-pointer/needle/rotation/2": "frame",
+      "shape/stem-sleeve/bore/dimensions/0": "stem-sleeve-design",
+      "shape/stem-sleeve/bore/dimensions/1": "stem-sleeve-design",
+      "shape/stem-sleeve/bore/dimensions/2": "stem-sleeve-design",
+      "shape/stem-sleeve/bore/dimensions/3": "stem-sleeve-design",
+      "shape/stem-sleeve/bore/position/0": "frame",
+      "shape/stem-sleeve/bore/position/1": "frame",
+      "shape/stem-sleeve/bore/position/2": "frame",
+      "shape/stem-sleeve/bore/rotation/0": "frame",
+      "shape/stem-sleeve/bore/rotation/1": "frame",
+      "shape/stem-sleeve/bore/rotation/2": "frame",
+      "shape/plunger/shaft/dimensions/0": "plunger-design",
+      "shape/plunger/shaft/dimensions/1": "plunger-design",
+      "shape/plunger/shaft/position/0": "frame",
+      "shape/plunger/shaft/position/1": "frame",
+      "shape/plunger/shaft/position/2": "frame",
+      "shape/plunger/shaft/rotation/0": "frame",
+      "shape/plunger/shaft/rotation/1": "frame",
+      "shape/plunger/shaft/rotation/2": "frame",
+      "shape/contact-ball/contact/dimensions/0": "contact-ball-design",
+      "shape/contact-ball/contact/position/0": "frame",
+      "shape/contact-ball/contact/position/1": "frame",
+      "shape/contact-ball/contact/position/2": "frame",
+      "shape/contact-ball/contact/rotation/0": "frame",
+      "shape/contact-ball/contact/rotation/1": "frame",
+      "shape/contact-ball/contact/rotation/2": "frame",
+      "shape/dial-crown/crown/dimensions/0": "dial-crown-design",
+      "shape/dial-crown/crown/dimensions/1": "dial-crown-design",
+      "shape/dial-crown/crown/position/0": "frame",
+      "shape/dial-crown/crown/position/1": "frame",
+      "shape/dial-crown/crown/position/2": "frame",
+      "shape/dial-crown/crown/rotation/0": "frame",
+      "shape/dial-crown/crown/rotation/1": "frame",
+      "shape/dial-crown/crown/rotation/2": "frame",
+      "shape/datum-block/block/dimensions/0": "datum-block-design",
+      "shape/datum-block/block/dimensions/1": "datum-block-design",
+      "shape/datum-block/block/dimensions/2": "datum-block-design",
+      "shape/datum-block/block/position/0": "frame",
+      "shape/datum-block/block/position/1": "frame",
+      "shape/datum-block/block/position/2": "frame",
+      "shape/datum-block/block/rotation/0": "frame",
+      "shape/datum-block/block/rotation/1": "frame",
+      "shape/datum-block/block/rotation/2": "frame",
+      "shape/datum-pin/pin/dimensions/0": "datum-pin-design",
+      "shape/datum-pin/pin/dimensions/1": "datum-pin-design",
+      "shape/datum-pin/pin/position/0": "frame",
+      "shape/datum-pin/pin/position/1": "frame",
+      "shape/datum-pin/pin/position/2": "frame",
+      "shape/datum-pin/pin/rotation/0": "frame",
+      "shape/datum-pin/pin/rotation/1": "frame",
+      "shape/datum-pin/pin/rotation/2": "frame",
+      "node/inspection-rig/position/0": "frame",
+      "node/inspection-rig/position/1": "frame",
+      "node/inspection-rig/position/2": "frame",
+      "node/inspection-rig/rotation/0": "frame",
+      "node/inspection-rig/rotation/1": "frame",
+      "node/inspection-rig/rotation/2": "frame",
+      "node/bed-group/position/0": "frame",
+      "node/bed-group/position/1": "frame",
+      "node/bed-group/position/2": "frame",
+      "node/bed-group/rotation/0": "frame",
+      "node/bed-group/rotation/1": "frame",
+      "node/bed-group/rotation/2": "frame",
+      "node/guides-group/position/0": "frame",
+      "node/guides-group/position/1": "frame",
+      "node/guides-group/position/2": "frame",
+      "node/guides-group/rotation/0": "frame",
+      "node/guides-group/rotation/1": "frame",
+      "node/guides-group/rotation/2": "frame",
+      "node/carriage-group/position/0": "frame",
+      "node/carriage-group/position/1": "frame",
+      "node/carriage-group/position/2": "frame",
+      "node/carriage-group/rotation/0": "frame",
+      "node/carriage-group/rotation/1": "frame",
+      "node/carriage-group/rotation/2": "frame",
+      "node/stand-group/position/0": "frame",
+      "node/stand-group/position/1": "frame",
+      "node/stand-group/position/2": "frame",
+      "node/stand-group/rotation/0": "frame",
+      "node/stand-group/rotation/1": "frame",
+      "node/stand-group/rotation/2": "frame",
+      "node/indicator-group/position/0": "frame",
+      "node/indicator-group/position/1": "frame",
+      "node/indicator-group/position/2": "frame",
+      "node/indicator-group/rotation/0": "frame",
+      "node/indicator-group/rotation/1": "frame",
+      "node/indicator-group/rotation/2": "frame",
+      "node/datum-group/position/0": "frame",
+      "node/datum-group/position/1": "frame",
+      "node/datum-group/position/2": "frame",
+      "node/datum-group/rotation/0": "frame",
+      "node/datum-group/rotation/1": "frame",
+      "node/datum-group/rotation/2": "frame",
+      "node/bed-plate/position/0": "frame",
+      "node/bed-plate/position/1": "frame",
+      "node/bed-plate/position/2": "bed-plate-placement",
+      "node/bed-plate/rotation/0": "frame",
+      "node/bed-plate/rotation/1": "frame",
+      "node/bed-plate/rotation/2": "frame",
+      "node/foot-front-left/position/0": "foot-front-left-placement",
+      "node/foot-front-left/position/1": "foot-front-left-placement",
+      "node/foot-front-left/position/2": "foot-front-left-placement",
+      "node/foot-front-left/rotation/0": "frame",
+      "node/foot-front-left/rotation/1": "frame",
+      "node/foot-front-left/rotation/2": "frame",
+      "node/foot-screw-front-left/position/0": "foot-screw-front-left-placement",
+      "node/foot-screw-front-left/position/1": "foot-screw-front-left-placement",
+      "node/foot-screw-front-left/position/2": "foot-screw-front-left-placement",
+      "node/foot-screw-front-left/rotation/0": "frame",
+      "node/foot-screw-front-left/rotation/1": "frame",
+      "node/foot-screw-front-left/rotation/2": "frame",
+      "node/foot-rear-left/position/0": "foot-rear-left-placement",
+      "node/foot-rear-left/position/1": "foot-rear-left-placement",
+      "node/foot-rear-left/position/2": "foot-rear-left-placement",
+      "node/foot-rear-left/rotation/0": "frame",
+      "node/foot-rear-left/rotation/1": "frame",
+      "node/foot-rear-left/rotation/2": "frame",
+      "node/foot-screw-rear-left/position/0": "foot-screw-rear-left-placement",
+      "node/foot-screw-rear-left/position/1": "foot-screw-rear-left-placement",
+      "node/foot-screw-rear-left/position/2": "foot-screw-rear-left-placement",
+      "node/foot-screw-rear-left/rotation/0": "frame",
+      "node/foot-screw-rear-left/rotation/1": "frame",
+      "node/foot-screw-rear-left/rotation/2": "frame",
+      "node/foot-front-right/position/0": "foot-front-right-placement",
+      "node/foot-front-right/position/1": "foot-front-right-placement",
+      "node/foot-front-right/position/2": "foot-front-right-placement",
+      "node/foot-front-right/rotation/0": "frame",
+      "node/foot-front-right/rotation/1": "frame",
+      "node/foot-front-right/rotation/2": "frame",
+      "node/foot-screw-front-right/position/0": "foot-screw-front-right-placement",
+      "node/foot-screw-front-right/position/1": "foot-screw-front-right-placement",
+      "node/foot-screw-front-right/position/2": "foot-screw-front-right-placement",
+      "node/foot-screw-front-right/rotation/0": "frame",
+      "node/foot-screw-front-right/rotation/1": "frame",
+      "node/foot-screw-front-right/rotation/2": "frame",
+      "node/foot-rear-right/position/0": "foot-rear-right-placement",
+      "node/foot-rear-right/position/1": "foot-rear-right-placement",
+      "node/foot-rear-right/position/2": "foot-rear-right-placement",
+      "node/foot-rear-right/rotation/0": "frame",
+      "node/foot-rear-right/rotation/1": "frame",
+      "node/foot-rear-right/rotation/2": "frame",
+      "node/foot-screw-rear-right/position/0": "foot-screw-rear-right-placement",
+      "node/foot-screw-rear-right/position/1": "foot-screw-rear-right-placement",
+      "node/foot-screw-rear-right/position/2": "foot-screw-rear-right-placement",
+      "node/foot-screw-rear-right/rotation/0": "frame",
+      "node/foot-screw-rear-right/rotation/1": "frame",
+      "node/foot-screw-rear-right/rotation/2": "frame",
+      "node/rail-front/position/0": "frame",
+      "node/rail-front/position/1": "rail-front-placement",
+      "node/rail-front/position/2": "rail-front-placement",
+      "node/rail-front/rotation/0": "frame",
+      "node/rail-front/rotation/1": "rail-front-placement",
+      "node/rail-front/rotation/2": "frame",
+      "node/saddle-front-left/position/0": "saddle-front-left-placement",
+      "node/saddle-front-left/position/1": "saddle-front-left-placement",
+      "node/saddle-front-left/position/2": "saddle-front-left-placement",
+      "node/saddle-front-left/rotation/0": "frame",
+      "node/saddle-front-left/rotation/1": "frame",
+      "node/saddle-front-left/rotation/2": "frame",
+      "node/saddle-screw-front-left/position/0": "saddle-screw-front-left-placement",
+      "node/saddle-screw-front-left/position/1": "saddle-screw-front-left-placement",
+      "node/saddle-screw-front-left/position/2": "saddle-screw-front-left-placement",
+      "node/saddle-screw-front-left/rotation/0": "frame",
+      "node/saddle-screw-front-left/rotation/1": "frame",
+      "node/saddle-screw-front-left/rotation/2": "frame",
+      "node/saddle-front-right/position/0": "saddle-front-right-placement",
+      "node/saddle-front-right/position/1": "saddle-front-right-placement",
+      "node/saddle-front-right/position/2": "saddle-front-right-placement",
+      "node/saddle-front-right/rotation/0": "frame",
+      "node/saddle-front-right/rotation/1": "frame",
+      "node/saddle-front-right/rotation/2": "frame",
+      "node/saddle-screw-front-right/position/0": "saddle-screw-front-right-placement",
+      "node/saddle-screw-front-right/position/1": "saddle-screw-front-right-placement",
+      "node/saddle-screw-front-right/position/2": "saddle-screw-front-right-placement",
+      "node/saddle-screw-front-right/rotation/0": "frame",
+      "node/saddle-screw-front-right/rotation/1": "frame",
+      "node/saddle-screw-front-right/rotation/2": "frame",
+      "node/rail-rear/position/0": "frame",
+      "node/rail-rear/position/1": "rail-rear-placement",
+      "node/rail-rear/position/2": "rail-rear-placement",
+      "node/rail-rear/rotation/0": "frame",
+      "node/rail-rear/rotation/1": "rail-rear-placement",
+      "node/rail-rear/rotation/2": "frame",
+      "node/saddle-rear-left/position/0": "saddle-rear-left-placement",
+      "node/saddle-rear-left/position/1": "saddle-rear-left-placement",
+      "node/saddle-rear-left/position/2": "saddle-rear-left-placement",
+      "node/saddle-rear-left/rotation/0": "frame",
+      "node/saddle-rear-left/rotation/1": "frame",
+      "node/saddle-rear-left/rotation/2": "frame",
+      "node/saddle-screw-rear-left/position/0": "saddle-screw-rear-left-placement",
+      "node/saddle-screw-rear-left/position/1": "saddle-screw-rear-left-placement",
+      "node/saddle-screw-rear-left/position/2": "saddle-screw-rear-left-placement",
+      "node/saddle-screw-rear-left/rotation/0": "frame",
+      "node/saddle-screw-rear-left/rotation/1": "frame",
+      "node/saddle-screw-rear-left/rotation/2": "frame",
+      "node/saddle-rear-right/position/0": "saddle-rear-right-placement",
+      "node/saddle-rear-right/position/1": "saddle-rear-right-placement",
+      "node/saddle-rear-right/position/2": "saddle-rear-right-placement",
+      "node/saddle-rear-right/rotation/0": "frame",
+      "node/saddle-rear-right/rotation/1": "frame",
+      "node/saddle-rear-right/rotation/2": "frame",
+      "node/saddle-screw-rear-right/position/0": "saddle-screw-rear-right-placement",
+      "node/saddle-screw-rear-right/position/1": "saddle-screw-rear-right-placement",
+      "node/saddle-screw-rear-right/position/2": "saddle-screw-rear-right-placement",
+      "node/saddle-screw-rear-right/rotation/0": "frame",
+      "node/saddle-screw-rear-right/rotation/1": "frame",
+      "node/saddle-screw-rear-right/rotation/2": "frame",
+      "node/stop-left/position/0": "stop-left-placement",
+      "node/stop-left/position/1": "frame",
+      "node/stop-left/position/2": "stop-left-placement",
+      "node/stop-left/rotation/0": "frame",
+      "node/stop-left/rotation/1": "frame",
+      "node/stop-left/rotation/2": "frame",
+      "node/stop-screw-left/position/0": "stop-screw-left-placement",
+      "node/stop-screw-left/position/1": "frame",
+      "node/stop-screw-left/position/2": "stop-screw-left-placement",
+      "node/stop-screw-left/rotation/0": "frame",
+      "node/stop-screw-left/rotation/1": "frame",
+      "node/stop-screw-left/rotation/2": "frame",
+      "node/stop-right/position/0": "stop-right-placement",
+      "node/stop-right/position/1": "frame",
+      "node/stop-right/position/2": "stop-right-placement",
+      "node/stop-right/rotation/0": "frame",
+      "node/stop-right/rotation/1": "frame",
+      "node/stop-right/rotation/2": "frame",
+      "node/stop-screw-right/position/0": "stop-screw-right-placement",
+      "node/stop-screw-right/position/1": "frame",
+      "node/stop-screw-right/position/2": "stop-screw-right-placement",
+      "node/stop-screw-right/rotation/0": "frame",
+      "node/stop-screw-right/rotation/1": "frame",
+      "node/stop-screw-right/rotation/2": "frame",
+      "node/carriage-plate/position/0": "carriage-plate-placement",
+      "node/carriage-plate/position/1": "frame",
+      "node/carriage-plate/position/2": "carriage-plate-placement",
+      "node/carriage-plate/rotation/0": "frame",
+      "node/carriage-plate/rotation/1": "frame",
+      "node/carriage-plate/rotation/2": "frame",
+      "node/bushing-front-left/position/0": "bushing-front-left-placement",
+      "node/bushing-front-left/position/1": "bushing-front-left-placement",
+      "node/bushing-front-left/position/2": "bushing-front-left-placement",
+      "node/bushing-front-left/rotation/0": "frame",
+      "node/bushing-front-left/rotation/1": "bushing-front-left-placement",
+      "node/bushing-front-left/rotation/2": "frame",
+      "node/bushing-rear-left/position/0": "bushing-rear-left-placement",
+      "node/bushing-rear-left/position/1": "bushing-rear-left-placement",
+      "node/bushing-rear-left/position/2": "bushing-rear-left-placement",
+      "node/bushing-rear-left/rotation/0": "frame",
+      "node/bushing-rear-left/rotation/1": "bushing-rear-left-placement",
+      "node/bushing-rear-left/rotation/2": "frame",
+      "node/bushing-front-right/position/0": "bushing-front-right-placement",
+      "node/bushing-front-right/position/1": "bushing-front-right-placement",
+      "node/bushing-front-right/position/2": "bushing-front-right-placement",
+      "node/bushing-front-right/rotation/0": "frame",
+      "node/bushing-front-right/rotation/1": "bushing-front-right-placement",
+      "node/bushing-front-right/rotation/2": "frame",
+      "node/bushing-rear-right/position/0": "bushing-rear-right-placement",
+      "node/bushing-rear-right/position/1": "bushing-rear-right-placement",
+      "node/bushing-rear-right/position/2": "bushing-rear-right-placement",
+      "node/bushing-rear-right/rotation/0": "frame",
+      "node/bushing-rear-right/rotation/1": "bushing-rear-right-placement",
+      "node/bushing-rear-right/rotation/2": "frame",
+      "node/carriage-handle/position/0": "carriage-handle-placement",
+      "node/carriage-handle/position/1": "carriage-handle-placement",
+      "node/carriage-handle/position/2": "carriage-handle-placement",
+      "node/carriage-handle/rotation/0": "carriage-handle-placement",
+      "node/carriage-handle/rotation/1": "frame",
+      "node/carriage-handle/rotation/2": "frame",
+      "node/test-coupon/position/0": "test-coupon-placement",
+      "node/test-coupon/position/1": "frame",
+      "node/test-coupon/position/2": "test-coupon-placement",
+      "node/test-coupon/rotation/0": "frame",
+      "node/test-coupon/rotation/1": "frame",
+      "node/test-coupon/rotation/2": "frame",
+      "node/post-pedestal/position/0": "post-pedestal-placement",
+      "node/post-pedestal/position/1": "post-pedestal-placement",
+      "node/post-pedestal/position/2": "post-pedestal-placement",
+      "node/post-pedestal/rotation/0": "frame",
+      "node/post-pedestal/rotation/1": "frame",
+      "node/post-pedestal/rotation/2": "frame",
+      "node/column-post/position/0": "column-post-placement",
+      "node/column-post/position/1": "column-post-placement",
+      "node/column-post/position/2": "column-post-placement",
+      "node/column-post/rotation/0": "frame",
+      "node/column-post/rotation/1": "frame",
+      "node/column-post/rotation/2": "frame",
+      "node/post-collar/position/0": "post-collar-placement",
+      "node/post-collar/position/1": "post-collar-placement",
+      "node/post-collar/position/2": "post-collar-placement",
+      "node/post-collar/rotation/0": "frame",
+      "node/post-collar/rotation/1": "frame",
+      "node/post-collar/rotation/2": "frame",
+      "node/cantilever-arm/position/0": "cantilever-arm-placement",
+      "node/cantilever-arm/position/1": "cantilever-arm-placement",
+      "node/cantilever-arm/position/2": "cantilever-arm-placement",
+      "node/cantilever-arm/rotation/0": "frame",
+      "node/cantilever-arm/rotation/1": "frame",
+      "node/cantilever-arm/rotation/2": "frame",
+      "node/column-clamp-knob/position/0": "column-clamp-knob-placement",
+      "node/column-clamp-knob/position/1": "column-clamp-knob-placement",
+      "node/column-clamp-knob/position/2": "column-clamp-knob-placement",
+      "node/column-clamp-knob/rotation/0": "column-clamp-knob-placement",
+      "node/column-clamp-knob/rotation/1": "frame",
+      "node/column-clamp-knob/rotation/2": "frame",
+      "node/indicator-clamp-knob/position/0": "indicator-clamp-knob-placement",
+      "node/indicator-clamp-knob/position/1": "indicator-clamp-knob-placement",
+      "node/indicator-clamp-knob/position/2": "indicator-clamp-knob-placement",
+      "node/indicator-clamp-knob/rotation/0": "frame",
+      "node/indicator-clamp-knob/rotation/1": "frame",
+      "node/indicator-clamp-knob/rotation/2": "frame",
+      "node/pedestal-screw-left/position/0": "pedestal-screw-left-placement",
+      "node/pedestal-screw-left/position/1": "pedestal-screw-left-placement",
+      "node/pedestal-screw-left/position/2": "pedestal-screw-left-placement",
+      "node/pedestal-screw-left/rotation/0": "frame",
+      "node/pedestal-screw-left/rotation/1": "frame",
+      "node/pedestal-screw-left/rotation/2": "frame",
+      "node/pedestal-screw-right/position/0": "pedestal-screw-right-placement",
+      "node/pedestal-screw-right/position/1": "pedestal-screw-right-placement",
+      "node/pedestal-screw-right/position/2": "pedestal-screw-right-placement",
+      "node/pedestal-screw-right/rotation/0": "frame",
+      "node/pedestal-screw-right/rotation/1": "frame",
+      "node/pedestal-screw-right/rotation/2": "frame",
+      "node/dial-housing/position/0": "dial-housing-placement",
+      "node/dial-housing/position/1": "dial-housing-placement",
+      "node/dial-housing/position/2": "dial-housing-placement",
+      "node/dial-housing/rotation/0": "dial-housing-placement",
+      "node/dial-housing/rotation/1": "frame",
+      "node/dial-housing/rotation/2": "frame",
+      "node/dial-back/position/0": "dial-back-placement",
+      "node/dial-back/position/1": "dial-back-placement",
+      "node/dial-back/position/2": "dial-back-placement",
+      "node/dial-back/rotation/0": "dial-back-placement",
+      "node/dial-back/rotation/1": "frame",
+      "node/dial-back/rotation/2": "frame",
+      "node/dial-bezel/position/0": "dial-bezel-placement",
+      "node/dial-bezel/position/1": "dial-bezel-placement",
+      "node/dial-bezel/position/2": "dial-bezel-placement",
+      "node/dial-bezel/rotation/0": "dial-bezel-placement",
+      "node/dial-bezel/rotation/1": "frame",
+      "node/dial-bezel/rotation/2": "frame",
+      "node/dial-face/position/0": "dial-face-placement",
+      "node/dial-face/position/1": "dial-face-placement",
+      "node/dial-face/position/2": "dial-face-placement",
+      "node/dial-face/rotation/0": "dial-face-placement",
+      "node/dial-face/rotation/1": "frame",
+      "node/dial-face/rotation/2": "frame",
+      "node/dial-pointer/position/0": "dial-pointer-placement",
+      "node/dial-pointer/position/1": "dial-pointer-placement",
+      "node/dial-pointer/position/2": "dial-pointer-placement",
+      "node/dial-pointer/rotation/0": "dial-pointer-placement",
+      "node/dial-pointer/rotation/1": "frame",
+      "node/dial-pointer/rotation/2": "frame",
+      "node/stem-sleeve/position/0": "stem-sleeve-placement",
+      "node/stem-sleeve/position/1": "stem-sleeve-placement",
+      "node/stem-sleeve/position/2": "stem-sleeve-placement",
+      "node/stem-sleeve/rotation/0": "frame",
+      "node/stem-sleeve/rotation/1": "frame",
+      "node/stem-sleeve/rotation/2": "frame",
+      "node/contact-plunger/position/0": "contact-plunger-placement",
+      "node/contact-plunger/position/1": "contact-plunger-placement",
+      "node/contact-plunger/position/2": "contact-plunger-placement",
+      "node/contact-plunger/rotation/0": "frame",
+      "node/contact-plunger/rotation/1": "frame",
+      "node/contact-plunger/rotation/2": "frame",
+      "node/contact-ball/position/0": "contact-ball-placement",
+      "node/contact-ball/position/1": "contact-ball-placement",
+      "node/contact-ball/position/2": "contact-ball-placement",
+      "node/contact-ball/rotation/0": "frame",
+      "node/contact-ball/rotation/1": "frame",
+      "node/contact-ball/rotation/2": "frame",
+      "node/dial-crown/position/0": "dial-crown-placement",
+      "node/dial-crown/position/1": "dial-crown-placement",
+      "node/dial-crown/position/2": "dial-crown-placement",
+      "node/dial-crown/rotation/0": "frame",
+      "node/dial-crown/rotation/1": "frame",
+      "node/dial-crown/rotation/2": "frame",
+      "node/travel-datum-block/position/0": "travel-datum-block-placement",
+      "node/travel-datum-block/position/1": "frame",
+      "node/travel-datum-block/position/2": "travel-datum-block-placement",
+      "node/travel-datum-block/rotation/0": "frame",
+      "node/travel-datum-block/rotation/1": "frame",
+      "node/travel-datum-block/rotation/2": "frame",
+      "node/travel-datum-pin/position/0": "travel-datum-pin-placement",
+      "node/travel-datum-pin/position/1": "travel-datum-pin-placement",
+      "node/travel-datum-pin/position/2": "travel-datum-pin-placement",
+      "node/travel-datum-pin/rotation/0": "frame",
+      "node/travel-datum-pin/rotation/1": "frame",
+      "node/travel-datum-pin/rotation/2": "frame",
+      "node/travel-datum-screw/position/0": "travel-datum-screw-placement",
+      "node/travel-datum-screw/position/1": "travel-datum-screw-placement",
+      "node/travel-datum-screw/position/2": "travel-datum-screw-placement",
+      "node/travel-datum-screw/rotation/0": "frame",
+      "node/travel-datum-screw/rotation/1": "frame",
+      "node/travel-datum-screw/rotation/2": "frame"
+    },
+    "shapes": {
+      "bed/plate": "bed-design",
+      "foot/pad": "foot-design",
+      "m4-screw/shank": "m4-screw-design",
+      "m4-screw/head": "m4-screw-design",
+      "guide-rod/rod": "guide-rod-design",
+      "saddle/foot": "saddle-design",
+      "saddle/bore": "saddle-design",
+      "end-stop/stop": "end-stop-design",
+      "carriage/plate": "carriage-design",
+      "bushing/sleeve": "bushing-design",
+      "carriage-handle/shaft": "carriage-handle-design",
+      "carriage-handle/grip": "carriage-handle-design",
+      "coupon/sample": "coupon-design",
+      "pedestal/body": "pedestal-design",
+      "post/shaft": "post-design",
+      "post-collar/bore": "post-collar-design",
+      "arm/beam": "arm-design",
+      "arm/finger": "arm-design",
+      "clamp-knob/screw": "clamp-knob-design",
+      "clamp-knob/grip": "clamp-knob-design",
+      "dial-housing/cup-wall": "dial-housing-design",
+      "dial-back/cap": "dial-back-design",
+      "dial-bezel/rim": "dial-bezel-design",
+      "dial-face/disc": "dial-face-design",
+      "dial-pointer/hub": "dial-pointer-design",
+      "dial-pointer/needle": "dial-pointer-design",
+      "stem-sleeve/bore": "stem-sleeve-design",
+      "plunger/shaft": "plunger-design",
+      "contact-ball/contact": "contact-ball-design",
+      "dial-crown/crown": "dial-crown-design",
+      "datum-block/block": "datum-block-design",
+      "datum-pin/pin": "datum-pin-design"
+    },
+    "nodes": {
+      "inspection-rig": {
+        "part": "physical-groups",
+        "placement": "inspection-rig-placement"
+      },
+      "bed-group": {
+        "part": "physical-groups",
+        "placement": "bed-group-placement"
+      },
+      "guides-group": {
+        "part": "physical-groups",
+        "placement": "guides-group-placement"
+      },
+      "carriage-group": {
+        "part": "physical-groups",
+        "placement": "carriage-group-placement"
+      },
+      "stand-group": {
+        "part": "physical-groups",
+        "placement": "stand-group-placement"
+      },
+      "indicator-group": {
+        "part": "physical-groups",
+        "placement": "indicator-group-placement"
+      },
+      "datum-group": {
+        "part": "physical-groups",
+        "placement": "datum-group-placement"
+      },
+      "bed-plate": {
+        "part": "bed-design",
+        "placement": "bed-plate-placement"
+      },
+      "foot-front-left": {
+        "part": "foot-design",
+        "placement": "foot-front-left-placement"
+      },
+      "foot-screw-front-left": {
+        "part": "m4-screw-design",
+        "placement": "foot-screw-front-left-placement"
+      },
+      "foot-rear-left": {
+        "part": "foot-design",
+        "placement": "foot-rear-left-placement"
+      },
+      "foot-screw-rear-left": {
+        "part": "m4-screw-design",
+        "placement": "foot-screw-rear-left-placement"
+      },
+      "foot-front-right": {
+        "part": "foot-design",
+        "placement": "foot-front-right-placement"
+      },
+      "foot-screw-front-right": {
+        "part": "m4-screw-design",
+        "placement": "foot-screw-front-right-placement"
+      },
+      "foot-rear-right": {
+        "part": "foot-design",
+        "placement": "foot-rear-right-placement"
+      },
+      "foot-screw-rear-right": {
+        "part": "m4-screw-design",
+        "placement": "foot-screw-rear-right-placement"
+      },
+      "rail-front": {
+        "part": "guide-rod-design",
+        "placement": "rail-front-placement"
+      },
+      "saddle-front-left": {
+        "part": "saddle-design",
+        "placement": "saddle-front-left-placement"
+      },
+      "saddle-screw-front-left": {
+        "part": "m4-screw-design",
+        "placement": "saddle-screw-front-left-placement"
+      },
+      "saddle-front-right": {
+        "part": "saddle-design",
+        "placement": "saddle-front-right-placement"
+      },
+      "saddle-screw-front-right": {
+        "part": "m4-screw-design",
+        "placement": "saddle-screw-front-right-placement"
+      },
+      "rail-rear": {
+        "part": "guide-rod-design",
+        "placement": "rail-rear-placement"
+      },
+      "saddle-rear-left": {
+        "part": "saddle-design",
+        "placement": "saddle-rear-left-placement"
+      },
+      "saddle-screw-rear-left": {
+        "part": "m4-screw-design",
+        "placement": "saddle-screw-rear-left-placement"
+      },
+      "saddle-rear-right": {
+        "part": "saddle-design",
+        "placement": "saddle-rear-right-placement"
+      },
+      "saddle-screw-rear-right": {
+        "part": "m4-screw-design",
+        "placement": "saddle-screw-rear-right-placement"
+      },
+      "stop-left": {
+        "part": "end-stop-design",
+        "placement": "stop-left-placement"
+      },
+      "stop-screw-left": {
+        "part": "m4-screw-design",
+        "placement": "stop-screw-left-placement"
+      },
+      "stop-right": {
+        "part": "end-stop-design",
+        "placement": "stop-right-placement"
+      },
+      "stop-screw-right": {
+        "part": "m4-screw-design",
+        "placement": "stop-screw-right-placement"
+      },
+      "carriage-plate": {
+        "part": "carriage-design",
+        "placement": "carriage-plate-placement"
+      },
+      "bushing-front-left": {
+        "part": "bushing-design",
+        "placement": "bushing-front-left-placement"
+      },
+      "bushing-rear-left": {
+        "part": "bushing-design",
+        "placement": "bushing-rear-left-placement"
+      },
+      "bushing-front-right": {
+        "part": "bushing-design",
+        "placement": "bushing-front-right-placement"
+      },
+      "bushing-rear-right": {
+        "part": "bushing-design",
+        "placement": "bushing-rear-right-placement"
+      },
+      "carriage-handle": {
+        "part": "carriage-handle-design",
+        "placement": "carriage-handle-placement"
+      },
+      "test-coupon": {
+        "part": "coupon-design",
+        "placement": "test-coupon-placement"
+      },
+      "post-pedestal": {
+        "part": "pedestal-design",
+        "placement": "post-pedestal-placement"
+      },
+      "column-post": {
+        "part": "post-design",
+        "placement": "column-post-placement"
+      },
+      "post-collar": {
+        "part": "post-collar-design",
+        "placement": "post-collar-placement"
+      },
+      "cantilever-arm": {
+        "part": "arm-design",
+        "placement": "cantilever-arm-placement"
+      },
+      "column-clamp-knob": {
+        "part": "clamp-knob-design",
+        "placement": "column-clamp-knob-placement"
+      },
+      "indicator-clamp-knob": {
+        "part": "clamp-knob-design",
+        "placement": "indicator-clamp-knob-placement"
+      },
+      "pedestal-screw-left": {
+        "part": "m4-screw-design",
+        "placement": "pedestal-screw-left-placement"
+      },
+      "pedestal-screw-right": {
+        "part": "m4-screw-design",
+        "placement": "pedestal-screw-right-placement"
+      },
+      "dial-housing": {
+        "part": "dial-housing-design",
+        "placement": "dial-housing-placement"
+      },
+      "dial-back": {
+        "part": "dial-back-design",
+        "placement": "dial-back-placement"
+      },
+      "dial-bezel": {
+        "part": "dial-bezel-design",
+        "placement": "dial-bezel-placement"
+      },
+      "dial-face": {
+        "part": "dial-face-design",
+        "placement": "dial-face-placement"
+      },
+      "dial-pointer": {
+        "part": "dial-pointer-design",
+        "placement": "dial-pointer-placement"
+      },
+      "stem-sleeve": {
+        "part": "stem-sleeve-design",
+        "placement": "stem-sleeve-placement"
+      },
+      "contact-plunger": {
+        "part": "plunger-design",
+        "placement": "contact-plunger-placement"
+      },
+      "contact-ball": {
+        "part": "contact-ball-design",
+        "placement": "contact-ball-placement"
+      },
+      "dial-crown": {
+        "part": "dial-crown-design",
+        "placement": "dial-crown-placement"
+      },
+      "travel-datum-block": {
+        "part": "datum-block-design",
+        "placement": "travel-datum-block-placement"
+      },
+      "travel-datum-pin": {
+        "part": "datum-pin-design",
+        "placement": "travel-datum-pin-placement"
+      },
+      "travel-datum-screw": {
+        "part": "m4-screw-design",
+        "placement": "travel-datum-screw-placement"
+      }
+    },
+    "scale": "metric"
+  }
+}
