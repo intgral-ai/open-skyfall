@@ -182,6 +182,31 @@ proposal confirmation, `decompose-example` loads that case's Plan. This action
 is restricted to the labeled synthetic case. It never stands in for inspecting
 a new user's image or text, and must not automatically confirm parts or build CAD.
 
+## Stage continuation handoff
+
+The viewer's Continue actions send a `cad-continuation/1` prompt. Read its
+`next_stage`, project/source/program/proposal bindings and exact physical scope.
+Re-read the saved project before acting; an old prompt cannot grant approval
+over a changed proposal or review digest. A workflow-only revision may advance;
+reconcile it only when the relevant source, program and review bindings agree.
+
+Source intake continues to `proposal`. Explicit **Approve & continue** persists
+the exact proposal approval before handing off `decompose`. Author the Plan and
+exploded preview, then return for review. `review` asks for inspection and
+iterations and grants no new approval. An explicit part confirmation persists
+only the displayed scope before handing off `cad`; verify its current approval,
+digest, metric units and pending requests before calling `workflow/build`.
+Relative scale continues review instead. `verify` identifies a current native
+build for STEP/report checks and download. Never infer batch or full-assembly
+approval from a selected-scope continuation. The synthetic case's
+`decompose-example` is an agent action after the approved proposal handoff,
+never a replacement for a new user's source.
+
+The browser prepares the prompt rather than executing the next generation step.
+Standalone localhost includes its workspace URL and copies the prompt for chat;
+a compatible embedded host can accept the message directly. Keep prompt
+preparation, host delivery and actual generation results separate.
+
 ## Single-part and multi-part selection handoff
 
 The viewer sends a `cad-selection/1` locator containing the project/revision,

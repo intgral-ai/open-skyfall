@@ -186,3 +186,26 @@ concrete limits for each. Native validity and STEP exchange can pass while
 source fidelity or production manufacturability remain unchecked. Proposed
 material/process notes are never factory approval. A successful local run does
 not establish ChatGPT-account delivery, calibrated operation or cost advantage.
+
+## Continue prompts between stages
+
+Observe real source/proposal/decomposition/review/CAD Continue controls in an
+isolated synthetic project. Each must expose a `cad-continuation/1` prompt with
+current project, source, proposal/program and scope bindings. Proposal and part
+confirmation clicks must persist their exact digest-bound approval before the
+next prompt is prepared; failed writes and project switches must not send it.
+Record simulated fixture review separately from actual human acceptance.
+
+Source intake asks for a proposal. Proposal approval hands off decomposition;
+fixture loading, like normal Plan authoring, is an explicit agent operation.
+Decomposition continues to review without confirming parts. Part confirmation
+hands off native CAD for only the displayed scope; relative units stay in review.
+Already confirmed scopes can resend the CAD prompt without a write. Current
+native output can continue to STEP verification, binding its exact build ID.
+Require zero browser-initiated decomposition/build calls from these Continue
+controls. Following the copied prompt through agent tools is a separate action.
+
+Inspect the prompt and its copy-again action, including clipboard refusal and
+manual copying. Check desktop and mobile visibility, project/revision clearing
+and that no part is silently approved merely by continuing review. Test embedded
+message transport separately; local copying does not prove chat-host delivery.

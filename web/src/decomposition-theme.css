@@ -823,6 +823,26 @@
   font: 11px/17px var(--intgral-font-mono);
   color: var(--muted);
 }
+
+#d-continuation-panel p {
+  color: var(--intgral-foreground-secondary);
+}
+#d-continuation-text {
+  display: block;
+  width: 100%;
+  margin-top: 10px;
+  padding: 12px;
+  border: 1px solid var(--intgral-control-border);
+  border-radius: 6px;
+  background: #202226;
+  color: #d4d4d8;
+  font:
+    12px/1.6 ui-monospace,
+    SFMono-Regular,
+    Consolas,
+    monospace;
+  resize: vertical;
+}
 .d-reference[data-tab="reference"] #d-handoff-mode,
 .d-reference[data-tab="reference"] #d-handoff-context-panel,
 .d-reference[data-tab="checks"] #d-handoff-mode,

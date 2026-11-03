@@ -36,6 +36,10 @@ import {
 } from "./decomposition-selection.js";
 import { mountProjectPicker } from "./project-picker.js";
 import {
+  continuationBinding,
+  createContinuationActions,
+} from "./decomposition-continue.js";
+import {
   workflowProgress,
   pieceReferenceURL,
   currentCheckReport,
@@ -86,7 +90,7 @@ export async function initDecomposition() {
     depth = 2,
     selected = null;
   let selectedIds = [];
-  let projectPicker;
+  let projectPicker, continuationActions, continuationSnapshot;
   let isolated = false,
     amount = 0,
     displayedAmount = 0,
@@ -143,6 +147,7 @@ export async function initDecomposition() {
           <div class="d-inspector-header"><span>Inspector</span><button id="d-inspector-close" aria-label="Close inspector">${icon("close")}</button></div><section id="d-selection-summary" class="d-selection-summary" aria-label="Selected parts" hidden><p id="d-selection-count"></p><ul id="d-selection-list"></ul><small id="d-selection-impact"></small><small id="d-selection-primary"></small><button id="d-multi-copy"></button></section>
           <section class="d-inspector"><h2 id="d-node-name">Select a part</h2><span id="d-node-kind" class="d-tag">Part workspace</span><details class="d-selection-note"><summary>Design note</summary><p id="d-node-note">Choose a part in the model or structure to inspect its references and checks.</p></details><code id="d-node-id"></code><div class="d-piece-actions"><button id="d-open-reference" disabled>${icon("image")}Reference</button><button id="d-open-checks" disabled>${icon("check")}Checks</button></div><button id="d-copy" disabled>${icon("copy")}Iterate in Codex</button><p id="d-handoff-mode" class="d-handoff-mode"></p><details id="d-handoff-context-panel" hidden><summary>Selection context</summary><pre id="d-handoff-context"></pre></details></section>
           <div class="d-inspector-tabs" role="tablist" aria-label="Part inspection"><button id="d-tab-details" role="tab" data-tab="details" aria-controls="d-pane-details">Details</button><button id="d-tab-reference" role="tab" data-tab="reference" aria-controls="d-pane-reference">Reference</button><button id="d-tab-checks" role="tab" data-tab="checks" aria-controls="d-pane-checks">Checks</button></div>
+          <section id="d-continuation-panel" class="d-workflow-section" aria-label="Continue in Codex" hidden><p id="d-continuation-status" role="status"></p><details><summary>Continue prompt</summary><textarea id="d-continuation-text" readonly rows="8" aria-label="Continue prompt for Codex"></textarea></details><button id="d-copy-continuation">Copy prompt again</button></section>
           <section id="d-proposal" class="d-workflow-section" hidden></section>
           <div id="d-pane-reference" role="tabpanel" aria-labelledby="d-tab-reference">
           <div class="d-panel-title"><span id="d-reference-title">Source reference</span><span id="d-source-badge">Image</span></div>
@@ -441,6 +446,14 @@ export async function initDecomposition() {
     return `<dl class="d-parameters">${rows.map((row) => `<div><dt>${escape(row.label)}</dt><dd><span class="d-parameter-value">${escape(row.value)} <small>${escape(row.unit)}</small></span><div>${basisMarkup(row.basis)}</div></dd></div>`).join("")}</dl>`;
   }
   function renderWorkflow() {
+    if (
+      continuationSnapshot &&
+      continuationSnapshot !== continuationBinding(project)
+    ) {
+      continuationSnapshot = null;
+      $("#d-continuation-panel").hidden = true;
+      $("#d-continuation-text").value = "";
+    }
     const flow = project?.workflow;
     $("#d-phases").innerHTML = workflowProgress(project)
       .map(
@@ -456,7 +469,10 @@ export async function initDecomposition() {
     $("#d-review").hidden = !flow;
     $("#d-native").hidden = !flow;
     if (!flow) return;
-    const busy = workflowActions.pending || flow.status === "building";
+    const busy =
+      workflowActions.pending ||
+      continuationActions?.pending ||
+      flow.status === "building";
     const proposal = flow.proposal;
     const proposed = proposal?.data;
     $("#d-proposal-overview").hidden = Boolean(project.plan || !proposed);
@@ -474,20 +490,16 @@ export async function initDecomposition() {
         .map((part) => part.label)
         .join(" · ");
       $("#d-start").textContent = !proposal.approved
-        ? "Approve this proposal"
-        : flow.example_case === "inspection-rig"
-          ? "Decompose designed example"
-          : "Continue decomposition in Codex";
+        ? "Approve & continue to Decompose"
+        : "Continue to Decompose in Codex";
       $("#d-start").disabled = busy;
-    } else $("#d-start").disabled = false;
+    } else $("#d-start").disabled = busy;
     const approvedNext = project.plan
       ? ""
-      : flow.example_case === "inspection-rig"
-        ? `<p>Synthetic designed example. Load its authored part plan for inspection. No part is confirmed.</p><button data-workflow="decompose-example" ${busy ? "disabled" : ""}>Decompose designed example</button>`
-        : '<button data-workflow="continue">Continue decomposition in Codex</button>';
+      : `${flow.example_case === "inspection-rig" ? "<p>Synthetic designed example. Codex can load its authored part plan. No part is confirmed.</p>" : ""}<button data-workflow="decompose" ${busy ? "disabled" : ""}>Continue to Decompose in Codex</button>`;
     $("#d-proposal").innerHTML = proposed
-      ? `<p class="d-proposal-status">${proposal.approved ? "Proposal approved" : "Awaiting your review"}</p><h3>${escape(proposed.summary)}</h3><details ${!project.plan ? "open" : ""}><summary>${proposed.parts.length} proposed parts & assemblies</summary><ul>${proposed.parts.map((part) => `<li><strong>${escape(part.label)}</strong><p>${escape(part.description)}</p></li>`).join("")}</ul>${proposed.unknowns?.length ? `<h4>Still unknown</h4><ul>${proposed.unknowns.map((note) => `<li>${escape(note)}</li>`).join("")}</ul>` : ""}${proposed.manufacturing_notes?.length ? `<h4>Proposed manufacturing notes</h4><ul>${proposed.manufacturing_notes.map((note) => `<li>${escape(note)}</li>`).join("")}</ul>` : ""}</details>${proposal.approved ? approvedNext : `<p>Approve the proposed direction before Codex creates geometry. This does not confirm any CAD part.</p><button class="d-primary" data-workflow="approve-proposal" ${busy ? "disabled" : ""}>Approve this proposal</button>`}`
-      : '<h3>Proposal</h3><p>Your source is saved. Codex can propose the physical structure and identify the unknowns before creating geometry.</p><button data-workflow="proposal">Ask Codex for a proposal</button>';
+      ? `<p class="d-proposal-status">${proposal.approved ? "Proposal approved" : "Awaiting your review"}</p><h3>${escape(proposed.summary)}</h3><details ${!project.plan ? "open" : ""}><summary>${proposed.parts.length} proposed parts & assemblies</summary><ul>${proposed.parts.map((part) => `<li><strong>${escape(part.label)}</strong><p>${escape(part.description)}</p></li>`).join("")}</ul>${proposed.unknowns?.length ? `<h4>Still unknown</h4><ul>${proposed.unknowns.map((note) => `<li>${escape(note)}</li>`).join("")}</ul>` : ""}${proposed.manufacturing_notes?.length ? `<h4>Proposed manufacturing notes</h4><ul>${proposed.manufacturing_notes.map((note) => `<li>${escape(note)}</li>`).join("")}</ul>` : ""}</details>${proposal.approved ? approvedNext : `<p>Approve the proposed direction before Codex creates geometry. This does not confirm any CAD part.</p><button class="d-primary" data-workflow="approve-proposal" ${busy ? "disabled" : ""}>Approve & continue to Decompose</button>`}`
+      : `<h3>Proposal</h3><p>Your source is saved. Codex can propose the physical structure and identify the unknowns before creating geometry.</p><button data-workflow="proposal" ${busy ? "disabled" : ""}>Continue to Proposal in Codex</button>`;
     const review = selectionWorkflow(project, selected);
     const scope = review.scope;
     const shared = new Set(
@@ -501,8 +513,8 @@ export async function initDecomposition() {
       ).values(),
     ];
     $("#d-review").innerHTML = scope
-      ? `<h3>${scope.approved_count} / ${scope.part_count} parts confirmed</h3><details><summary>Parts in this confirmation</summary><ul>${review.parts.map((part) => `<li>${escape(part.label)} <code>${escape(part.node_id)}</code> · ${part.approved ? "confirmed" : "needs confirmation"}</li>`).join("")}</ul><code class="d-digest">Review ${escape(scope.review_digest)}</code></details>${shared.size > review.parts.length ? `<p>Shared definitions affect ${shared.size} occurrences. A geometry change invalidates confirmation wherever that definition is used.</p>` : ""}${review.pendingRequests.length ? `<p class="d-pending">${review.pendingRequests.length} captured change request${review.pendingRequests.length > 1 ? "s" : ""} must be applied before confirming this scope.</p>` : ""}<button data-workflow="approve" class="d-primary" ${!review.canApprove || busy ? "disabled" : ""}>${scope.approved ? "Selected parts confirmed" : `Confirm these ${scope.part_count} part${scope.part_count === 1 ? "" : "s"}`}</button><button data-workflow="build" ${!review.canBuild || busy ? "disabled" : ""}>${flow.status === "building" ? "Building native CAD…" : "Build selected native CAD"}</button><p>${project.plan?.units !== "mm" ? "A supported millimeter scale is required for CAD conversion." : "Confirmation binds these exact part shapes and placements. Native build checks are separate from source fidelity and manufacturing review."}</p>${manufacturing.length ? `<details><summary>Proposed manufacturing · ${manufacturing.length} definition${manufacturing.length === 1 ? "" : "s"}</summary>${manufacturing.map((part) => `<h4>${escape(part.label)}</h4><p>${escape(part.manufacturing.process)} · ${escape(part.manufacturing.material || "Material unspecified")}</p><ul>${[...(part.manufacturing.notes || []), ...(part.manufacturing.critical_features || []).map((note) => `Critical feature: ${note}`)].map((note) => `<li>${escape(note)}</li>`).join("")}</ul>`).join("")}<p>Design proposals. Factory requirements and tolerances remain unconfirmed.</p></details>` : ""}`
-      : "<h3>Part review</h3><p>Select a physical part or group to inspect and confirm its exact scope.</p>";
+      ? `<h3>${scope.approved_count} / ${scope.part_count} parts confirmed</h3><details><summary>Parts in this confirmation</summary><ul>${review.parts.map((part) => `<li>${escape(part.label)} <code>${escape(part.node_id)}</code> · ${part.approved ? "confirmed" : "needs confirmation"}</li>`).join("")}</ul><code class="d-digest">Review ${escape(scope.review_digest)}</code></details>${shared.size > review.parts.length ? `<p>Shared definitions affect ${shared.size} occurrences. A geometry change invalidates confirmation wherever that definition is used.</p>` : ""}${review.pendingRequests.length ? `<p class="d-pending">${review.pendingRequests.length} captured change request${review.pendingRequests.length > 1 ? "s" : ""} must be applied before confirming this scope.</p>` : ""}<button data-workflow="review" ${busy ? "disabled" : ""}>Continue review in Codex</button><button data-workflow="approve" class="d-primary" ${!review.canApprove || busy ? "disabled" : ""}>${scope.approved ? "Selected parts confirmed" : `Confirm ${scope.part_count} part${scope.part_count === 1 ? "" : "s"} & continue${project.plan?.units === "mm" ? " to CAD" : ""}`}</button><button data-workflow="cad" ${!review.canBuild || busy ? "disabled" : ""}>${flow.status === "building" ? "Building native CAD…" : "Continue to CAD in Codex"}</button><p>${project.plan?.units !== "mm" ? "A supported millimeter scale is required for CAD conversion." : "Confirmation binds these exact part shapes and placements. Native build checks are separate from source fidelity and manufacturing review."}</p>${manufacturing.length ? `<details><summary>Proposed manufacturing · ${manufacturing.length} definition${manufacturing.length === 1 ? "" : "s"}</summary>${manufacturing.map((part) => `<h4>${escape(part.label)}</h4><p>${escape(part.manufacturing.process)} · ${escape(part.manufacturing.material || "Material unspecified")}</p><ul>${[...(part.manufacturing.notes || []), ...(part.manufacturing.critical_features || []).map((note) => `Critical feature: ${note}`)].map((note) => `<li>${escape(note)}</li>`).join("")}</ul>`).join("")}<p>Design proposals. Factory requirements and tolerances remain unconfirmed.</p></details>` : ""}`
+      : `<h3>Part review</h3><p>Select a physical part or group to inspect and confirm its exact scope.</p>${project.plan ? `<button data-workflow="review" ${busy ? "disabled" : ""}>Continue review in Codex</button>` : ""}`;
     const native = review.selectedBuild || review.assembly;
     const nativeLink = (build, file, label) =>
       `<a download="${escape(file.split("/").at(-1))}" href="${escape(buildArtifactPath(project.id, build.id, file))}">${label}</a>`;
@@ -524,7 +536,7 @@ export async function initDecomposition() {
     $("#d-native").innerHTML =
       `<h3>Native CAD</h3>${flow.status === "building" ? '<p role="status">Building and reading STEP back. Current geometry remains available for inspection.</p>' : ""}${flow.error ? `<p class="d-pending">${escape(flow.error)}</p>` : ""}${
         native
-          ? `<p>${completeNative ? "Complete assembly" : "Build containing the selected scope"} · <code>${escape(native.id)}</code></p><button data-workflow="native" aria-pressed="${Boolean(nativeBuildId)}">${nativeBuildId ? "Return to concept preview" : "Inspect native preview"}</button>${native.step_path && !completeNative ? nativeLink(native, native.step_path, "Download built scope STEP") : ""}<details><summary>Native files & validation</summary>${native.report_path ? nativeLink(native, native.report_path, "Download native validation report") : ""}${nativeFiles}</details>`
+          ? `<p>${completeNative ? "Complete assembly" : "Build containing the selected scope"} · <code>${escape(native.id)}</code></p><button data-workflow="native" aria-pressed="${Boolean(nativeBuildId)}">${nativeBuildId ? "Return to concept preview" : "Inspect native preview"}</button>${native.step_path && !completeNative ? nativeLink(native, native.step_path, "Download built scope STEP") : ""}<button data-workflow="verify" ${busy ? "disabled" : ""}>Continue STEP review in Codex</button><details><summary>Native files & validation</summary>${native.report_path ? nativeLink(native, native.report_path, "Download native validation report") : ""}${nativeFiles}</details>`
           : "<p>No verified current build for this selection. Confirm parts and build native CAD to enable downloads.</p>"
       }${review.assembly ? nativeLink(review.assembly, review.assembly.step_path, "Download complete assembled STEP") : "<p>Complete assembly STEP becomes available after every physical part is confirmed and the full assembly is built.</p>"}<p>STEP contains named placed bodies. The physical tree and transforms remain in the assembly manifest. Source fidelity and production manufacturability require separate review.</p>`;
   }
@@ -955,6 +967,31 @@ export async function initDecomposition() {
     accept: (data) => session.accept(data),
     notify: renderWorkflow,
   });
+  continuationActions = createContinuationActions({
+    getProject: () => project,
+    getNavigationToken: () => session.ownership,
+    runWorkflow: (name, payload) => workflowActions.run(name, payload),
+    send: async (text, snapshot) => {
+      if (!embedded) text = `Workspace: ${location.origin}\n\n${text}`;
+      setInspectorTab("details", true);
+      continuationSnapshot = continuationBinding(snapshot);
+      $("#d-continuation-panel").hidden = false;
+      $("#d-continuation-text").value = text;
+      $("#d-continuation-status").textContent = "Preparing continuation…";
+      const status = await handoff(text, $("#d-continuation-text"));
+      if (continuationSnapshot === continuationBinding(project))
+        $("#d-continuation-status").textContent = status;
+      return status;
+    },
+    notify: renderWorkflow,
+  });
+  $("#d-copy-continuation").onclick = async () => {
+    if (continuationSnapshot !== continuationBinding(project)) return;
+    $("#d-continuation-status").textContent = await handoff(
+      $("#d-continuation-text").value,
+      $("#d-continuation-text"),
+    );
+  };
   projectPicker = mountProjectPicker({
     button: $("#d-project-switch"),
     menu: $("#d-project-menu"),
@@ -1008,7 +1045,7 @@ export async function initDecomposition() {
       error(failure.message);
     }
   };
-  async function handoff(text) {
+  async function handoff(text, promptField = null) {
     try {
       if (await hostIterationMessage(text)) return "Sent to Codex";
     } catch (failure) {
@@ -1021,6 +1058,12 @@ export async function initDecomposition() {
       error(
         "Clipboard unavailable. The handoff text is shown below for manual copying.",
       );
+      if (promptField) {
+        promptField.closest("details").open = true;
+        promptField.focus();
+        promptField.select();
+        return "Prompt ready · copy it into Codex";
+      }
       let fallback = $("#d-handoff");
       if (!fallback) {
         fallback = document.createElement("textarea");
@@ -1035,9 +1078,6 @@ export async function initDecomposition() {
       return "Copy the handoff text into Codex";
     }
   }
-  function proposalMessage() {
-    return `Project ${project.id}, revision ${project.revision}, workflow revision ${project.workflow_revision}. Source SHA256 ${project.source.sha256}. ${project.workflow?.proposal?.approved ? "The proposal has explicit user approval. Continue with a fine physical decomposition using the shared Plan. Preserve uncertainties and source bindings." : "Read my saved image or literal design brief and author a workflow proposal of physical parts, unknowns, and proposed manufacturing notes. Wait for my explicit proposal approval before creating geometry."} Do not confirm parts or build CAD on my behalf.`;
-  }
   $("#d-example").onclick = () => session.open("anatomy-example");
   $("#d-new").onclick = () => $("#d-intake").showModal();
   $("#d-start").onclick = async () => {
@@ -1047,15 +1087,11 @@ export async function initDecomposition() {
         project.workflow?.proposal &&
         !project.workflow.proposal.approved
       )
-        await workflowActions.run("approve-proposal", {
-          proposal_digest: project.workflow.proposal.digest,
-        });
-      else if (
-        !project.plan &&
-        project.workflow?.example_case === "inspection-rig"
-      )
-        await workflowActions.run("decompose-example");
-      else $("#d-start").textContent = await handoff(proposalMessage());
+        await continuationActions.run("approve-proposal");
+      else
+        await continuationActions.run(
+          project.workflow?.proposal?.approved ? "decompose" : "proposal",
+        );
     } catch (failure) {
       error(failure.message);
     }
@@ -1097,7 +1133,7 @@ export async function initDecomposition() {
       if (!(await session.accept(result))) return;
       $("#d-intake").close();
       form.reset();
-      $("#d-start").textContent = await handoff(proposalMessage());
+      await continuationActions.run("proposal");
     } catch (failure) {
       $("#d-intake-error").textContent = failure.message;
       $("#d-intake-error").hidden = false;
@@ -1111,22 +1147,10 @@ export async function initDecomposition() {
     const name = button.dataset.workflow;
     try {
       error("");
-      if (name === "proposal" || name === "continue") {
-        button.textContent = await handoff(proposalMessage());
-      } else if (name === "decompose-example") {
-        await workflowActions.run(name);
-      } else if (name === "approve-proposal") {
-        await workflowActions.run(name, {
-          proposal_digest: project.workflow.proposal.digest,
-        });
-      } else if (name === "approve" || name === "build") {
-        const review = selectionWorkflow(project, selected);
-        if (name === "approve" ? !review.canApprove : !review.canBuild) return;
-        await workflowActions.run(name, {
-          node_id: selected,
-          review_digest: review.scope.review_digest,
-          ...(name === "approve" ? { confirmed: true } : {}),
-        });
+      if (["proposal", "decompose", "approve-proposal"].includes(name)) {
+        await continuationActions.run(name);
+      } else if (["review", "approve", "cad", "verify"].includes(name)) {
+        await continuationActions.run(name, selected);
       } else if (name === "native") await toggleNative();
     } catch (failure) {
       error(failure.message);

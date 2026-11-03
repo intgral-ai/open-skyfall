@@ -44,3 +44,27 @@ Unrelated parts and placements must be preserved. Changes invalidate affected
 part approvals/native pointers and the complete assembly download; unchanged
 parts may retain their approvals. The viewer receives the next accepted revision
 automatically. CAD confirmation and native rebuild still need explicit review.
+
+## Continue between stages
+
+Each Continue action prepares a `cad-continuation/1` prompt with the saved
+source, proposal, geometry and review bindings. Source intake asks Codex for a
+proposal. **Approve & continue to Decompose** first saves the exact proposal
+approval, then asks Codex to generate the physical Plan and exploded preview.
+After decomposition, **Continue review in Codex** asks for inspection and
+iterations without approving any part.
+
+**Confirm parts & continue to CAD** saves only the displayed active scope's
+explicit confirmation, then asks Codex to build that scope through the native
+workflow. Already confirmed parts have a separate **Continue to CAD in Codex**
+action. Relative-scale parts return to review until metric scale is established.
+**Continue STEP review in Codex** binds the current build for artifact checks
+and download. These actions prepare instructions; they never run decomposition
+or native construction inside the browser. The synthetic fixture load follows
+the same handoff rather than bypassing Codex.
+
+The prompt remains inspectable and can be copied again. A project/revision change
+clears the old prompt. Failed or superseded approval writes cannot send a
+continuation. On localhost, paste the prompt into Codex to execute it; a connected
+host may accept it directly. Prompt preparation or host acceptance is not proof
+that the next geometry stage ran.
