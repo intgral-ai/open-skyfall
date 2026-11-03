@@ -1,5 +1,5 @@
 ---
-name: OpenSkyfall workbench
+name: Model workbench
 description: Silence adoption for inspecting source evidence, physical parts and reviewed CAD.
 colors:
   primary: "#262626"
@@ -107,7 +107,7 @@ components:
     rounded: "{rounded.floating}"
 ---
 
-# Design System: OpenSkyfall workbench
+# Design System: Model workbench
 
 ## Overview
 
@@ -169,7 +169,7 @@ the other named families depend on availability. Geist Mono is the preferred
 family for hashes, identifiers and numeric comparison, with system mono fallbacks.
 
 The frontmatter records the reused hierarchy: headline for the source/proposal
-empty stage, title for the selected piece, body for inspector explanations, UI
+empty stage, title for section headings, body for inspector explanations, UI
 and label for actions, and meta/code for provenance. At narrow widths the empty
 stage headline becomes compact (24px / 32px). Numeric measurements use tabular
 figures where declared. Long part labels and identifiers wrap in the inspector.
@@ -179,15 +179,18 @@ figures where declared. Long part labels and identifiers wrap in the inspector.
 The app fills the dynamic viewport. The desktop workspace has a structure column
 (268px), a flexible model stage and an inspector (340px). Closing the inspector
 returns its width to the stage. Before geometry exists, the structure column is
-hidden. Panel content scrolls independently.
+hidden. With no project, only source intake and an example entry are shown.
+Panel content scrolls independently. The shell omits slogans, routine status rows,
+coordinate hints, decorative grid and duplicate reference/check buttons.
 
 At widths up to 1000px, the model receives the whole workspace. Structure and
 inspector become explicitly opened floating panels, inset from the stage (16px)
-and bounded to its width. The header becomes two rows at widths up to 760px:
-brand/actions first, then the visible **Project** label and native selector.
+and bounded to its width. The unbranded header stays in one row: project selector,
+New source and Inspect. Project keeps an accessible label without extra visible text.
 The selector groups **Examples** and **Saved projects**. The five-step sequence
 keeps every label visible, with centered markers above labels on narrow screens.
-Entering the compact layout closes both panels; opening one closes the other.
+The inspector opens when a part is selected; closing or clearing it returns space
+to the model. Opening either compact panel closes the other.
 Panel visibility and accessible toggle labels stay synchronized when the window
 crosses the layout breakpoint.
 
@@ -255,12 +258,12 @@ orthographic rendering and the actual model as its primary content.
 ### Inspector and independent references
 
 Every selected piece exposes **Reference** and **Checks**, alongside **Details**.
-The tab list supports arrow keys, Home and End. Details keeps the design note
-collapsed, with confirmation, native artifact and construction evidence below.
+The tab list supports arrow keys, Home and End. Details keeps the Codex handoff, confirmation and native actions. Notes, source
+metadata, construction evidence and raw reports use disclosures.
 Reference shows actual bound source observations, image regions or literal
 quotes, plus saved check context. Missing observations remain explicitly missing.
 
-In the standalone viewer, **Open this part separately** opens
+In the standalone viewer, **Open separately** opens
 `?project=PROJECT_ID&part=NODE_ID&view=reference`. It selects that occurrence and
 opens its Reference panel at the top. An embedded host uses its existing inspection and
 handoff affordances. Copy feedback distinguishes host delivery, clipboard copy
