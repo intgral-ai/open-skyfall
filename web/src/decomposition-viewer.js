@@ -89,11 +89,11 @@ export async function initDecomposition() {
   const still = matchMedia("(prefers-reduced-motion: reduce)");
   const compact = matchMedia("(max-width: 1000px)");
   const meshes = new Map();
-  document.title = "OpenSkyfall · Decomposition";
+  document.title = "CAD workspace";
   $("#app").innerHTML = `
     <div class="d-app">
       <header class="d-header">
-        <a class="d-brand" href="/" aria-label="OpenSkyfall home">${icon("layers")}<strong>OpenSkyfall</strong><span>Research preview</span></a>
+        <a class="d-brand" href="/" aria-label="Home">${icon("layers")}<span>Research preview</span></a>
         <span class="d-divider"></span><strong id="d-name">Part workspace</strong>
         <button id="d-new">New source</button>
         <label class="d-project-picker"><span>Project</span><select id="d-projects" aria-label="Open a decomposition"><option value="">Choose a project</option><optgroup label="Examples"><option value="anatomy-example">Inspection rig · example</option><option value="example">Desk lamp · legacy example</option></optgroup><optgroup id="d-saved-projects" label="Saved projects"></optgroup></select></label>
@@ -980,7 +980,7 @@ export async function initDecomposition() {
     }
   }
   function proposalMessage() {
-    return `OpenSkyfall project ${project.id}, revision ${project.revision}, workflow revision ${project.workflow_revision}. Source SHA256 ${project.source.sha256}. ${project.workflow?.proposal?.approved ? "The proposal has explicit user approval. Continue with a fine physical decomposition using the shared Plan. Preserve uncertainties and source bindings." : "Read my saved image or literal design brief and author a workflow proposal of physical parts, unknowns, and proposed manufacturing notes. Wait for my explicit proposal approval before creating geometry."} Do not confirm parts or build CAD on my behalf.`;
+    return `Project ${project.id}, revision ${project.revision}, workflow revision ${project.workflow_revision}. Source SHA256 ${project.source.sha256}. ${project.workflow?.proposal?.approved ? "The proposal has explicit user approval. Continue with a fine physical decomposition using the shared Plan. Preserve uncertainties and source bindings." : "Read my saved image or literal design brief and author a workflow proposal of physical parts, unknowns, and proposed manufacturing notes. Wait for my explicit proposal approval before creating geometry."} Do not confirm parts or build CAD on my behalf.`;
   }
   $("#d-example").onclick = () => session.open("anatomy-example");
   $("#d-new").onclick = () => $("#d-intake").showModal();
