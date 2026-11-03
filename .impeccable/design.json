@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "generatedAt": "2026-11-03T17:37:46+00:00",
-  "title": "Design System: Model workbench",
+  "title": "Design System: OpenSkyfall workbench",
   "extensions": {
     "colorMeta": {
       "primary": {
@@ -314,9 +314,9 @@
       "name": "Project selector",
       "kind": "input",
       "refersTo": "project-select",
-      "description": "A native selector preserves keyboard behavior and grouped example/saved project choices. Its Project label remains available to assistive technology.",
-      "html": "<label class=\"ds-picker\"><span class=\"ds-sr-only\">Project</span><select class=\"ds-select\"><option>Choose a project</option><optgroup label=\"Examples\"><option>Inspection rig · example</option></optgroup><optgroup label=\"Saved projects\"><option>Bench fixture · r3</option></optgroup></select></label>",
-      "css": ".ds-picker{display:flex;align-items:center;gap:8px;font:12px/18px var(--intgral-font-sans);color:var(--intgral-foreground-muted)}.ds-select{height:40px;width:240px;max-width:100%;min-width:0;padding:0 12px;border:1px solid var(--intgral-control-border);border-radius:var(--intgral-radius-control);font:14px/20px var(--intgral-font-sans);background:var(--intgral-surface-raised);color:var(--intgral-foreground)}.ds-select:focus-visible{outline:2px solid var(--intgral-focus);outline-offset:3px;}.ds-sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}"
+      "description": "A labeled native selector preserves keyboard behavior and grouped example/saved project choices.",
+      "html": "<label class=\"ds-picker\"><span>Project</span><select class=\"ds-select\"><option>Choose a project</option><optgroup label=\"Examples\"><option>Inspection rig · example</option></optgroup><optgroup label=\"Saved projects\"><option>Bench fixture · r3</option></optgroup></select></label>",
+      "css": ".ds-picker{display:flex;align-items:center;gap:8px;font:12px/18px var(--intgral-font-sans);color:var(--intgral-foreground-muted)}.ds-select{height:40px;width:240px;max-width:100%;min-width:0;padding:0 12px;border:1px solid var(--intgral-control-border);border-radius:var(--intgral-radius-control);font:14px/20px var(--intgral-font-sans);background:var(--intgral-surface-raised);color:var(--intgral-foreground)}.ds-select:focus-visible{outline:2px solid var(--intgral-focus);outline-offset:3px;}"
     },
     {
       "name": "Source intake field",
@@ -345,8 +345,8 @@
       "name": "Floating inspector panel",
       "kind": "card",
       "refersTo": "floating-panel",
-      "description": "Selection opens the inspector. At narrow widths it floats above the model; opening it closes structure.",
-      "html": "<aside class=\"ds-panel\" aria-label=\"Reference and selection\"><div class=\"ds-panel-header\"><span>Selected part</span><button class=\"ds-panel-close\" aria-label=\"Close inspector\"><svg width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" aria-hidden=\"true\"><path d=\"m6 6 12 12M18 6 6 18\"/></svg></button></div><section class=\"ds-panel-body\"><p>Reference and checks remain scoped to this occurrence.</p></section></aside>",
+      "description": "At narrow widths the inspector is an explicitly opened complementary panel above the model stage; opening it closes structure.",
+      "html": "<aside class=\"ds-panel\" aria-label=\"Reference and selection\"><div class=\"ds-panel-header\"><span>Inspector</span><button class=\"ds-panel-close\" aria-label=\"Close inspector\"><svg width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" aria-hidden=\"true\"><path d=\"m6 6 12 12M18 6 6 18\"/></svg></button></div><section class=\"ds-panel-body\"><h2>Selected part</h2><p>Reference and checks remain scoped to this occurrence.</p></section></aside>",
       "css": ".ds-panel{width:min(340px,calc(100% - 32px));overflow-y:auto;border-radius:var(--intgral-radius-floating);background:var(--intgral-background);color:var(--intgral-foreground);box-shadow:var(--intgral-shadow-floating);font:14px/20px var(--intgral-font-sans)}.ds-panel-header{display:flex;align-items:center;justify-content:space-between;padding:12px 20px;border-bottom:1px solid var(--intgral-border);font-weight:500}.ds-panel-close{min-width:32px;min-height:32px;padding:6px;border:0;border-radius:var(--intgral-radius-control);background:transparent;color:inherit;cursor:pointer}.ds-panel-close:hover{background:var(--intgral-selection)}.ds-panel-close:focus-visible{outline:2px solid var(--intgral-focus);outline-offset:3px;}.ds-panel-body{padding:24px 20px}.ds-panel-body h2{margin:0 0 8px;font-size:20px;line-height:28px;font-weight:500}.ds-panel-body p{color:var(--intgral-foreground-secondary);font-size:14px;line-height:22px}"
     },
     {
@@ -364,8 +364,7 @@
       "A full-height model stage with complementary structure and inspector panels.",
       "Neutral actions and selection; semantic color accompanies written outcomes.",
       "Evidence, uncertainty, confirmation and native artifacts remain distinct.",
-      "Keyboard controls, explicit focus and a native project selector.",
-      "An unbranded one-row header and selection-triggered inspector; secondary evidence stays collapsed."
+      "Keyboard controls, explicit focus and a native project selector."
     ],
     "rules": [
       {

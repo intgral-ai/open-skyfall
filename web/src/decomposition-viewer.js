@@ -89,31 +89,34 @@ export async function initDecomposition() {
   const still = matchMedia("(prefers-reduced-motion: reduce)");
   const compact = matchMedia("(max-width: 1000px)");
   const meshes = new Map();
-  document.title = "Model workspace";
+  document.title = "OpenSkyfall · Decomposition";
   $("#app").innerHTML = `
     <div class="d-app">
       <header class="d-header">
-        <label class="d-project-picker"><span class="d-sr-only">Project</span><select id="d-projects" aria-label="Open a project"><option value="">Projects</option><optgroup label="Examples"><option value="anatomy-example">Inspection rig example</option><option value="example">Desk lamp example</option></optgroup><optgroup id="d-saved-projects" label="Saved projects"></optgroup></select></label>
-        <span id="d-revision" class="d-sr-only" hidden></span>
-        <button id="d-new" hidden>New source</button>
-        <button id="d-source-toggle" aria-label="Open inspector" aria-controls="d-reference-panel" aria-pressed="false" hidden>${icon("image")}<span>Inspect</span></button>
+        <a class="d-brand" href="/" aria-label="OpenSkyfall home">${icon("layers")}<strong>OpenSkyfall</strong><span>Research preview</span></a>
+        <span class="d-divider"></span><strong id="d-name">Part workspace</strong>
+        <button id="d-new">New source</button>
+        <label class="d-project-picker"><span>Project</span><select id="d-projects" aria-label="Open a decomposition"><option value="">Choose a project</option><optgroup label="Examples"><option value="anatomy-example">Inspection rig · example</option><option value="example">Desk lamp · legacy example</option></optgroup><optgroup id="d-saved-projects" label="Saved projects"></optgroup></select></label>
+        <button id="d-source-toggle" aria-label="Close inspector" aria-controls="d-reference-panel" aria-pressed="true">${icon("image")}<span>Inspector</span></button>
       </header>
-      <span id="d-status" class="d-sr-only" role="status">Add a source to begin.</span>
-      <ol id="d-phases" class="d-phases" aria-label="Object to CAD workflow" hidden></ol>
-      <main class="d-workspace" data-empty="true">
+      <div class="d-subheader"><span><i class="d-dot"></i><span id="d-status" role="status">Ready for an image</span></span><span id="d-revision">Concept decomposition</span></div>
+      <ol id="d-phases" class="d-phases" aria-label="Object to CAD workflow"></ol>
+      <main class="d-workspace">
         <aside id="d-sidebar" class="d-sidebar" aria-label="Assembly structure">
           <div class="d-panel-title"><span>Structure</span><span id="d-count">—</span><button id="d-sidebar-close" aria-label="Close structure">${icon("close")}</button></div>
           <div id="d-levels" class="d-levels" role="group" aria-label="Decomposition depth"></div>
           <nav id="d-tree" aria-label="Part hierarchy"><p class="d-muted d-padding">Physical parts and assemblies appear here.</p></nav>
+          <div class="d-sidebar-note">${icon("layers")}<span>One object. Separate parts.<br>Shared scale and placement.</span></div>
         </aside>
         <section class="d-stage" aria-label="Model inspection">
           <div id="d-viewport" tabindex="0" aria-label="3D decomposition. Drag to orbit, shift-drag to pan, scroll to zoom. F fits the model; Escape clears selection."></div>
-          <div class="d-stage-label"><button id="d-structure-toggle" aria-label="Open structure" aria-controls="d-sidebar" aria-expanded="false">${icon("layers")}<span>Structure</span></button><span id="d-scene-meta"></span></div>
+          <div class="d-stage-label"><button id="d-structure-toggle" aria-label="Open structure" aria-controls="d-sidebar" aria-expanded="false">${icon("layers")}<span>Structure</span></button><span id="d-breadcrumb">Image → structure → parts</span><span id="d-scene-meta"></span></div>
           <div id="d-empty" class="d-empty">
-            <h1>Add an image or description</h1><p hidden></p>
+            <div class="d-empty-symbol">${icon("layers")}</div>
+            <h1>See how it comes apart.</h1><p>Bring an image or describe an object.<br>Review its proposal, refine each part in Codex, then confirm CAD.</p>
             <div id="d-proposal-overview" class="d-proposal-overview" hidden></div>
-            <button id="d-start" class="d-primary">Add source</button>
-            <button id="d-example">Try the inspection rig example</button>
+            <button id="d-start" class="d-primary">Start with your source ${icon("arrow")}</button>
+            <button id="d-example">Explore the synthetic inspection rig</button><small>Original designed example · no parts pre-confirmed</small>
           </div>
           <div id="d-tools" class="d-tools" role="toolbar" aria-label="Model tools" hidden>
             <button id="d-fit" aria-label="Fit model" title="Fit model (F)">${icon("fit")}<span>Fit</span></button>
@@ -122,33 +125,35 @@ export async function initDecomposition() {
             <button id="d-hide" aria-label="Hide selection" disabled>${icon("eye")}<span>Hide</span></button>
             <span class="d-tool-divider"></span><button id="d-restore" aria-label="Restore original placements and visibility" title="Restore original placements and visibility">${icon("reset")}<span>Restore</span></button>
           </div>
-          <div id="d-explode-panel" class="d-explode" hidden><label for="d-explode">Explode <output id="d-explode-value">0%</output></label><input id="d-explode" type="range" min="0" max="100" value="0" aria-label="Explode amount"></div>
+          <div id="d-explode-panel" class="d-explode" hidden><label for="d-explode">Explode <output id="d-explode-value">0%</output></label><input id="d-explode" type="range" min="0" max="100" value="0" aria-label="Explode amount"><span>View offset only · placements preserved</span></div>
+          <div class="d-stage-footer"><span id="d-selection">Z up · right-handed</span><span>Drag to orbit <b>·</b> Scroll to zoom</span></div>
           <div id="d-error" class="d-error" role="alert" hidden></div>
         </section>
         <aside id="d-reference-panel" class="d-reference" aria-label="Reference and selection">
-          <div class="d-inspector-header"><h2 id="d-node-name">Reference</h2><button id="d-inspector-close" aria-label="Close inspector">${icon("close")}</button></div>
+          <div class="d-inspector-header"><span>Inspector</span><button id="d-inspector-close" aria-label="Close inspector">${icon("close")}</button></div>
+          <section class="d-inspector"><h2 id="d-node-name">Select a part</h2><span id="d-node-kind" class="d-tag">Part workspace</span><details class="d-selection-note"><summary>Design note</summary><p id="d-node-note">Choose a part in the model or structure to inspect its references and checks.</p></details><code id="d-node-id"></code><div class="d-piece-actions"><button id="d-open-reference" disabled>${icon("image")}Reference</button><button id="d-open-checks" disabled>${icon("check")}Checks</button></div><button id="d-copy" disabled>${icon("copy")}Iterate in Codex</button></section>
           <div class="d-inspector-tabs" role="tablist" aria-label="Part inspection"><button id="d-tab-details" role="tab" data-tab="details" aria-controls="d-pane-details">Details</button><button id="d-tab-reference" role="tab" data-tab="reference" aria-controls="d-pane-reference">Reference</button><button id="d-tab-checks" role="tab" data-tab="checks" aria-controls="d-pane-checks">Checks</button></div>
           <section id="d-proposal" class="d-workflow-section" hidden></section>
           <div id="d-pane-reference" role="tabpanel" aria-labelledby="d-tab-reference">
           <div class="d-panel-title"><span id="d-reference-title">Source reference</span><span id="d-source-badge">Image</span></div>
-          <a id="d-reference-separate" class="d-reference-separate" target="_blank" rel="noopener" hidden>Open separately ${icon("external")}</a>
-          <div class="d-image-wrap"><div id="d-image-slot"></div><svg id="d-source-regions" aria-label="Selected source observations"></svg><span id="d-image-empty">${icon("image")}<span>No reference image</span></span></div>
-          <details class="d-workflow-section"><summary>Source information</summary><div class="d-reference-meta"><span id="d-rights"></span><code id="d-hash"></code></div></details>
+          <a id="d-reference-separate" class="d-reference-separate" target="_blank" rel="noopener" hidden>Open this part separately ${icon("external")}</a>
+          <div class="d-image-wrap"><div id="d-image-slot"></div><svg id="d-source-regions" aria-label="Selected source observations"></svg><span id="d-image-empty">${icon("image")}<span>Your image stays beside the model.</span></span></div>
+          <div class="d-reference-meta"><span id="d-rights">Input provenance retained</span><code id="d-hash"></code></div>
           <section id="d-piece-reference" class="d-workflow-section"></section>
           <details id="d-brief" class="d-workflow-section" hidden><summary>Literal design brief</summary><p id="d-brief-text"></p></details>
           </div>
           <div id="d-pane-checks" role="tabpanel" aria-labelledby="d-tab-checks"><section id="d-piece-checks" class="d-workflow-section" aria-live="polite"></section></div>
           <div id="d-pane-details" role="tabpanel" aria-labelledby="d-tab-details">
-          <section class="d-inspector"><button id="d-copy" disabled>${icon("copy")}Copy for Codex</button><details class="d-selection-note"><summary>Notes</summary><span id="d-node-kind" class="d-tag"></span><p id="d-node-note">Select a part to inspect its evidence.</p><code id="d-node-id"></code></details></section>
           <section id="d-review" class="d-workflow-section" aria-label="Selected scope review" hidden></section>
           <section id="d-native" class="d-workflow-section" aria-label="Current native CAD" hidden></section>
-          <details class="d-explanation"><summary>Evidence and construction</summary><p id="d-coverage" role="status">Explanation awaits an accepted plan.</p><div id="d-node-explanation"></div><details id="d-trace-panel"><summary>Executed construction trace</summary><div id="d-trace"></div></details><details><summary>Checks by scope</summary><p class="d-check-note">Each result applies only to its named scope. Documented bases do not establish their truth. Mesh checks do not establish source fidelity, native CAD, collision freedom, or manufacturing suitability.</p><ul id="d-checks"></ul></details></details>
+          <section class="d-explanation" aria-label="Decomposition explanation"><p id="d-coverage" role="status">Explanation awaits an accepted plan.</p><div id="d-node-explanation"></div><details id="d-trace-panel"><summary>Executed construction trace</summary><div id="d-trace"></div></details><details><summary>Checks by scope</summary><p class="d-check-note">Each result applies only to its named scope. Documented bases do not establish their truth. Mesh checks do not establish source fidelity, native CAD, collision freedom, or manufacturing suitability.</p><ul id="d-checks"></ul></details></section>
           <details class="d-assumptions"><summary>Assumptions & scale</summary><p id="d-scale">Scale and hidden geometry need evidence.</p><ul id="d-assumptions"></ul></details>
           <section id="d-downloads" class="d-downloads" aria-label="Accepted revision downloads" hidden><h3>Accepted program</h3><a id="d-program-download" download="program.json">Download program JSON</a><a id="d-bundle-download" download="bundle.zip">Download replay bundle</a><p id="d-program-binding"></p></section>
+          <p class="d-disclaimer">Concept geometry. CAD accuracy and manufacturing suitability are unverified.</p>
           </div>
         </aside>
       </main>
-      <dialog id="d-intake" class="d-intake"><form id="d-intake-form"><div class="d-form-heading"><div><h2>Add a source</h2></div><button type="button" id="d-intake-close" aria-label="Close source form">×</button></div><label>Project name<input name="name" maxlength="100" placeholder="Bench inspection fixture"></label><label>Reference image <span>Optional for a written brief</span><input name="image" type="file" accept="image/png,image/jpeg,image/webp"></label><label>Describe the object<textarea name="description" rows="4" placeholder="What it does, known dimensions, visible features, and what needs to remain uncertain."></textarea></label><label>Source rights<input name="rights" required maxlength="500" placeholder="For example, my original photograph or design"></label><p>Review the plan in Codex before creating parts.</p><button type="submit" class="d-primary">Continue in Codex</button><p id="d-intake-error" role="alert" hidden></p></form></dialog>
+      <dialog id="d-intake" class="d-intake"><form id="d-intake-form"><div class="d-form-heading"><div><h2>Start with what you know.</h2></div><button type="button" id="d-intake-close" aria-label="Close source form">×</button></div><label>Project name<input name="name" maxlength="100" placeholder="Bench inspection fixture"></label><label>Reference image <span>Optional for a written brief</span><input name="image" type="file" accept="image/png,image/jpeg,image/webp"></label><label>Describe the object<textarea name="description" rows="4" placeholder="What it does, known dimensions, visible features, and what needs to remain uncertain."></textarea></label><label>Source rights<input name="rights" required maxlength="500" placeholder="For example, my original photograph or design"></label><p>Codex authors a proposal first. Your approval is required before geometry, and each CAD scope needs a separate confirmation.</p><button type="submit" class="d-primary">Save source & continue in Codex</button><p id="d-intake-error" role="alert" hidden></p></form></dialog>
     </div>`;
 
   async function api(path) {
@@ -197,7 +202,7 @@ export async function initDecomposition() {
   }
   const viewport = $("#d-viewport");
   renderer.setPixelRatio(Math.min(devicePixelRatio, 1.5));
-  renderer.setClearColor("#f8f8f8");
+  renderer.setClearColor("#f3f1eb");
   renderer.shadowMap.enabled = true;
   renderer.shadowMap.type = THREE.PCFSoftShadowMap;
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
@@ -240,7 +245,12 @@ export async function initDecomposition() {
   );
   floor.receiveShadow = true;
   scene.add(floor);
-  floor.visible = false;
+  const grid = new THREE.GridHelper(16, 32, 0xe0ddd4, 0xe8e5dd);
+  grid.rotation.x = Math.PI / 2;
+  grid.material.transparent = true;
+  grid.material.opacity = 0.15;
+  scene.add(grid);
+  floor.visible = grid.visible = false;
   const observer = new ResizeObserver(() => {
     const width = viewport.clientWidth,
       height = viewport.clientHeight;
@@ -292,7 +302,7 @@ export async function initDecomposition() {
     }
     meshes.clear();
     root.clear();
-    floor.visible = false;
+    floor.visible = grid.visible = false;
   }
   function fit(selectionOnly = false) {
     const box = new THREE.Box3();
@@ -355,11 +365,12 @@ export async function initDecomposition() {
     root.updateMatrixWorld(true);
     const box = new THREE.Box3().setFromObject(root);
     floor.position.z = box.min.z - 0.025;
-    floor.visible = true;
+    grid.position.z = box.min.z - 0.03;
+    floor.visible = grid.visible = true;
   }
   function applyView() {
     if (!tree || !preview) {
-      $("#d-scene-meta").textContent = "";
+      $("#d-scene-meta").textContent = "No geometry yet";
       return;
     }
     const offsets = explodeOffsets(
@@ -385,7 +396,7 @@ export async function initDecomposition() {
     $("#d-explode").value = amount;
     $("#d-explode-value").textContent = `${Math.round(displayedAmount)}%`;
     $("#d-scene-meta").textContent =
-      `${nativeBuildId ? "CAD" : "Preview"} · ${[...meshes.values()].filter((m) => m.visible).length} of ${meshes.size} parts`;
+      `${nativeBuildId ? "Native tessellation" : "Concept geometry"} · ${[...meshes.values()].filter((m) => m.visible).length} / ${meshes.size} parts visible`;
   }
   function renderTree() {
     if (!tree) {
@@ -421,7 +432,6 @@ export async function initDecomposition() {
   }
   function renderWorkflow() {
     const flow = project?.workflow;
-    $("#d-phases").hidden = !project;
     $("#d-phases").innerHTML = workflowProgress(project)
       .map(
         (step) =>
@@ -442,8 +452,8 @@ export async function initDecomposition() {
     $("#d-proposal-overview").hidden = Boolean(project.plan || !proposed);
     if (!project.plan && proposed) {
       $("#d-empty h1").textContent = proposal.approved
-        ? "Ready to decompose"
-        : "Review the part plan";
+        ? "Ready to see the parts."
+        : "Review the proposed structure.";
       $("#d-empty p").textContent = proposed.summary;
       $("#d-proposal-overview").textContent = proposed.parts
         .filter(
@@ -504,9 +514,9 @@ export async function initDecomposition() {
     $("#d-native").innerHTML =
       `<h3>Native CAD</h3>${flow.status === "building" ? '<p role="status">Building and reading STEP back. Current geometry remains available for inspection.</p>' : ""}${flow.error ? `<p class="d-pending">${escape(flow.error)}</p>` : ""}${
         native
-          ? `<p>${completeNative ? "Complete assembly" : "Selected scope"}</p><button data-workflow="native" aria-pressed="${Boolean(nativeBuildId)}">${nativeBuildId ? "Return to concept preview" : "Inspect native preview"}</button>${native.step_path && !completeNative ? nativeLink(native, native.step_path, "Download built scope STEP") : ""}<details><summary>Files & validation</summary><p>Build <code>${escape(native.id)}</code></p>${native.report_path ? nativeLink(native, native.report_path, "Download native validation report") : ""}${nativeFiles}</details>`
+          ? `<p>${completeNative ? "Complete assembly" : "Build containing the selected scope"} · <code>${escape(native.id)}</code></p><button data-workflow="native" aria-pressed="${Boolean(nativeBuildId)}">${nativeBuildId ? "Return to concept preview" : "Inspect native preview"}</button>${native.step_path && !completeNative ? nativeLink(native, native.step_path, "Download built scope STEP") : ""}<details><summary>Native files & validation</summary>${native.report_path ? nativeLink(native, native.report_path, "Download native validation report") : ""}${nativeFiles}</details>`
           : "<p>No verified current build for this selection. Confirm parts and build native CAD to enable downloads.</p>"
-      }${review.assembly ? nativeLink(review.assembly, review.assembly.step_path, "Download complete assembled STEP") : "<p>Complete assembly STEP becomes available after every physical part is confirmed and the full assembly is built.</p>"}<details><summary>STEP contents</summary><p>Named, placed bodies; physical structure and transforms are in the assembly manifest. Source fidelity and manufacturability need separate review.</p></details>`;
+      }${review.assembly ? nativeLink(review.assembly, review.assembly.step_path, "Download complete assembled STEP") : "<p>Complete assembly STEP becomes available after every physical part is confirmed and the full assembly is built.</p>"}<p>STEP contains named placed bodies. The physical tree and transforms remain in the assembly manifest. Source fidelity and production manufacturability require separate review.</p>`;
   }
   function setInspectorTab(name, open = false) {
     inspectorTab = name;
@@ -543,8 +553,9 @@ export async function initDecomposition() {
     const observations = project
       ? explainSelection(project, selected).observations
       : [];
+    $("#d-open-reference").disabled = $("#d-open-checks").disabled = !node;
     $("#d-reference-title").textContent = node
-      ? "Source reference"
+      ? `${node.label} · reference`
       : "Project reference";
     const separate = $("#d-reference-separate");
     separate.hidden = !node || embedded;
@@ -552,8 +563,8 @@ export async function initDecomposition() {
       separate.href = pieceReferenceURL(location.href, project.id, node.id);
     else separate.removeAttribute("href");
     $("#d-piece-reference").innerHTML = node
-      ? `${observations.length ? observations.map((item) => `<article class="d-source-observation"><h4>${escape(item.statement)}</h4>${item.kind === "text" ? `<blockquote>${escape(item.quote)}</blockquote>` : "<p>Highlighted in the source image above.</p>"}<code>${escape(item.id)}</code></article>`).join("") : "<p>No source observation is bound to this piece. Its geometry needs an explicit design basis.</p>"}${criteria?.context?.text ? `<h3>Your check context</h3><p class="d-literal-context">${escape(criteria.context.text)}</p>` : ""}`
-      : "<p>Select a part to view its reference.</p>";
+      ? `<h3>References for ${escape(node.label)}</h3>${observations.length ? observations.map((item) => `<article class="d-source-observation"><h4>${escape(item.statement)}</h4>${item.kind === "text" ? `<blockquote>${escape(item.quote)}</blockquote>` : "<p>Highlighted in the source image above.</p>"}<code>${escape(item.id)}</code></article>`).join("") : "<p>No source observation is bound to this piece. Its geometry needs an explicit design basis.</p>"}${criteria?.context?.text ? `<h3>Your check context</h3><p class="d-literal-context">${escape(criteria.context.text)}</p>` : ""}`
+      : "<p>Select a piece to see its own source observations and check context.</p>";
     const busy = Boolean(
       project?.workflow?.status === "building" || workflowActions.pending,
     );
@@ -585,7 +596,7 @@ export async function initDecomposition() {
       return `<li><div><strong>${escape(titles[result.id] || result.id.replaceAll("-", " "))}</strong><span data-outcome="${escape(result.outcome)}">${escape(result.outcome)}</span></div>${result.kind === "parameter_range" ? `<dl class="d-check-measure"><div><dt>Actual</dt><dd>${result.actual == null ? "Unavailable" : `${escape(result.actual)} ${escape(unit)}`}</dd></div><div><dt>Required</dt><dd>${escape(limit)} ${escape(result.expected_unit || unit)}</dd></div></dl>` : ""}${result.quote ? `<blockquote>${escape(result.quote)}</blockquote>` : ""}<p>${escape(result.detail)}</p></li>`;
     }
     $("#d-piece-checks").innerHTML = node
-      ? `${report ? `<div class="d-current-check-summary"><span data-outcome="${escape(report.outcome)}">${escape(report.outcome)}</span><span>${report.summary.pass} passed${report.summary.fail ? ` · ${report.summary.fail} failed` : ""}${report.summary.blocked ? ` · ${report.summary.blocked} blocked` : ""} · ${report.summary.unchecked} unchecked</span></div>` : ""}${hasRules ? "" : "<p>Add criteria in Codex to check your requirements.</p>"}<div class="d-check-actions"><button id="d-run-piece-check" class="d-primary" ${!scope || busy ? "disabled" : ""}>${busy ? "Working…" : hasRules ? "Run checks" : "Run structural checks"}</button><button id="d-define-piece-check" ${!scope || busy ? "disabled" : ""}>${hasRules ? "Edit criteria in Codex" : "Set criteria in Codex"}</button></div>${report ? `<div class="d-check-report"><ul>${primary.map(resultMarkup).join("")}</ul>${supporting.length ? `<details><summary>Supporting checks · ${supporting.length}</summary><ul>${supporting.map(resultMarkup).join("")}</ul></details>` : ""}<details><summary>CI report · revision ${project.revision}</summary><pre>${escape(JSON.stringify(report, null, 2))}</pre></details></div>` : criteria?.report ? '<p class="d-check-stale">Previous results are out of date. Run checks for the current part and criteria.</p>' : '<p class="d-check-empty">No check run yet. Source fidelity and manufacturing remain unverified.</p>'}${criteria?.context ? `<details class="d-check-context"><summary>Your requirements · ${criteria.rules.length} criteria</summary><p class="d-literal-context">${escape(criteria.context.text)}</p></details>` : ""}`
+      ? `<h3>Checks for ${escape(node.label)}</h3>${report ? `<div class="d-current-check-summary"><span data-outcome="${escape(report.outcome)}">${escape(report.outcome)}</span><span>${report.summary.pass} passed${report.summary.fail ? ` · ${report.summary.fail} failed` : ""}${report.summary.blocked ? ` · ${report.summary.blocked} blocked` : ""} · ${report.summary.unchecked} unchecked</span></div>` : ""}<p>${hasRules ? "Check your saved requirements against this exact piece." : "Check the saved source, program and part geometry. Define criteria in Codex to test your requirements."}</p><div class="d-check-actions"><button id="d-run-piece-check" class="d-primary" ${!scope || busy ? "disabled" : ""}>${busy ? "Working…" : hasRules ? "Run part checks" : "Run structural checks"}</button><button id="d-define-piece-check" ${!scope || busy ? "disabled" : ""}>${hasRules ? "Refine criteria in Codex" : "Define criteria in Codex"}</button></div>${report ? `<div class="d-check-report"><ul>${primary.map(resultMarkup).join("")}</ul>${supporting.length ? `<details><summary>Supporting checks · ${supporting.length}</summary><ul>${supporting.map(resultMarkup).join("")}</ul></details>` : ""}<details><summary>CI report · revision ${project.revision}</summary><pre>${escape(JSON.stringify(report, null, 2))}</pre></details></div>` : criteria?.report ? '<p class="d-check-stale">Previous results are out of date. Run checks for the current part and criteria.</p>' : '<p class="d-check-empty">No check run yet. Source fidelity and manufacturing remain unverified.</p>'}${criteria?.context ? `<details class="d-check-context"><summary>Your requirements · ${criteria.rules.length} criteria</summary><p class="d-literal-context">${escape(criteria.context.text)}</p></details>` : ""}`
       : "<h3>Part checks</h3><p>Select a piece to inspect its criteria and run checks.</p>";
     setInspectorTab(inspectorTab);
   }
@@ -673,7 +684,7 @@ export async function initDecomposition() {
       overlay.append(group);
     }
   }
-  function select(id, resetIsolation = true, reveal = true) {
+  function select(id, resetIsolation = true) {
     selected = id;
     if (nativeBuildId) {
       const review = selectionWorkflow(project, selected);
@@ -690,14 +701,22 @@ export async function initDecomposition() {
     }
     if (resetIsolation) isolated = false;
     const node = tree?.byId.get(id);
-    $("#d-node-name").textContent = node?.label || "Reference";
-    if (reveal) setInspectorVisibility(Boolean(node));
+    $("#d-node-name").textContent = node?.label || "No selection";
     $("#d-node-kind").textContent = node
       ? `${node.definition_id ? "Part" : "Assembly"} · ${node.evidence}`
       : "Concept geometry";
     $("#d-node-note").textContent =
       node?.note || "Choose a group or part in the model or structure.";
     $("#d-node-id").textContent = id || "";
+    $("#d-selection").textContent = node
+      ? `${node.label} · ${id}`
+      : "Z up · right-handed";
+    const labels = [];
+    for (let n = node; n; n = tree.byId.get(n.parent_id))
+      labels.unshift(n.label);
+    $("#d-breadcrumb").textContent = labels.length
+      ? labels.join(" / ")
+      : project?.name || "Image → structure → parts";
     for (const key of ["focus", "isolate", "hide", "copy"])
       $(`#d-${key}`).disabled = !node;
     $("#d-copy").innerHTML =
@@ -718,7 +737,6 @@ export async function initDecomposition() {
     project = data;
     $(".d-workspace").dataset.empty = String(!data.plan);
     if (changed) {
-      setInspectorVisibility(false);
       selected = null;
       isolated = false;
       hidden.clear();
@@ -739,10 +757,7 @@ export async function initDecomposition() {
       changed || firstGeometry
         ? tree?.maxDepth || 0
         : Math.min(depth, tree?.maxDepth || 0);
-    if (selected && !tree?.byId.has(selected)) {
-      selected = null;
-      setInspectorVisibility(false);
-    }
+    if (selected && !tree?.byId.has(selected)) selected = null;
     hidden = new Set([...hidden].filter((id) => tree?.byId.has(id)));
     conceptPreview = nextPreview;
     const currentBuilds = selectionWorkflow(data, selected);
@@ -763,9 +778,7 @@ export async function initDecomposition() {
       if (preview) draw(preview);
       else disposeMeshes();
     }
-    document.title = data.name;
-    $("#d-new").hidden = $("#d-source-toggle").hidden = false;
-    $("#d-revision").hidden = false;
+    $("#d-name").textContent = data.name;
     $("#d-status").textContent =
       data.workflow?.status === "building"
         ? "Building native CAD · checking STEP readback"
@@ -782,13 +795,12 @@ export async function initDecomposition() {
       `${data.id === "example" ? "Example · " : ""}Revision ${data.revision} · ${data.plan?.units === "mm" ? "mm" : "Scale unverified"}`;
     $("#d-empty").hidden = Boolean(preview);
     if (!preview) {
-      $("#d-empty p").hidden = false;
       $("#d-empty h1").textContent = data.workflow?.proposal?.approved
-        ? "Ready to decompose"
-        : "Source added";
+        ? "A direction to build on."
+        : "Your source is ready.";
       $("#d-empty p").textContent = data.workflow?.proposal
-        ? "Review the plan in Codex."
-        : "Create a part plan in Codex.";
+        ? "Review the proposal in the source panel. Continue with Codex to refine the plan."
+        : "Continue in Codex to propose the hierarchy, physical parts, and unknowns.";
       $("#d-example").hidden = true;
       $("#d-start").textContent = "Continue in Codex";
     }
@@ -844,8 +856,7 @@ export async function initDecomposition() {
       $("#d-program-binding").textContent =
         `Revision ${data.revision} · program SHA256 ${data.analysis.binding.program_sha256}`;
     }
-    if (geometryChanged || changed)
-      select(selected, changed && !openEntry, false);
+    if (geometryChanged || changed) select(selected, changed && !openEntry);
     else {
       applyView();
       renderWorkflow();
@@ -899,6 +910,8 @@ export async function initDecomposition() {
     }
     option.textContent = `${data.name} · r${data.revision}`;
   }
+  $("#d-open-reference").onclick = () => setInspectorTab("reference", true);
+  $("#d-open-checks").onclick = () => setInspectorTab("checks", true);
   $(".d-inspector-tabs").onclick = (event) => {
     const tab = event.target.closest("[data-tab]");
     if (tab) setInspectorTab(tab.dataset.tab);
@@ -967,7 +980,7 @@ export async function initDecomposition() {
     }
   }
   function proposalMessage() {
-    return `Project ${project.id}, revision ${project.revision}, workflow revision ${project.workflow_revision}. Source SHA256 ${project.source.sha256}. ${project.workflow?.proposal?.approved ? "The proposal has explicit user approval. Continue with a fine physical decomposition using the shared Plan. Preserve uncertainties and source bindings." : "Read my saved image or literal design brief and author a workflow proposal of physical parts, unknowns, and proposed manufacturing notes. Wait for my explicit proposal approval before creating geometry."} Do not confirm parts or build CAD on my behalf.`;
+    return `OpenSkyfall project ${project.id}, revision ${project.revision}, workflow revision ${project.workflow_revision}. Source SHA256 ${project.source.sha256}. ${project.workflow?.proposal?.approved ? "The proposal has explicit user approval. Continue with a fine physical decomposition using the shared Plan. Preserve uncertainties and source bindings." : "Read my saved image or literal design brief and author a workflow proposal of physical parts, unknowns, and proposed manufacturing notes. Wait for my explicit proposal approval before creating geometry."} Do not confirm parts or build CAD on my behalf.`;
   }
   $("#d-example").onclick = () => session.open("anatomy-example");
   $("#d-new").onclick = () => $("#d-intake").showModal();
@@ -1125,7 +1138,7 @@ export async function initDecomposition() {
   function applyPanelLayout() {
     $("#d-sidebar").hidden = compact.matches;
     $("#d-structure-toggle").setAttribute("aria-expanded", "false");
-    setInspectorVisibility(!compact.matches && Boolean(selected));
+    setInspectorVisibility(!compact.matches);
   }
   compact.addEventListener("change", applyPanelLayout);
   applyPanelLayout();
@@ -1268,6 +1281,8 @@ export async function initDecomposition() {
       disposeMeshes();
       floor.geometry.dispose();
       floor.material.dispose();
+      grid.geometry.dispose();
+      grid.material.dispose();
       renderer.dispose();
       if (imageUrl) URL.revokeObjectURL(imageUrl);
     },

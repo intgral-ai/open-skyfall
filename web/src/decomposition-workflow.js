@@ -151,7 +151,7 @@ export function iterationMessage(project, nodeId) {
     project.workflow?.parts?.find((part) => part.node_id === nodeId)
       ?.shared_occurrence_ids || [];
   const scope = project.workflow?.scopes?.[nodeId];
-  return `I want to iterate on this selection. Project ${project.id}, revision ${project.revision}, workflow revision ${project.workflow_revision}. Source SHA256 ${project.source.sha256}. Selected node ${nodeId} (${node?.label || nodeId}). Scope ${scope?.part_ids?.join(", ") || nodeId}. Review digest ${scope?.review_digest || "unavailable"}. ${shared.length > 1 ? `The shared definition also affects ${shared.join(", ")}. ` : ""}Ask me what to change, then capture my literal request through the workflow request action before editing the Plan. Preserve unchanged IDs and poses. Do not approve or build parts on my behalf.`;
+  return `I want to iterate on this OpenSkyfall selection. Project ${project.id}, revision ${project.revision}, workflow revision ${project.workflow_revision}. Source SHA256 ${project.source.sha256}. Selected node ${nodeId} (${node?.label || nodeId}). Scope ${scope?.part_ids?.join(", ") || nodeId}. Review digest ${scope?.review_digest || "unavailable"}. ${shared.length > 1 ? `The shared definition also affects ${shared.join(", ")}. ` : ""}Ask me what to change, then capture my literal request through the workflow request action before editing the Plan. Preserve unchanged IDs and poses. Do not approve or build parts on my behalf.`;
 }
 
 export function createWorkflowActions({
