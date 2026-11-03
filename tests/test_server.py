@@ -56,7 +56,7 @@ def design_image(client):
 
 def test_health_root_and_real_project_list(client):
     assert client.get("/health").json()["status"] == "ok"
-    assert "<title>OpenSkyfall</title>" in client.get("/").text
+    assert "<title>CAD workspace</title>" in client.get("/").text
     assert client.get("/docs").status_code == 200
     assert client.get("/api/jobs").json() == []
     job = upload_image(client)

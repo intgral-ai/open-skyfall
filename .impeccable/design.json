@@ -1,0 +1,235 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-11-03T17:37:46+00:00",
+  "title": "Design System: CAD workbench",
+  "extensions": {
+    "colorMeta": {
+      "primary": {
+        "role": "primary",
+        "displayName": "Primary action"
+      },
+      "background": {
+        "role": "neutral",
+        "displayName": "Charcoal"
+      },
+      "surface": {
+        "role": "neutral",
+        "displayName": "Canvas"
+      },
+      "surface-raised": {
+        "role": "neutral",
+        "displayName": "Raised surface"
+      },
+      "foreground-strong": {
+        "role": "neutral",
+        "displayName": "Foreground"
+      },
+      "foreground-secondary": {
+        "role": "neutral",
+        "displayName": "Secondary foreground"
+      },
+      "foreground-muted": {
+        "role": "neutral",
+        "displayName": "Muted foreground"
+      },
+      "border": {
+        "role": "neutral",
+        "displayName": "Divider"
+      },
+      "control-border": {
+        "role": "neutral",
+        "displayName": "Control border"
+      },
+      "selection": {
+        "role": "neutral",
+        "displayName": "Selection"
+      },
+      "success": {
+        "role": "neutral",
+        "displayName": "Success ink"
+      },
+      "success-soft": {
+        "role": "neutral",
+        "displayName": "Success surface"
+      },
+      "warning": {
+        "role": "neutral",
+        "displayName": "Warning ink"
+      },
+      "warning-soft": {
+        "role": "neutral",
+        "displayName": "Warning surface"
+      },
+      "destructive": {
+        "role": "neutral",
+        "displayName": "Destructive ink"
+      },
+      "destructive-soft": {
+        "role": "neutral",
+        "displayName": "Destructive surface"
+      }
+    },
+    "typographyMeta": {
+      "headline": {
+        "displayName": "Source-stage headline",
+        "purpose": "Source and proposal stage; compact at narrow widths."
+      },
+      "title": {
+        "displayName": "Selected-piece title",
+        "purpose": "The selected physical scope in the inspector."
+      },
+      "body": {
+        "displayName": "Inspector explanation",
+        "purpose": "Evidence and workflow explanation."
+      },
+      "ui": {
+        "displayName": "Workbench UI",
+        "purpose": "Navigation and controls."
+      },
+      "label": {
+        "displayName": "Action label",
+        "purpose": "Primary controls and panel labels."
+      },
+      "meta": {
+        "displayName": "Provenance",
+        "purpose": "Source identity, revision and supporting metadata."
+      },
+      "code": {
+        "displayName": "Identity and code",
+        "purpose": "Hashes and identifiers; actual/required numeric values use 14px/20px."
+      }
+    },
+    "shadows": [
+      {
+        "name": "floating-panel",
+        "value": "0 8px 32px rgb(23 23 23 / 8%)",
+        "purpose": "Floating structure and inspector panels at narrow widths."
+      }
+    ],
+    "motion": [
+      {
+        "name": "feedback",
+        "value": "140ms",
+        "purpose": "Button background and color feedback; removed for reduced motion."
+      },
+      {
+        "name": "disclosure",
+        "value": "160ms ease",
+        "purpose": "Tree disclosure rotation; removed for reduced motion."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "hide-secondary-project-title",
+        "value": "1200px"
+      },
+      {
+        "name": "floating-workspace-panels",
+        "value": "1000px"
+      },
+      {
+        "name": "two-row-header",
+        "value": "760px"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary action",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "The leading action for the current workflow scope; busy and disabled states remain explicit.",
+      "html": "<button class=\"ds-primary\">Run part checks</button>",
+      "css": ".ds-primary{font:13px/20px var(--intgral-font-sans);border-radius:var(--intgral-radius-control);cursor:pointer;min-height:34px;padding:9px 14px;border:0;background:var(--intgral-foreground);color:var(--intgral-background);font-weight:500;transition:background var(--intgral-duration-feedback),color var(--intgral-duration-feedback)}.ds-primary:hover:not(:disabled){background:var(--intgral-foreground-secondary)}.ds-primary:focus-visible{outline:2px solid var(--intgral-focus);outline-offset:3px;}.ds-primary:disabled{cursor:not-allowed;opacity:.5}@media(max-width:760px){.ds-primary{min-height:44px}}@media(prefers-reduced-motion:reduce){.ds-primary{transition:none}}"
+    },
+    {
+      "name": "Secondary action",
+      "kind": "button",
+      "refersTo": "button-secondary",
+      "description": "A supporting action beside a primary workflow action.",
+      "html": "<button class=\"ds-secondary\">Define criteria in Codex</button>",
+      "css": ".ds-secondary{font:13px/20px var(--intgral-font-sans);border-radius:var(--intgral-radius-control);cursor:pointer;min-height:34px;padding:7px 12px;border:0;background:var(--intgral-surface-raised);color:var(--intgral-foreground);transition:background var(--intgral-duration-feedback),color var(--intgral-duration-feedback)}.ds-secondary:hover:not(:disabled){background:var(--intgral-selection)}.ds-secondary:focus-visible{outline:2px solid var(--intgral-focus);outline-offset:3px;}.ds-secondary:disabled{cursor:not-allowed;opacity:.5}@media(prefers-reduced-motion:reduce){.ds-secondary{transition:none}}"
+    },
+    {
+      "name": "Project switcher",
+      "kind": "input",
+      "refersTo": "project-select",
+      "description": "A compact filename-style button opens a searchable local-project popover. Saved drafts/CAD and read-only examples remain distinct.",
+      "html": "<button class=\"ds-project-switch\" aria-haspopup=\"dialog\" aria-expanded=\"false\">Inspection rig ▾</button>",
+      "css": ".ds-project-switch{font:13px/20px var(--intgral-font-sans);padding:4px 8px;min-height:30px;border:1px solid transparent;border-radius:6px;background:transparent;color:var(--intgral-foreground)}.ds-project-switch:hover{background:var(--intgral-selection)}.ds-project-switch:focus-visible{outline:2px solid var(--intgral-focus);outline-offset:2px}"
+    },
+    {
+      "name": "Source intake field",
+      "kind": "input",
+      "description": "The existing source dialog field treatment is local to intake; its legacy fill/border are not shared Silence tokens.",
+      "html": "<label class=\"ds-intake-label\">Project name<input class=\"ds-intake-field\" placeholder=\"Bench inspection fixture\"></label>",
+      "css": ".ds-intake-label{display:flex;flex-direction:column;gap:7px;margin:0 0 16px;font:12px/20px var(--intgral-font-sans);color:var(--intgral-foreground)}.ds-intake-field{width:100%;padding:10px;border:1px solid #d8d9cf;border-radius:6px;background:#fffefa;color:var(--intgral-foreground);font:12px/18px var(--intgral-font-sans)}.ds-intake-field:focus-visible{outline:2px solid var(--intgral-focus);outline-offset:3px;}"
+    },
+    {
+      "name": "Inspector tabs",
+      "kind": "nav",
+      "refersTo": "inspector-tab",
+      "description": "Details, Reference and Checks share one selection scope; the app implements roving focus and arrow/Home/End navigation.",
+      "html": "<div class=\"ds-tabs\" role=\"tablist\" aria-label=\"Part inspection\"><button class=\"ds-tab\" role=\"tab\" aria-selected=\"false\" tabindex=\"-1\">Details</button><button class=\"ds-tab\" role=\"tab\" aria-selected=\"true\">Reference</button><button class=\"ds-tab\" role=\"tab\" aria-selected=\"false\" tabindex=\"-1\">Checks</button></div>",
+      "css": ".ds-tabs{display:flex;gap:24px;padding:0 20px;border-bottom:1px solid var(--intgral-border)}.ds-tab{min-height:44px;padding:8px 0;border:0;border-bottom:2px solid transparent;border-radius:0;background:transparent;color:var(--intgral-foreground-muted);font:13px/20px var(--intgral-font-sans);cursor:pointer}.ds-tab[aria-selected=\"true\"]{color:var(--intgral-foreground);border-bottom-color:var(--intgral-foreground)}.ds-tab:hover{background:var(--intgral-selection)}.ds-tab:focus-visible{outline:2px solid var(--intgral-focus);outline-offset:3px;}"
+    },
+    {
+      "name": "Current check outcome",
+      "kind": "chip",
+      "refersTo": "outcome-pass",
+      "description": "Written outcome plus counts for a current scope-bound report; semantic colors accompany text.",
+      "html": "<div class=\"ds-check-summary\"><span class=\"ds-outcome\" data-outcome=\"pass\">pass</span><span>3 passed · 2 unchecked</span></div>",
+      "css": ".ds-check-summary{display:flex;align-items:center;gap:8px;margin:12px 0;font:12px/20px var(--intgral-font-sans);color:var(--intgral-foreground-muted)}.ds-outcome{padding:2px 8px;border-radius:6px;background:var(--intgral-selection);color:var(--intgral-foreground)}.ds-outcome[data-outcome=\"pass\"]{background:var(--intgral-success-soft);color:var(--intgral-success)}.ds-outcome[data-outcome=\"fail\"]{background:var(--intgral-destructive-soft);color:var(--intgral-destructive)}.ds-outcome[data-outcome=\"blocked\"]{background:var(--intgral-warning-soft);color:var(--intgral-warning)}"
+    },
+    {
+      "name": "Floating inspector panel",
+      "kind": "card",
+      "refersTo": "floating-panel",
+      "description": "At narrow widths the inspector is an explicitly opened complementary panel above the model stage; opening it closes structure.",
+      "html": "<aside class=\"ds-panel\" aria-label=\"Reference and selection\"><div class=\"ds-panel-header\"><span>Inspector</span><button class=\"ds-panel-close\" aria-label=\"Close inspector\"><svg width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" aria-hidden=\"true\"><path d=\"m6 6 12 12M18 6 6 18\"/></svg></button></div><section class=\"ds-panel-body\"><h2>Selected part</h2><p>Reference and checks remain scoped to this occurrence.</p></section></aside>",
+      "css": ".ds-panel{width:min(340px,calc(100% - 32px));overflow-y:auto;border-radius:var(--intgral-radius-floating);background:var(--intgral-background);color:var(--intgral-foreground);box-shadow:var(--intgral-shadow-floating);font:13px/20px var(--intgral-font-sans)}.ds-panel-header{display:flex;align-items:center;justify-content:space-between;padding:12px 20px;border-bottom:1px solid var(--intgral-border);font-weight:500}.ds-panel-close{min-width:32px;min-height:32px;padding:6px;border:0;border-radius:var(--intgral-radius-control);background:transparent;color:inherit;cursor:pointer}.ds-panel-close:hover{background:var(--intgral-selection)}.ds-panel-close:focus-visible{outline:2px solid var(--intgral-focus);outline-offset:3px;}.ds-panel-body{padding:24px 20px}.ds-panel-body h2{margin:0 0 8px;font-size:20px;line-height:28px;font-weight:500}.ds-panel-body p{color:var(--intgral-foreground-secondary);font-size:14px;line-height:22px}"
+    },
+    {
+      "name": "Workflow step",
+      "kind": "custom",
+      "description": "Completed steps show an inline SVG check; current and upcoming steps keep their centered sequence number.",
+      "html": "<ol class=\"ds-phases\" aria-label=\"Object to CAD workflow\"><li class=\"ds-step\" data-state=\"complete\"><span class=\"ds-marker\" aria-hidden=\"true\"><svg width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\"><path d=\"m5 12 4 4L19 6\"/></svg></span><span>Source</span></li><li class=\"ds-step\" data-state=\"current\" aria-current=\"step\"><span class=\"ds-marker\" aria-hidden=\"true\">2</span><span>Proposal</span></li><li class=\"ds-step\" data-state=\"upcoming\"><span class=\"ds-marker\" aria-hidden=\"true\">3</span><span>Decompose</span></li></ol>",
+      "css": ".ds-phases{display:flex;gap:24px;list-style:none;margin:0;padding:16px 24px}.ds-step{display:flex;align-items:center;gap:8px;color:var(--intgral-foreground-muted);font:13px/20px var(--intgral-font-sans)}.ds-marker{display:flex;align-items:center;justify-content:center;flex:0 0 26px;width:26px;height:26px;border:1px solid var(--intgral-control-border);border-radius:50%;font-size:12px;line-height:1;font-variant-numeric:tabular-nums}.ds-step[data-state=\"complete\"]{color:var(--intgral-foreground-secondary)}.ds-step[data-state=\"complete\"] .ds-marker{background:var(--intgral-selection);border-color:transparent}.ds-step[data-state=\"current\"]{color:var(--intgral-foreground);font-weight:500}.ds-step[data-state=\"current\"] .ds-marker{background:var(--intgral-foreground);color:var(--intgral-background);border-color:var(--intgral-foreground)}"
+    }
+  ],
+  "narrative": {
+    "northStar": "The model comes first",
+    "overview": "The owner requested the installed Text-to-CAD0.10.0 workbench appearance. A scoped dark theme preserves three columns and all workflow/CAD gates, with system sans, compact controls, steel-blue render materials and crisp edges. See docs/text-to-cad-appearance.md. Canonical Silence tokens and legacy viewer are unchanged.",
+    "keyCharacteristics": [
+      "Dark charcoal chrome and solid canvas.",
+      "Three-column model inspection with existing workflow and review gates.",
+      "Compact system typography, explicit focus and touch targets.",
+      "Reference and Checks prioritize scoped content; Details retains authoring handoff and notes.",
+      "Concept and native labels stay distinct; rendering never changes CAD."
+    ],
+    "rules": [
+      {
+        "name": "The Content Color Rule",
+        "body": "Preserve the model and source colors; keep repeated interface controls neutral and reserve semantic color for meaningful state.",
+        "section": "colors"
+      },
+      {
+        "name": "The Current Evidence Rule",
+        "body": "A visible completion or passing report must bind to the current source, accepted program and reviewed physical scope.",
+        "section": "components"
+      }
+    ],
+    "dos": [
+      "**Do** keep the actual model and its source evidence visually primary.",
+      "**Do** preserve literal requirements, units, unknowns and current scope identities.",
+      "**Do** pair outcome color with written status and readable evidence.",
+      "**Do** retain visible keyboard focus and native project selection."
+    ],
+    "donts": [
+      "**Don't** treat proposal approval, part confirmation and CAD completion as one state.",
+      "**Don't** reuse a passing report after its revision, criteria or scope binding changes.",
+      "**Don't** imply manufacturing acceptance from structural checks or valid STEP.",
+      "**Don't** turn model materials, legacy one-off colors or decorative labels into UI tokens."
+    ]
+  }
+}

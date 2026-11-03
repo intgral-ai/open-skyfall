@@ -13,7 +13,7 @@ Read the [authoring skill](../../../skills/open-skyfall/SKILL.md), its [kernel r
 
 ## Launch
 
-The conversation owns project creation, inputs, context, proposals, execution, and validation discussion through tools. The side window is a STEP viewer. Verify conversation-side HTTP/MCP operations and browser display separately. A local browser run does not prove ChatGPT-host rendering or message delivery.
+The conversation authors proposals, physical plans and iterations through tools. The decomposition pane accepts source intake, explicit proposal and part review, native build commands, and inspection. The legacy STEP pane remains a viewer. Verify conversation-side HTTP/MCP operations and browser actions separately. A local browser run does not prove ChatGPT-host rendering or message delivery.
 
 The main service's registered wiring-cover executor uses smlibpy. Its legacy reconstruction uses build123d/OCP and cannot pass the smlibpy reconstruction gate. Use [the native edit journey](features/native-edit.md) for the registered example. Do not repair the remaining product gaps by weakening this verifier.
 
@@ -48,11 +48,11 @@ PYTHONPATH="$VERIFY_SCRATCH/runtime" "$VERIFY_REPO/.venv/bin/python" -c \
   --workspace "$VERIFY_SCRATCH/jobs" serve --port "$VERIFY_PORT"
 ```
 
-For the registered native journey, set `OPEN_ASSEMBLY_SMLIB_PYTHON` to the reviewed absolute smlibpy interpreter path in this owned server's environment before launch. Do not change the user's running service or global configuration. Record the selected interpreter in `launch.json`. Leave it unset in a separate capability-refusal run to check the visible unavailable state.
+For native journeys, set `OPEN_ASSEMBLY_SMLIB_PYTHON` to the reviewed absolute smlibpy interpreter path in this owned server's environment before launch. Do not change the user's running service or global configuration. Record the selected interpreter in `launch.json`. Leave it unset in a separate capability-refusal run to check the visible unavailable state.
 
 Capture stdout/stderr and the process PID/session in `launch.json` and `server.log`. Also record absolute repo, scratch, evidence, workspace and URL paths there. The CLI module has no `__main__` invocation; `python -m open_assembly.cli` does not start this server.
 
-Ready means `/health` returns the expected service, `/api/jobs` is `[]`, `/` serves the built viewer, and the browser shows an empty STEP view with download disabled. This filesystem job store needs no database migration or seed. Create test projects through documented agent tools. A copied accepted case can cover display-only checks when its source and artifact hashes are retained; it cannot establish new construction or reconstruction.
+Ready means `/health` returns the expected service, `/api/jobs` is `[]`, `/api/decompositions` has no saved projects, and `/` serves the built decomposition inspector with its labeled example action. For the legacy/native STEP journey, open `/?job=` and require an empty STEP view with download disabled. This filesystem job store needs no database migration or seed. Create test projects through documented agent tools. A copied accepted case can cover display-only checks when its source and artifact hashes are retained; it cannot establish new construction or reconstruction.
 
 ## Doctor
 
@@ -79,7 +79,7 @@ chrome-devtools-axi snapshot
 chrome-devtools-axi screenshot "$VERIFY_EVIDENCE/before.png"
 ```
 
-Follow one mapped journey using real controls, fresh accessibility refs or stable selectors. `run` exposes `page.click`, `page.fill`, `page.press`, `page.snapshot` and read-only `page.eval` observations. Supply inputs and manage context through the actual host or documented HTTP/MCP tools, then open the returned `?job=` URL or `show_assembly` result. Browser authoring forms have been removed.
+Follow one mapped journey using real controls, fresh accessibility refs or stable selectors. `run` exposes `page.click`, `page.fill`, `page.press`, `page.snapshot` and read-only `page.eval` observations. Use New source for image or text intake, or supply inputs through documented HTTP/MCP tools. Open the returned `?project=` decomposition or `?job=` STEP URL. Proposals and geometry still require host-authored commands. The [anatomy-to-CAD journey](features/anatomy-to-cad.md) covers explicit browser review and native construction.
 
 Do not set internal state, dispatch synthetic input events, call renderers, fabricate accepted jobs, or use test-only endpoints to stand in for the user action. Read-only HTTP requests may verify the resulting job and artifact availability. API writes are the intended agent entry point for context and execution; record those separately from pane interactions.
 
@@ -107,6 +107,6 @@ After every failed iteration, perform the same cleanup before retrying. Remove o
 
 ## Helpers
 
-No new executable helper or application endpoint is introduced. Use the repo's actual build/CLI, the installed browser driver and the feature recipes. The committed [undimensioned PNG](assets/undimensioned-cover.png) is a synthetic refusal input, with no scale or hidden-geometry evidence; it is not the user's wiring-cover STL.
+Use the repo's actual build/CLI, the installed browser driver and the feature recipes. `scripts/verify_decomposition_program.py` checks concept replay. `scripts/verify_anatomy_workflow.py` drives real HTTP workflow and native STEP inspection; its fixture-review flag records simulated approvals, never human or factory acceptance. The committed [undimensioned PNG](assets/undimensioned-cover.png) is a synthetic refusal input, with no scale or hidden-geometry evidence; it is not the user's wiring-cover STL.
 
 Use `/maintain-verification-skill` when application paths, selectors, kernel execution or acceptance evidence change.

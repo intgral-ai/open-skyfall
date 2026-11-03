@@ -64,6 +64,19 @@ def main():
     edit.add_argument(
         "--parameters", required=True, help="JSON object of dimensions in millimeters"
     )
+    decompose = sub.add_parser(
+        "decompose", help="Import an image and apply an agent-authored concept plan"
+    )
+    decompose.add_argument("input", type=Path)
+    decompose.add_argument("--rights", required=True)
+    decompose.add_argument("--plan", type=Path)
+    replay = sub.add_parser("replay", help="Validate and reproduce an exported concept program")
+    replay.add_argument("bundle", type=Path)
+    replay.add_argument("--out", type=Path, required=True)
+    check = sub.add_parser("check-parts", help="Run saved scoped part checks for CI")
+    check.add_argument("project_id")
+    check.add_argument("--node", required=True)
+    check.add_argument("--out", type=Path)
     args = parser.parse_args()
     try:
         if args.command == "serve":
@@ -72,6 +85,54 @@ def main():
             from .server import create_app
 
             uvicorn.run(create_app(_store(args.workspace)), host="127.0.0.1", port=args.port)
+            return
+        if args.command == "decompose":
+            from .decomposition import DecompositionStore
+
+            store = DecompositionStore(Path(args.workspace).expanduser().resolve())
+            project = store.create(args.input.read_bytes(), args.input.stem, args.rights)
+            if args.plan:
+                project = store.update(
+                    project["id"], {"revision": 0, "plan": json.loads(args.plan.read_text())}
+                )
+            print(json.dumps(project, indent=2))
+            return
+        if args.command == "replay":
+            from .decomposition import replay_bundle
+
+            report = replay_bundle(args.bundle, args.out)
+            print(json.dumps(report, indent=2))
+            if report["outcome"] != "pass":
+                raise SystemExit(2)
+            return
+        if args.command == "check-parts":
+            from .decomposition import DecompositionStore
+            from .decomposition_checks import check_action
+
+            store = DecompositionStore(args.workspace)
+            project = store.get(args.project_id)
+            scope = project.get("workflow", {}).get("scopes", {}).get(args.node)
+            if not scope:
+                raise ValueError("Select a part or assembly with accepted geometry")
+            project = check_action(
+                store,
+                args.project_id,
+                "check",
+                {
+                    "revision": project["revision"],
+                    "workflow_revision": project["workflow_revision"],
+                    "node_id": args.node,
+                    "review_digest": scope["review_digest"],
+                },
+            )
+            report = project["workflow"]["checks"][args.node]["report"]
+            raw = json.dumps(report, indent=2) + "\n"
+            if args.out:
+                args.out.parent.mkdir(parents=True, exist_ok=True)
+                args.out.write_text(raw)
+            print(raw, end="")
+            if report["ci_exit_code"]:
+                raise SystemExit(report["ci_exit_code"])
             return
         if args.command == "mcp":
             from .mcp import create_mcp

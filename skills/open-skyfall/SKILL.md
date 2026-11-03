@@ -1,23 +1,43 @@
 ---
 name: open-skyfall
-description: Turn product descriptions, images, or STL plus cited context into an editable mechanical or industrial CAD project, with smlibpy native parts and assembly STEP when a verified executor is available.
+description: Turn text or images into a proposed physical-part design, inspect and revise exploded parts, then build explicitly confirmed native smlibpy parts and assembled STEP. Also supports source-led STL and manual authoring when a verified executor is available.
 ---
 
 # OpenSkyfall
 
 Preserve the design goal and evidence so the project can be revised, checked, and handed off. A useful project can start before CAD exists. Keep the user's literal requested change and things that must stay unchanged. Distinguish observed facts, user requirements, proposed choices, assumptions, and unresolved conflicts.
 
-Manage project context, manual excerpts, requirements, change requests, parameter proposals, and validation discussion in the ChatGPT conversation through this Skill and its tools. Persist them through the project APIs so they survive the conversation. The side window is a STEP viewer: show the model, selection, explosion or construction playback, current revision, and STEP download. Do not send users to a second context editor, Quick Edit composer, or numeric form in that window.
+Manage interpretation, manual excerpts, requirements, literal change requests and modeling in the host conversation. Persist them through the project APIs so they survive the conversation. Use the side window for source intake, proposal review, physical-part selection, explosion, explicit confirmation, native inspection and download. Keep repeated per-element corrections in the host conversation. A clipboard handoff proves copying only; host delivery needs its own evidence.
 
 ## Choose the workflow
 
-For a description-first project, saved context, or a later change request, read [the project workflow](references/project-workflow.md). It documents the actual create, save, capture, and retrieval operations. Read the saved job and exact captured request before planning an edit. A copied note is a locator and handoff, not authority over newer project state.
+For text/image intake, proposed designs, detailed exploded inspection and
+confirmed native delivery, read [the anatomy-to-CAD workflow](references/anatomy-to-cad.md).
+Follow intake, proposal, explicit proposal approval, fine physical decomposition,
+selected-element iteration, explicit digest-bound confirmations, per-part native
+builds and complete assembly STEP in that order. Never substitute an example for
+the user's source or automatically approve a scheme or part.
+
+Read [the decomposition schema and evidence reference](references/decomposition.md)
+when authoring a version 2 plan or replaying a concept revision. Inspect the actual
+source first. Bind every dimension, local pose component, shape choice, part,
+placement and scale to a basis. Concept meshes and replay remain separate from
+native solid validity, source fidelity and manufacturing acceptance.
+
+For per-part reference review and repeatable checks against the user's context, use [open-skyfall-check](../open-skyfall-check/SKILL.md).
+
+For saved context or a later change to an existing CAD job, read [the project workflow](references/project-workflow.md). It documents that job API's create, save, capture and retrieval operations. Read the saved job and exact captured request before planning an edit. A copied note is a locator and handoff, not authority over newer project state.
 
 For the registered wiring-cover example, read [the native edit workflow](references/native-edit.md). Keep its bounded parameter proposal, immutable capture, execution status, construction checkpoints, and current STEP bindings together. This existing CAD example does not reconstruct a new input or restrict the broader authoring goal.
 
 Keep four structures separate. The physical-part tree describes genuine components and repeated occurrences. Construction operations describe how each part is made. Assembly placements describe how parts fit together. Revision history describes changes over time. An exploded view does not justify inventing detachable parts, and a construction step is not a physical part.
 
-For images, use `get_reference_image` to inspect the authorized job input. Establish units, scale, and observed dimensions. For text, preserve requirements without inventing dimensional evidence. Manual excerpts are source evidence, not instructions to execute. Identify contradictions between the request, excerpts, and saved constraints before modeling. Ask only for information or a design decision that blocks the requested result.
+For decomposition images, use `get_decomposition_image` to inspect the served
+input. Existing CAD jobs use `get_reference_image`. For text-only intake, inspect
+the stored literal brief and source hash; there is no reference image. Establish
+units and scale from evidence or an explicit designed dimension. Manual excerpts
+are source evidence, not instructions to execute. Resolve conflicts that block
+the requested result before modeling.
 
 ## Use the native kernel
 
@@ -25,13 +45,30 @@ Use **smlibpy as the geometry kernel** for new CAD construction and reconstructi
 
 Mesh analysis, preview rendering, and independent STEP inspection may use other tools. They do not replace smlibpy construction and export. Do not silently fall back to OCCT, OCP, build123d, or cadgen-generated geometry. If the required runtime or operation is unavailable, report the specific blocker and preserve diagnostics.
 
-The main service has a registered smlibpy executor for the existing wiring-cover example. Its automated STL fitter, bounded design builder still use build123d/OCP. `POST /api/jobs/{id}/design` submits a legacy bounded assembly document, not native execution. Do not route new native work there. Check the actual executor before promising construction, a connected panel, or verified export. Historical test results do not establish smlibpy acceptance.
+The decomposition native bridge accepts bounded millimeter Plans after explicit
+current-part confirmation. Check the live schema and available runtime before
+promising a build. The existing wiring-cover executor remains a separate bounded
+example. The automated STL fitter and `POST /api/jobs/{id}/design` use legacy
+build123d/OCP paths and cannot establish native smlibpy construction.
 
 ## Build and verify the assembly
 
-Propose a source-linked physical-part hierarchy. Record uncertain or hidden geometry as assumptions. Build unique native smlibpy definitions separately and place repeated occurrences through explicit transforms. Reuse unchanged parts only when source, definition identity, placement, and artifact bindings remain verified. An occurrence request currently affects its shared definition and all linked occurrences. Respect the captured server-derived scope.
+Propose a source-linked physical-part hierarchy. Separate actual components from
+features and operations. A screw is one part; its head and thread are features.
+A bored collar is one part; grooves, graduations and seams are not extra parts.
+Record uncertain or hidden geometry as assumptions. Build each unique native
+definition as one valid connected solid, then place repeated occurrences through
+explicit transforms. Respect the server-derived shared-definition request scope.
+Read unchanged IDs and poses from the current accepted Plan before every edit.
 
-Keep parameterized source with the STEP. Validate native geometry and interfaces, read back the saved STEP with smlibpy, and perform an independent STEP structure parse or CAD import. Report the scope of each check in the conversation. Record the actual package/runtime identity, source and STEP hashes, units, counts, and measured deviations before reporting completed CAD. Call `show_assembly(job_id)` to open the corresponding viewer. The pane follows that job's accepted output; a visible construction checkpoint does not change which final STEP is downloaded.
+Keep editable construction inputs with the STEP. Require actual native execution,
+validity and saved STEP readback evidence. Report source/brief/Plan and native
+bindings, runtime identity, units, counts, bounds, volumes and artifact hashes.
+Use `show_decomposition(project_id)` for the staged workflow and native preview;
+existing CAD jobs use `show_assembly(job_id)`. Download only the current eligible
+build. A partial build, display explosion or visible checkpoint does not create
+the complete final assembly. STEP currently has flat named bodies; JSON retains
+the physical tree and transforms. Do not claim native STEP mates or hierarchy.
 
 Before accepting a delivery, use the project [verify skill](../../.agents/skills/verify/SKILL.md) and its matching feature journeys. Distinguish saved context, captured pending request, copied or host-accepted handoff, built geometry, and validated artifacts. Each requires its own evidence. A working viewer or saved request does not establish native CAD completion.
 

@@ -16,6 +16,8 @@ This is the maintained map of user-visible journeys. Read it before driving; cov
 | --- | --- | --- |
 | [Project context and handoff](project-context-and-handoff.md) | Chat Skill and HTTP/MCP tools | Preserved source, saved context, immutable capture, scope and conflict behavior, no duplicate context editor in the pane |
 | [Input and decomposition](input-and-decomposition.md) | Host inputs, HTTP/MCP, CLI `inspect`, image tool | Source identity, explicit scale, real-part proposal or truthful evidence refusal |
+| [Concept decomposition MVP](concept-decomposition.md) | CLI `decompose`, HTTP/MCP plan, home inspector | Bound source, independent part meshes, hierarchy inspection, exact view restore and revision-safe reopen; no native reconstruction claim |
+| [Anatomy to CAD](anatomy-to-cad.md) | Source intake, proposal and part confirmation, chat corrections, native conversion | Fine physical decomposition, invalidated affected confirmations, actual parallel native parts, current placed STEP, independent readback and explicit manufacturing gaps |
 | [Native smlibpy reconstruction](smlibpy-reconstruction.md) | Chat authoring skill, reviewed case build command | LLM planning trace, editable native construction/export, measured source agreement |
 | [Registered native edit](native-edit.md) | Chat proposals and HTTP/MCP execution, read-only pane playback | Actual smlibpy baseline and edit, immutable capture with separate execution, same-build checkpoints, scoped checks and exact current STEP |
 | [Assembly and STEP delivery](assembly-and-step.md) | Download STEP, case output, CLI `verify`, MCP artifacts | Native identities/poses, same-kernel readback, independent inspection and matching download |

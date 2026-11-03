@@ -1,0 +1,29 @@
+:root {
+  --intgral-font-sans:
+    "Geist", "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
+  --intgral-font-mono:
+    "Geist Mono", ui-monospace, "SFMono-Regular", Consolas, monospace;
+  --intgral-background: #fcfcfc;
+  --intgral-surface: #f8f8f8;
+  --intgral-surface-raised: #ffffff;
+  --intgral-foreground: #262626;
+  --intgral-foreground-strong: #171717;
+  --intgral-foreground-secondary: #525252;
+  --intgral-foreground-muted: #6b6b6b;
+  --intgral-border: #e5e5e5;
+  --intgral-control-border: #858585;
+  --intgral-selection: #edf0f2;
+  --intgral-focus: #525252;
+  --intgral-success: #24704d;
+  --intgral-success-soft: #edf5ef;
+  --intgral-warning: #805515;
+  --intgral-warning-soft: #faf4e8;
+  --intgral-destructive: #a83a3a;
+  --intgral-destructive-soft: #f8eeee;
+  --intgral-radius-control: 8px;
+  --intgral-radius-floating: 16px;
+  --intgral-duration-feedback: 140ms;
+  --intgral-duration-panel: 220ms;
+  --intgral-ease-out: cubic-bezier(0.165, 0.84, 0.44, 1);
+  --intgral-shadow-floating: 0 8px 32px rgb(23 23 23 / 8%);
+}

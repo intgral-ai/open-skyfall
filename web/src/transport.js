@@ -41,6 +41,44 @@ export async function hostRequest(path, options = {}) {
   );
 }
 
+export async function hostWorkflowAction(path, payload) {
+  if (
+    !/^\/api\/decompositions(?:\/[a-zA-Z0-9_-]+\/workflow\/(?:proposal|approve-proposal|decompose-example|request|approve|build|check-context|check))?$/.test(
+      path,
+    )
+  )
+    throw new Error("Unsupported decomposition workflow action.");
+  if (!embedded) return null;
+  await ready;
+  const result = await client.callServerTool({
+    name: "workspace_request",
+    arguments: { method: "POST", path, payload },
+  });
+  if (result.isError)
+    throw new Error(
+      result.content?.find((item) => item.type === "text")?.text ||
+        "Workflow action failed",
+    );
+  return (
+    result.structuredContent ||
+    JSON.parse(result.content.find((item) => item.type === "text").text)
+  );
+}
+
+export async function hostIterationMessage(text) {
+  if (!embedded) return false;
+  await ready;
+  const result = await client.sendMessage({
+    role: "user",
+    content: [{ type: "text", text }],
+  });
+  if (result.isError)
+    throw new Error(
+      "The host could not accept the message. Copy it into Codex instead.",
+    );
+  return true;
+}
+
 export function installHostDownloads() {
   if (!embedded) return () => {};
   const click = async (event) => {
