@@ -1,4 +1,3 @@
-import fcntl
 import hashlib
 import json
 import os
@@ -22,6 +21,7 @@ from .context import (
     ProjectContext,
 )
 from .document import AssemblyDocument, NativeAssemblyDocument, parse_document
+from .file_lock import exclusive_lock
 from .native import NativeEditCommand, NativeExampleCommand, NativeExecution
 
 MAX_INPUT_BYTES = 30 * 1024 * 1024
@@ -97,12 +97,8 @@ class ProjectStore:
         directory = self.job_directory(job_id)
         with self._locks_guard:
             lock = self._locks.setdefault(job_id, threading.RLock())
-        with lock, (directory / ".lock").open("a+b") as stream:
-            fcntl.flock(stream, fcntl.LOCK_EX)
-            try:
-                yield directory
-            finally:
-                fcntl.flock(stream, fcntl.LOCK_UN)
+        with lock, (directory / ".lock").open("a+b") as stream, exclusive_lock(stream):
+            yield directory
 
     def _read(self, directory):
         manifest = json.loads((directory / "manifest.json").read_text())

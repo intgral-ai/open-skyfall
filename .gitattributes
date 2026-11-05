@@ -1,3 +1,5 @@
 # Preserve byte-identical upstream reference and license files.
 references/upstream/** -whitespace
 web/public/licenses/* -whitespace
+# The native worker refuses source whose SHA-256 differs, so skip line-ending conversion.
+runtime/open_assembly/native_resources/* -text

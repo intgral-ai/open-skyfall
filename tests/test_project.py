@@ -1,13 +1,42 @@
 import json
+import subprocess
 import sys
 import threading
+import time
 import types
 import zipfile
 from pathlib import Path
 
 import pytest
 from open_assembly.document import AssemblyDocument
+from open_assembly.file_lock import exclusive_lock
 from open_assembly.project import ArtifactUnavailable, ProjectStore, RevisionConflict
+
+
+def test_exclusive_lock_blocks_another_process_until_released(tmp_path):
+    lock = tmp_path / ".lock"
+    marker = tmp_path / "acquired"
+    waiter = """
+import sys
+from pathlib import Path
+from open_assembly.file_lock import exclusive_lock
+
+print("ready", flush=True)
+with open(sys.argv[1], "a+b") as stream, exclusive_lock(stream):
+    Path(sys.argv[2]).touch()
+"""
+    with lock.open("a+b") as stream, exclusive_lock(stream):
+        child = subprocess.Popen(
+            [sys.executable, "-c", waiter, str(lock), str(marker)],
+            stdout=subprocess.PIPE,
+            text=True,
+        )
+        assert child.stdout.readline().strip() == "ready"
+        time.sleep(0.5)
+        assert not marker.exists()
+    assert child.wait(timeout=30) == 0
+    child.stdout.close()
+    assert marker.exists()
 
 
 def measured_document():
