@@ -170,14 +170,17 @@ def create_mcp(store):
         index = dist / "index.html"
         if not index.exists():
             return "<p>Build the Open Assembly viewer with npm ci and npm run build in web/.</p>"
-        html = index.read_text()
+        html = index.read_text(encoding="utf-8")
+
+        def read_asset(match):
+            return (dist / match.group(1).lstrip("/")).read_text(encoding="utf-8")
 
         def script(match):
-            text = (dist / match.group(1).lstrip("/")).read_text().replace("</script", "<\\/script")
+            text = read_asset(match).replace("</script", "<\\/script")
             return f'<script type="module">{text}</script>'
 
         def style(match):
-            return "<style>" + (dist / match.group(1).lstrip("/")).read_text() + "</style>"
+            return "<style>" + read_asset(match) + "</style>"
 
         html = re.sub(r'<script[^>]*src="([^"]+)"[^>]*></script>', script, html)
         return re.sub(r'<link[^>]*href="([^"]+\.css)"[^>]*>', style, html)

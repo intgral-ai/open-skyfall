@@ -56,10 +56,23 @@ export OPEN_ASSEMBLY_SMLIB_PYTHON="$PWD/.venv-smlib/bin/python"
 uv run --frozen open-skyfall --workspace jobs serve --port 8766
 ```
 
-Open <http://127.0.0.1:8766/>. On Windows, use the interpreter under
-`.venv-smlib/Scripts/python.exe` and set the environment variable accordingly.
-Availability of a suitable native wheel depends on the platform. The public
-release check is described in [verification](docs/verification.md).
+On Windows, the native steps in PowerShell are:
+
+```powershell
+uv venv --python 3.12 .venv-smlib
+uv pip install --python .venv-smlib\Scripts\python.exe -r requirements-native.txt
+$env:OPEN_ASSEMBLY_SMLIB_PYTHON = "$PWD\.venv-smlib\Scripts\python.exe"
+uv run --frozen open-skyfall --workspace jobs serve --port 8766
+```
+
+Keep the checkout in a short path. In a deeply nested folder, importing OCP can
+fail with "The filename or extension is too long". If you can't move it, set
+`$env:UV_PROJECT_ENVIRONMENT` to a short folder such as `C:\osv` before `uv sync`
+and `uv run`.
+
+Open <http://127.0.0.1:8766/>. Availability of a suitable native wheel depends on
+the platform. The public release check is described in
+[verification](docs/verification.md).
 
 To try the bounded native example from another terminal:
 

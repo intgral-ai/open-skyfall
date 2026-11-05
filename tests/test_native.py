@@ -274,14 +274,17 @@ def test_tampered_download_and_admission_are_rejected(native_store):
         store.artifact(job["id"], "assembly.step")
     with pytest.raises(ArtifactUnavailable, match="changed"):
         store.native_edit(job["id"], {"request_id": "raise-hook", "hook_top": 6.55})
+    with pytest.raises(ValueError, match="safe relative"):
+        store.artifact(job["id"], "../assembly.step")
     step.unlink()
     other = step.parent / "outside.step"
     other.write_bytes(content)
-    step.symlink_to(other)
+    try:
+        step.symlink_to(other)
+    except OSError:
+        pytest.skip("Creating symlinks needs Developer Mode on Windows")
     with pytest.raises(ArtifactUnavailable, match="authorized"):
         store.artifact(job["id"], "assembly.step")
-    with pytest.raises(ValueError, match="safe relative"):
-        store.artifact(job["id"], "../assembly.step")
 
 
 def test_native_documents_cannot_bypass_capture(native_store):

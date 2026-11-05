@@ -1,5 +1,6 @@
 import asyncio
 import base64
+import sys
 from datetime import timedelta
 from io import BytesIO
 from pathlib import Path
@@ -11,7 +12,7 @@ from PIL import Image
 
 def test_stdio_tools_resource_and_authorized_reference_image(tmp_path):
     async def exercise():
-        executable = Path(__file__).resolve().parents[1] / ".venv/bin/open-assembly"
+        executable = Path(sys.executable).parent / "open-assembly"
         params = StdioServerParameters(
             command=str(executable), args=["--workspace", str(tmp_path), "mcp"]
         )

@@ -5,7 +5,7 @@ import test from "node:test";
 
 const code = fs
   .readFileSync(new URL("../src/transport.js", import.meta.url), "utf8")
-  .replace(/^import .*;\n/gm, "")
+  .replace(/^import .*;\r?\n/gm, "")
   .replace(/^export /gm, "");
 function setup({ embedded = true, outcome = {}, deferred = false } = {}) {
   const calls = [],
